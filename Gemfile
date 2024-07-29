@@ -11,3 +11,5 @@ end
 gem "rexml", "~> 3.3"
 
 gem "kramdown-parser-gfm"
+
+gem 'jekyll-sitemap'
