@@ -17,9 +17,9 @@ disqus_id:
 include: [_pages]
 markdown: kramdown
 highlighter: rouge
-lsi : false
+lsi: false
 excerpt_separator:"\n\n"
-incremental : false
+incremental: false
 permalink: /:year/:month/:title.html
 
 sass:
