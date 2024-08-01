@@ -41,15 +41,12 @@ inline void XM_CALLCONV BoundingBox::Transform(BoundingBox& Out, FXMMATRIX M) co
 }
 ```
 
-$$\begin{bmatrix}x_{x}&x_{y}&x_{z}&1\end{bmatrix}\times
-\begin{bmatrix}S_{x}&0&0&0\\0&S_{y}&0&0\\0&0&S_{z}&0\\T_{x}&T_{y}&T_{z}&0\\\end{bmatrix} \tag{1}$$
+$$\begin{bmatrix}x_{x}&x_{y}&x_{z}&1\end{bmatrix} \times \begin{bmatrix}S_{x}&0&0&0\\0&S_{y}&0&0\\0&0&S_{z}&0\\T_{x}&T_{y}&T_{z}&0\\\end{bmatrix} \tag{1}$$
 `Scale`과 `Translation`만 적용된 행렬과의 곱셈이다. 할 때는 문제가 발생하지 않는다. Scale이 커짐에 따라 AABB도 적절하게 크기가 커진다는 것을 간단하게 알 수 있다.
 
 다만, 여기에 회전행렬이 추가될 경우에 문제가 발생한다. 회전행렬에 대해서 아래와 같이 가정해보자.
-$$R =
-\begin{bmatrix}R_{x}&R_{x}&R_{x}&0\\R_{y}&R_{y}&R_{y}&0\\R_{z}&R_{z}&R_{z}&0\\0&0&0&0\\\end{bmatrix} \tag{2}$$
-$$\begin{bmatrix}x_{x}&x_{y}&x_{z}&1\end{bmatrix}\times
-\begin{bmatrix}S_{x}R_{x}&S_{x}R_{x}&S_{x}R_{x}&0\\S_{y}R_{y}&S_{y}R_{y}&S_{y}R_{y}&0\\S_{z}R_{z}&S_{z}R_{z}&S_{z}R_{z}&0\\T_{x}&T_{y}&T_{z}&0\\\end{bmatrix} \tag{3}$$
+$$R =\begin{bmatrix}R_{x}&R_{x}&R_{x}&0\\R_{y}&R_{y}&R_{y}&0\\R_{z}&R_{z}&R_{z}&0\\0&0&0&0\\\end{bmatrix} \tag{2}$$
+$$\begin{bmatrix}x_{x}&x_{y}&x_{z}&1\end{bmatrix} \times \begin{bmatrix}S_{x}R_{x}&S_{x}R_{x}&S_{x}R_{x}&0\\S_{y}R_{y}&S_{y}R_{y}&S_{y}R_{y}&0\\S_{z}R_{z}&S_{z}R_{z}&S_{z}R_{z}&0\\T_{x}&T_{y}&T_{z}&0\\\end{bmatrix} \tag{3}$$
 행렬이 Row-major라는 가정하에 $S\times R\times T$를 하게 된다면 $(3)$과 같은 행렬이 만들어진다. 이렇게 된다면 계산의 결과에도 알 수 있듯이, $x_{x}$는 회전행렬에 대해서 $S_{y}R_{y}$과 $S_{z}R_{z}$의 영향도 받게 된다.
 
 물론, 계산상에서 발생하는 문제점은 없고 `해당 영향`으로 인해 특정 도형이 문제가 발생한다는 점이다.
