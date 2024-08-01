@@ -16,6 +16,10 @@ disqus_id:
 # Build settings
 include: [_pages]
 markdown: kramdown
+highlighter: rouge
+lsi : false
+excerpt_separator:"\n\n"
+incremental : false
 permalink: /:year/:month/:title.html
 
 sass:
