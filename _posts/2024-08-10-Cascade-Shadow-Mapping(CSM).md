@@ -235,5 +235,5 @@ aabb.isLightVisible = false;
 ```
 
 ### Shadow Mapping VS Cascade Shadow Mapping
-| ![그냥SM](https://github.com/user-attachments/assets/51e776af-7a86-45f7-b2af-356e7e27ce56) | ![CSM](https://github.com/user-attachments/assets/e19e4bf7-c7c2-498e-95fb-b99d9060aa6f) |
-| --- | --- |
+![그냥SM](https://github.com/user-attachments/assets/51e776af-7a86-45f7-b2af-356e7e27ce56)
+![CSM](https://github.com/user-attachments/assets/e19e4bf7-c7c2-498e-95fb-b99d9060aa6f)
