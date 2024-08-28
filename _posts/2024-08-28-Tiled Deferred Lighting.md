@@ -102,10 +102,15 @@ $$ P = \begin{bmatrix}{1 \over aspect\cdot tan({FOV \over 2}) }&0&0&0\\0&{1 \ove
 그렇다면, 투영행렬은 $(2)$와 같은데 프러스텀은 어떻게 만드는건가? 바로 투영행렬의 값들의 계산을 통해 이루어진다.
 
 $$Plane_{left} = m_4 + m_1$$
+
 $$Plane_{right} = m_4 - m_1$$
+
 $$Plane_{top} = m_4 - m_2$$
+
 $$Plane_{bottom} = m_4 + m_2$$
+
 $$Plane_{near} = m_4 + m_3$$
+
 $$Plane_{far} = m_4 - m_3 \tag{3}$$
 
 프로스텀의 각 평면에 대해서 $P$ 행렬을 이용하여 $(3)$과 같이 계산함으로써 도출할 수 있다. 우리는 여기서 $left,\ right, \ top, \ bottom$이 필요하다. 그러므로, 투영행렬을 전부다 계산할 필요는 없고, $m1,\ m2,\ m4$에 대해서만 계산을 하면 된다.(오른손 좌표계 기준)
