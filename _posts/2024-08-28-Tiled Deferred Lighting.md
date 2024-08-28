@@ -35,6 +35,7 @@ for each light do
 직관적으로 본다면, Screen Space를 grid영역을 구분하여 각 영역마다 Light가 영향을 주는지를 확인하고 해당 영역에 LightIndex를 추가한다. 나중에 해당 영역의 Lighting의 총량을 계산을 할 때 LightIndex를 참고해서 영향을 주는 Lighting만을 계산하는 것이다.
 
 ![tile2](https://github.com/user-attachments/assets/ae4b6650-d963-4e9c-ab54-6955898dd7ee)
+
 (Image : [https://www.aortiz.me/2018/12/21/CG.html#clustered-shading](https://www.aortiz.me/2018/12/21/CG.html#clustered-shading))
 
 $Tiled$란 이름이 사용되는 만큼 화면에 대해 영역(Group)을 나눈다. Tile이란 이름 때문에 2D 공간을 가진 tile은 아니다.
@@ -199,7 +200,7 @@ for (uint lightIndex = groupIndex; lightIndex < totalLights; lightIndex += TILED
 
 어떤 조명의 영향력을 계산할지에 대한 문제는 해결하였다. 이제 조명이 해당 타일에 영향을 미치는지 확인할 차례이다. 
 
-dot연산의 통해서 프러스텀과 조명의 위치관계를 밝힐 수 있다. dot 연산은 $d = a \cdot b = ||a||\ ||b||\ cos\theta = ||a-b||$로 정의할 수 있다. 만일 $\vec{unit}$ 라면, $d > 0$이면, 프러스텀보다 조명이 앞에 있다는 것을 의미하고 $d = 0$이면, 조명의 위치가 프러스텀보다 위에 있다는 것을 의미한다. $d < 0$이면 프러스텀 뒤에 조명이 있다는 의미이다.
+dot연산의 통해서 프러스텀과 조명의 위치관계를 밝힐 수 있다. dot 연산은 $d = a \cdot b = ||a||||b||cos\theta = ||a-b||$로 정의할 수 있다. 만일 $\vec{unit}$ 라면, $d > 0$이면, 프러스텀보다 조명이 앞에 있다는 것을 의미하고 $d = 0$이면, 조명의 위치가 프러스텀보다 위에 있다는 것을 의미한다. $d < 0$이면 프러스텀 뒤에 조명이 있다는 의미이다.
 
 우리는 해당 개념을 사용해 조명의 영향력이 닿는지 알아내야 한다. 조명과 프러스텀의 거리가 조명의 영향력보다 크거나 같다면, 일부라도 겹친다는 것을 의미한다.
 
