@@ -138,7 +138,7 @@ tileBias가 필요한 이유는 각 타일이 독립적으로 자신의 프러�
 
 만약 타일의 위치를 고려하지 않고 전체 화면 투영을 사용하게 되면 조명 계산이 정확하지 않거나 효율이 떨어질 수 있다.
 
-이렇게 프러스텀을 계산할 투영행렬을 모두 구하였다. 참고로 $far$와 $near$ 프러스텀에 대해서 아래와 같이 정의되는 이유는 평면방적식이 $Ax+By+Cy+D=0$ 이렇게 계산되는데, $near$는 $z$방향이 양수이고 $far$는 음수이기 때문에 그렇다.   
+이렇게 프러스텀을 계산할 투영행렬을 모두 구하였다. 참고로 $far$와 $near$ 프러스텀에 대해서 아래와 같이 정의되는 이유는 평면방적식이 $Ax+By+Cz+D=0$ 이렇게 계산되는데, $near$는 $z$방향이 양수이고 $far$는 음수이기 때문에 그렇다.   
 
 ```cpp
 // Derive frustum planes
@@ -263,6 +263,41 @@ for (int i = 0; i < TileNumLights; ++i)
 float4 shadingColor = OutputTx.Load(int3(int2(dispatchThreadId.xy), 0)) + float4(Lo, 1.0f);
 OutputTx[dispatchThreadId.xy] = shadingColor;
 ```
+
+### 최적화([Reference](https://wickedengine.net/2018/01/optimizing-tile-based-light-culling/))
+2.5D culling을 이용하여 최적화하는 방법이다. 방법은 타일 프러스텀을 만드는 원리와 비슷하다고 볼 수 있다. 다만, 프러스텀의 형태가 아닌 $Z_{min}$과 $Z_{max}$를 이용하여 비트맵 형태로 만든다.
+
+```cpp
+float minDepthVS = UnprojectScreenSpaceToViewSpace(float4(0, 0, asfloat(s_MinZ), 1)).z;
+float maxDepthVS = UnprojectScreenSpaceToViewSpace(float4(0, 0, asfloat(s_MaxZ), 1)).z;
+float realDepthVS = UnprojectScreenSpaceToViewSpace(float4(0, 0, depth, 1)).z;
+float depthRangeRecip = 31.0f / (maxDepthVS - minDepthVS);
+uint depthmaskcellindex = max(0, min(31u, floor((viewSpaceDepth - minDepthVS) * depthRangeRecip)));
+InterlockedOr(s_TileDepthMask, 1u << depthmaskcellindex);
+
+GroupMemoryBarrierWithGroupSync();
+```
+
+이렇게 물체가 있는 곳의 비트맵 값을 1로 바꾸어서 groupshader 값에 저장시켜준다. 나중에 이 데이터를 이용해서 light mask와 비교하여 해당 조명이 타일에 그려져야 하는지를 판단한다.
+
+```cpp
+float fMin = light.position.z - light.range / 45.0f;
+float fMax = light.position.z + light.range / 45.0f;
+        
+uint lightMaskcellindexSTART = max(0, min(31u, floor((fMin - minDepthVS) * depthRangeRecip)));
+uint lightMaskcellindexEND = max(0, min(31u, floor((fMax - minDepthVS) * depthRangeRecip)));
+uint lightMask = 0xFFFFFFFF;
+lightMask >>= 31u - (lightMaskcellindexEND - lightMaskcellindexSTART);
+lightMask <<= lightMaskcellindexSTART;
+        
+intersect = lightMask & s_TileDepthMask;
+```
+
+lightMask의 start와 end를 만든 후 이것을 이용해 light가 차지하는 비트맵 공간을 만들어 AND 연산을 통해 조명이 차지하는 영역을 알아낸다.
+
+해당 방법은 Culling하는 구간에서는 기존 Tiled Deferred Lighting보다 살짝 느리지만, Lighting 계산에서는 훨씬 더 빠른 속도를 보여준다.
+
+![image](https://github.com/user-attachments/assets/1fe4e65a-e3eb-45a8-b6d5-79d16c990573)
 
 ### 다른 방법(CS->PS)
 Compute Shader에서는 dtID를 통해서 어떤 위치에 어떤 조명이 배치되는지만 저장 한 후에 Pixel Shader에서 Lighting을 하는 방법이다. 다만 해당 방법은 CS에서 값을 저장할 때 너무 큰 Buffer가 Bind되었다가 UnBind되므로, 속도가 너무 느려진다는 문제점이 발생하였다.
