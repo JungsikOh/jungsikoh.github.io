@@ -1,6 +1,11 @@
 ---
 layout: post
 title: test
+description: "About AABB And Rotation Matrix"
+date: 2024-08-01
+tags: AABB Matrix Graphics
+comments: true
+use_math: true
 permalink: /techartinfo/
 ---
 
