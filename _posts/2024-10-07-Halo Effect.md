@@ -22,7 +22,7 @@ $$
 
 화면에서 Ray를 발사해 Halo를 통과할 때 시작지점을 t1, 끝나는 지점을 t2라고 정의한다. 이 두 지점에서 광원이 누적되는 합을 구하는 것이다. 여기서 중요한 것은 r을 어떻게 정의하는가이다.
 
-![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/41c8241d-4825-4254-a2df-bc5b03ef7998/6b9f9d9a-4550-413b-bca4-e81b0109988c/image.png)
+![image 1](https://github.com/user-attachments/assets/5f160560-2271-4cb0-99af-b046e36e9833)
 
 $$
 \vec{r} = \vec{P} + t\vec{v} \tag{3}
@@ -44,7 +44,7 @@ $$
 
 해당 적분을 풀면 (5)와 같은 식을 전개할 수 있다. 최종적으로 화면의 해당 값과 빛의 색깔 값을 이용하면, 아래와 같은 화면을 얻을 수 있다.
 
-![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/41c8241d-4825-4254-a2df-bc5b03ef7998/312575dc-3c37-43f6-9793-c0646d4929a0/image.png)
+<img width="399" alt="image 2" src="https://github.com/user-attachments/assets/5a9cc634-cfc7-4055-bd87-cacd0959fd0f">
 
 이대로만 계산해서 화면에 보여준다면, 생기는 문제점은 두 가지이다.
 
@@ -55,10 +55,10 @@ $$
 
 2번 문제의 경우, 아래 사진과 같이 벽이 완전히 빛을 가리고 있지만, 우리는 적분식을 통해서 t2와 t1만을 가지고 계산하기 때문에 아래와 같은 주황색 부분을 계산해서 화면에 그리게 된다. 
 
-![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/41c8241d-4825-4254-a2df-bc5b03ef7998/7e78a6b7-91c7-4f6b-8c90-e065c0682b38/image.png)
+![image 3](https://github.com/user-attachments/assets/c4f14973-3499-4f91-b13e-4ac25497f185)
 
 위 사진과 같은 문제를 방지하기 위해서, 기존의 Light의 그림자를 그리기 위해서 그려두었던 Shadow Mapping Texture를 활용하는 방안을 생각하였다. 
 
 다만, 해당 방법의 문제점은 벽이 두 겹으로 되어있을 때, 첫번 째 벽에 대해서는 정상작동하지만, 두번째 벽에 대해서는 Halo Effect로 인해서 해당 벽의 특정 부분이 밝아진다는 것이다.
 
-![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/41c8241d-4825-4254-a2df-bc5b03ef7998/23afd87a-c191-4795-a965-df155961f325/image.png)
+<img width="575" alt="image" src="https://github.com/user-attachments/assets/f586610a-3888-4a1a-8f03-a35d74a72226">
