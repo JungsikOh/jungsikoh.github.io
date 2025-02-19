@@ -29,15 +29,17 @@ permalink: /blog/
   }
 </style>
 
-<div class="search-container">
+<section class="c-archives">
+  <!-- 검색 입력 상자 -->
+  <div class="search-container">
   <input
     type="text"
     id="searchInput"
     class="search-input"
-    placeholder="Search by title or tags!"
+    placeholder="Search by title or tags..."
+    style="margin-bottom: 1rem; width: 100%; max-width: 300px; padding: 0.5rem;"
   />
-</div>
-
+  </div>
 
   {% for post in site.posts %}
     {% capture this_year %}{{ post.date | date: "%Y" }}{% endcapture %}
