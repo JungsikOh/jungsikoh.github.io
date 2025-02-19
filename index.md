@@ -13,7 +13,7 @@ title: About
   <p>nemostar51@gmail.com</p>
 <p>
 <a href="https://www.youtube.com/@TheRealOJung" target="_blank" style="margin-right:10px;">
-  <i class="fa-brands fa-youtube"></i>
+  <i class="fa-brands fa-youtube fa-2x"></i>
 </a>
  <a href="https://github.com/JungsikOh" target="_blank" style="margin-right:10px;">
     <i class="fa-brands fa-github fa-2x"></i>
