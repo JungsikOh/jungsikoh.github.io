@@ -5,6 +5,14 @@ permalink: /blog/
 ---
 
 <style>
+  /* 부모 컨테이너에 Flex + 오른쪽 정렬 */
+  .search-container {
+    display: flex;
+    justify-content: flex-end; /* 자식 요소(입력창)를 오른쪽에 배치 */
+    margin-bottom: 1rem;
+  }
+
+  /* 입력창 자체 스타일 */
   .search-input {
     width: 100%;
     max-width: 300px;
@@ -15,23 +23,21 @@ permalink: /blog/
     outline: none;
     box-sizing: border-box;
     transition: border-color 0.2s ease-in-out;
-    display: flex;
-    justify-content: flex-end; /* 오른쪽 정렬 */
   }
   .search-input:focus {
     border-color: #6593F5;
   }
 </style>
 
-<section class="c-archives">
-  <!-- 검색 입력 상자 -->
+<div class="search-container">
   <input
     type="text"
     id="searchInput"
     class="search-input"
-    placeholder="Search by title or tags..."
-    style="margin-bottom: 1rem; width: 100%; max-width: 300px; padding: 0.5rem;"
+    placeholder="Search by title or tags!"
   />
+</div>
+
 
   {% for post in site.posts %}
     {% capture this_year %}{{ post.date | date: "%Y" }}{% endcapture %}
