@@ -16,6 +16,6 @@ title: About
 <br/>
 
 ## Experience
-- Incheon National University <span style="font-size:70%; color:#eaeaea;">Feb 2019 ~ Present</span>
+### Incheon National University <span style="font-size:70%; color:#98BBEB;">Feb 2019 ~ Present</span>
     - Bachelor's degree, Computer Science
-- Computer Vision Lab(CVLab) in Incheon National University <span style="font-size:70%; color:#eaeaea;">Nov 2024 ~ Present</span>
+### Computer Vision Lab(CVLab) in Incheon National University <span style="font-size:70%; color:#98BBEB;">Nov 2024 ~ Present</span>
