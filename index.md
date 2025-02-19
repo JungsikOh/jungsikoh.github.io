@@ -13,9 +13,9 @@ title: About
   <p>nemostar51@gmail.com</p>
 </div>
 
+<br/>
+
 ## Experience
-- Incheon National University
-    - Feb 2019 ~ Present
-    - Bachelor's degree / Computer Science
-- Computer Vision Lab(CVLab) in Incheon National University
-    - Nov 2024 ~ Present
+- Incheon National University <span style="font-size:70%; color:#eaeaea;">Feb 2019 ~ Present</span>
+    - Bachelor's degree, Computer Science
+- Computer Vision Lab(CVLab) in Incheon National University <span style="font-size:70%; color:#eaeaea;">Nov 2024 ~ Present</span>
