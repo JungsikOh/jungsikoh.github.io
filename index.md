@@ -10,34 +10,12 @@ title: About
   </div>
   <h1><b>Jungsik Oh</b></h1>
   <h3>Software Engineer</h3>
-  <p>Email: nemostar51@gmail.com</p>
+  <p>nemostar51@gmail.com</p>
 </div>
 
-<br/><br/>
-
-## Projects
-
-### Project Name
-- 짧은 프로젝트 개요
-- [GitHub 링크](https://github.com/...)
-
-### Project Name 2
-- 설명...
-
-<br/><br/>
-
 ## Experience
-
-### Company Name
-- 직책, 근무 기간
-- 업무 내용 요약
-
-<br/><br/>
-
-## Education
-
-### 대학/기관
-- 전공, 졸업년도
-- 주요 이수 과목/활동
-
-<br/><br/>
+- Incheon National University
+    - Feb 2019 ~ Present
+    - Bachelor's degree / Computer Science
+- Computer Vision Lab(CVLab) in Incheon National University
+    - Nov 2024 ~ Present
