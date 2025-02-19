@@ -15,6 +15,8 @@ permalink: /blog/
     outline: none;
     box-sizing: border-box;
     transition: border-color 0.2s ease-in-out;
+    display: flex;
+    justify-content: flex-end; /* 오른쪽 정렬 */
   }
   .search-input:focus {
     border-color: #6593F5;
