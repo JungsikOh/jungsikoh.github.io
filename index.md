@@ -8,7 +8,7 @@ title: About
   <div style="float:left; margin-right: 20px;">
     <img src="assets/images/profile.jpg" style="border-radius:50%; width:150px;" />
   </div>
-  <h1>Jungsik Oh</h1>
+  <h1><b>Jungsik Oh</b></h1>
   <h3>Software Engineer</h3>
   <p>Email: nemostar51@gmail.com</p>
 </div>
