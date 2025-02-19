@@ -3,11 +3,30 @@ layout: page
 title: Blog
 permalink: /blog/
 ---
+
+<style>
+  .search-input {
+    width: 100%;
+    max-width: 300px;
+    padding: 0.6rem 1rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 1.5rem;
+    outline: none;
+    box-sizing: border-box;
+    transition: border-color 0.2s ease-in-out;
+  }
+  .search-input:focus {
+    border-color: #6593F5;
+  }
+</style>
+
 <section class="c-archives">
   <!-- 검색 입력 상자 -->
   <input
     type="text"
     id="searchInput"
+    class="search-input"
     placeholder="Search by title or tags..."
     style="margin-bottom: 1rem; width: 100%; max-width: 300px; padding: 0.5rem;"
   />
@@ -45,26 +64,6 @@ permalink: /blog/
       {% endif %}
     {% endif %}
   {% endfor %}
-</section>
-
----
-layout: page
-title: "Blog"
-permalink: /blog/
----
-
-<section class="c-archives">
-  <!-- (A) 포스트 목록 생성 부분 (data-title, data-tags 등) -->
-  <input type="text" id="searchInput" placeholder="Search..."/>
-  <ul id="postList">
-    {% for post in site.posts %}
-    <li class="c-archives__item"
-        data-title="{{ post.title | downcase }}"
-        data-tags="{% for tag in post.tags %}{{ tag | downcase }} {% endfor %}">
-      <h3>{{ post.title }}</h3>
-    </li>
-    {% endfor %}
-  </ul>
 </section>
 
 <!-- (B) 자바스크립트 필터 로직 -->
