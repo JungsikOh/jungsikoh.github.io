@@ -20,3 +20,11 @@ title: About
 - <span style="font-size:120%">Incheon National University</span> <span style="font-size:70%; color:#98BBEB;">Feb 2019 ~ Present</span>
 	- Bachelor's degree, Computer Science
 - <span style="font-size:120%">Computer Vision Lab(CVLab) in Incheon National University</span> <span style="font-size:70%; color:#98BBEB;">Nov 2024 ~ Present</span>
+<br/>
+## PPT
+- [Review of MVSNet (ECCV 2018)](https://www.slideshare.net/slideshow/review-of-mvsnet-2018-_250110_ojung-pptx/275811840)
+- [Review of SRNs (NIPS 2019)](https://www.slideshare.net/slideshow/scene-representation-networks-nips-2019-_ojung/275818168)
+<br/>
+## Skills
+- <span style="font-size:120%">C++, DirectX, Vulkan</span>
+- <span style="font-size:120%">Python, pytorch</span>
