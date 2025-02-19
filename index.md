@@ -10,7 +10,11 @@ title: About
   </div>
   <h1><b>Jungsik Oh</b></h1>
   <h3>Software Engineer</h3>
-  <p>nemostar51@gmail.com</p>
+  <p>nemostar51@gmail.com
+<a href="https://www.youtube.com/@TheRealOJung" target="_blank">
+  <i class="fa-brands fa-youtube" style="font-size: 24px; color: #FF0000;"></i>
+</a>
+</p>
 </div>
 
 <br/>
