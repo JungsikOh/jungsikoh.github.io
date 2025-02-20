@@ -15,7 +15,7 @@ permalink: /blog/
   /* 입력창 자체 스타일 */
   .search-input {
     width: 100%;
-    max-width: 300px;
+    max-width: 200px;
     padding: 0.6rem 1rem;
     font-size: 1rem;
     border: 1px solid #ccc;
@@ -37,7 +37,6 @@ permalink: /blog/
     id="searchInput"
     class="search-input"
     placeholder="Search by title or tags..."
-    style="margin-bottom: 1rem; width: 100%; max-width: 300px; padding: 0.5rem;"
   />
   </div>
 
