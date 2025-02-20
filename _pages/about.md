@@ -76,7 +76,7 @@ permalink: /blog/
         <!-- 오른쪽: 태그 목록 -->
        <span class="post-tags">
        {% for tag in post.tags %}
-        <span class="post-tag">#{{ tag }}</span>
+        <span class="post-tag">{{ tag }}</span>
        {% endfor %}
        </span>
       </h3>
