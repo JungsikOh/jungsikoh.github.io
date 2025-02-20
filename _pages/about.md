@@ -27,6 +27,20 @@ permalink: /blog/
   .search-input:focus {
     border-color: #6593F5;
   }
+.post-tags {
+  margin-left: 1rem; /* 혹시 왼쪽에 간격을 주고 싶다면 */
+}
+
+.post-tag {
+  background-color: #f0f0f0; /* 연한 회색 배경 */
+  color: #333;               /* 글자색 */
+  padding: 3px 6px;         /* 안쪽 여백 */
+  margin-left: 8px;         /* 태그 간 간격 */
+  border-radius: 9999px;    /* 완전 둥글게 */
+  font-size: 0.85rem;       /* 조금 작게 */
+  white-space: nowrap;      /* 태그가 두 줄로 끊기지 않도록 */
+}
+
 </style>
 
 <section class="c-archives">
@@ -59,6 +73,12 @@ permalink: /blog/
         <a href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
         <br>
         <small>{{ post.description }}</small>
+        <!-- 오른쪽: 태그 목록 -->
+       <span class="post-tags">
+       {% for tag in post.tags %}
+        <span class="post-tag">#{{ tag }}</span>
+       {% endfor %}
+       </span>
       </h3>
       <p>{{ post.date | date: "%b %-d, %Y" }}</p>
     </li>
