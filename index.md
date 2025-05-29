@@ -37,8 +37,9 @@ title: About
 <br/>
 
 ## PPT
-- [Review of MVSNet (ECCV 2018)](https://www.slideshare.net/slideshow/review-of-mvsnet-2018-_250110_ojung-pptx/275811840)
-- [Review of SRNs (NIPS 2019)](https://www.slideshare.net/slideshow/scene-representation-networks-nips-2019-_ojung/275818168)
+- [Review of Disentanglement via Latent Quantization_QLAE(NIPS 2023)](https://www.slideshare.net/slideshow/review-of-qlae-disentanglement-via-latent-quantization_nips-2023/279843534)
+- [Review of Diffusion-SDF(ICCV 2023)](https://www.slideshare.net/slideshow/review-of-diffusion-sdf-conditional-generative-modeling-of-signed-distance-functions-iccv-2023/279843472)
 - [Review of Denoising Diffusion Probabilistic Models(NIPS 2020) and Denoising Diffusion Implicit Models(ICLR 2021)](https://www.slideshare.net/slideshow/review-of-denoising-diffusion-probabilistic-models-nips-2020-_ojung/275877937)
-
+- [Review of SRNs (NIPS 2019)](https://www.slideshare.net/slideshow/scene-representation-networks-nips-2019-_ojung/275818168)
+- [Review of MVSNet (ECCV 2018)](https://www.slideshare.net/slideshow/review-of-mvsnet-2018-_250110_ojung-pptx/275811840)
 <br/>
