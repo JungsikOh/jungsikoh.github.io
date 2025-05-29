@@ -18,7 +18,7 @@ Indirect Draw Call은 GPU 드로우 커맨드를 미리 준비된 버퍼를 통�
 
 Vulkan에서 제공하는 `vkCmdDrawIndexedIndirect` 명령어를 통해 드로우 콜 호출을 간접적으로 실행하면 GPU가 직접 `VkBuffer`에 저장된 드로우 명령들을 읽고 처리한다. 이 방식을 통해 CPU와 GPU 간의 오버헤드를 줄이고 성능을 향상시킬 수 있다.
 
-![Image](https://github.com/user-attachments/assets/92625290-1db3-49c8-b421-a7cff0f2f590)
+![Image](https://private-user-images.githubusercontent.com/165359228/448704921-4d94834f-04e2-4334-80c2-d65db0453415.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NDg0OTk1MDgsIm5iZiI6MTc0ODQ5OTIwOCwicGF0aCI6Ii8xNjUzNTkyMjgvNDQ4NzA0OTIxLTRkOTQ4MzRmLTA0ZTItNDMzNC04MGMyLWQ2NWRiMDQ1MzQxNS5wbmc_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjUwNTI5JTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI1MDUyOVQwNjEzMjhaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT0wMDBjY2VhOWRjMmIyMmUzYzczNTdiMWVmNzg4ODllYjJiNjNhYzVjMzA5MjY0Zjk2MGUxMWIzYTYyYjUxYjc1JlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCJ9.YqmSyGNd-D7ys4-vpOWlZBWvNEbCLUvs4JU1wgJG8FI)
 <div align="center">
     <span style="color: #cccccc; font-size: 0.85em;">
         그림1. Multi-Draw Indirect (https://ktstephano.github.io/rendering/opengl/mdi)
@@ -106,7 +106,7 @@ for(auto& batch : batches) {
 ## 3. Experiments
 Indirect Draw Call과 배치 단위의 데이터 처리 방식을 결합하면, CPU와 GPU 간의 호출 비용을 최소화하면서도 많은 오브젝트를 렌더링할 수 있게 됩니다. 이를 통해 렌더링 성능 향상은 물론, 전체적인 GPU 활용도를 높여 애플리케이션 성능을 극대화할 수 있다.
 
-![Image](https://github.com/user-attachments/assets/5ea17f4a-32d5-43e9-ab5b-1432bbb59aa2)
+![Image](https://private-user-images.githubusercontent.com/165359228/448705220-4c848c4c-d83c-44bb-af73-151b0e51873b.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NDg0OTk1NTAsIm5iZiI6MTc0ODQ5OTI1MCwicGF0aCI6Ii8xNjUzNTkyMjgvNDQ4NzA1MjIwLTRjODQ4YzRjLWQ4M2MtNDRiYi1hZjczLTE1MWIwZTUxODczYi5wbmc_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjUwNTI5JTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI1MDUyOVQwNjE0MTBaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT04ZGU0NTg5Mjg4ZjJmMzEwOWU1YWY2MGE1ZWY0Nzc0N2M4MDMwMGE5NmM5ZjgxYWRjOTEyMWZkYjNmYTdkMjVhJlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCJ9.wfsics4z0AmhtAX_Ftrjq--Z9e0p5u2Sup15Eum3pxk)
 <div align="center">
     <span style="color: #cccccc; font-size: 0.85em;">
         그림2. 삼각형 수 증가에 따른 실험 결과
@@ -114,3 +114,10 @@ Indirect Draw Call과 배치 단위의 데이터 처리 방식을 결합하면, 
 </div>
 
 그림 2는 mesh의 삼각형 수에 따른 FPS(Frame per second) 성능을 기본 방식(Basic) 과 배치 렌더링 방식(Batch) 으로 나누어 측정한 결과이다. 삼각형 26만개 환경에서 Batch 렌더링 파이프라인이 163.4 프레임을 기록하였고 기본 렌더링 파이프라인이 133.2프레임을 달성하였다. 또한 삼각형 개수를 늘려서 추가 실험을 진행했을 경우에, Batch와 Basic 렌더링 파이프라인의 차이가 커진다는 것을 확인할 수 있었다. 이를 통해서 Batch 렌더링이 드로우콜의 최소화를 통해서 삼각형의 개수가 많아짐에도 불구하고 훨씬 더 안정적이라는 것을 보여준다는 것을 확인했다.
+
+![final_image](https://private-user-images.githubusercontent.com/165359228/448705474-24c2248f-dbf2-4924-ba97-5f3f5539c92e.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NDg0OTk2MTUsIm5iZiI6MTc0ODQ5OTMxNSwicGF0aCI6Ii8xNjUzNTkyMjgvNDQ4NzA1NDc0LTI0YzIyNDhmLWRiZjItNDkyNC1iYTk3LTVmM2Y1NTM5YzkyZS5wbmc_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjUwNTI5JTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI1MDUyOVQwNjE1MTVaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT0yOTY0NWM1YzZlODFlYWU0NjI5OGE0Yzc2ZTcwYjYwYjY0Y2ZmOWM1YzU3ZGQyN2RiZGMxOGQ0NmFmOWE1NWJiJlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCJ9.HBJ2TmWL0ePWnB0G5SQMKkjby4BrLyWEyGm6CvkSccw)
+<div align="center">
+    <span style="color: #cccccc; font-size: 0.85em;">
+        그림3. 최종 렌더링 이미지
+    </span>
+</div>
