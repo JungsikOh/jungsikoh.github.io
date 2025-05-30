@@ -9,7 +9,10 @@ use_math: true
 ---
 
 ## 1. What is Mesh Shader?
-![Image](https://private-user-images.githubusercontent.com/165359228/448721042-7a65aa73-423b-4f6a-bca4-94ac5c2dfec6.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NDg1MDI0ODEsIm5iZiI6MTc0ODUwMjE4MSwicGF0aCI6Ii8xNjUzNTkyMjgvNDQ4NzIxMDQyLTdhNjVhYTczLTQyM2ItNGY2YS1iY2E0LTk0YWM1YzJkZmVjNi5wbmc_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjUwNTI5JTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI1MDUyOVQwNzAzMDFaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT1kNjJlYzZkZGNkMTRhY2NmMGQ5YjkxZThiOWRmMTA5NmI4ZDFkMzk2MTQwNjlmZDI1NTg3NzBmOGFmZjc4Njk2JlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCJ9.ASFMz7tkn8Bfvf1MHQMkvl-ZrKRgoqd8FOeS1cmUCkw)
+<div style="display: flex; justify-content: center;">
+    <img src="https://developer-blogs.nvidia.com/wp-content/uploads/2018/09/meshlets_pipeline.png" alt="이미지1 설명" width="400"/>
+    <img src="https://developer-blogs.nvidia.com/wp-content/uploads/2018/09/meshlets_comparison.png" alt="이미지2 설명" width="400"/>
+</div>
 <div align="center">
     <span style="color: #cccccc; font-size: 0.85em;">
         그림1. 전통 파이프라인과 Meshlet 파이프라인의 차이점(https://developer.nvidia.com/blog/introduction-turing-mesh-shaders/)
@@ -29,8 +32,8 @@ Meshlet은 큰 메쉬를 작은 단위로 분할한 것이다다. 각 Meshlet은
 기존의 큰 메쉬를 한 번에 GPU로 보내 처리하면, GPU의 병렬 처리 자원을 충분히 활용하지 못하거나 효율이 떨어지는 문제가 발생할 수 있다. 반면 Meshlet은 이러한 병목 현상을 줄이고 렌더링 효율성을 극대화하기 위해 고안되었다.
 
 <div style="display: flex; justify-content: center;">
-    <img src="https://private-user-images.githubusercontent.com/165359228/449110223-36b1162c-8937-47ad-a7a2-60a8f620ba26.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NDg1ODQzNjgsIm5iZiI6MTc0ODU4NDA2OCwicGF0aCI6Ii8xNjUzNTkyMjgvNDQ5MTEwMjIzLTM2YjExNjJjLTg5MzctNDdhZC1hN2EyLTYwYThmNjIwYmEyNi5wbmc_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjUwNTMwJTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI1MDUzMFQwNTQ3NDhaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT0zYzU3MTVmMjA1NTMyNzEwNTJmNTJhN2JhZWVlZjQwNTRkOTFiZDNmM2I2MTUyZTBkYzdkMDZhNmRlZGJmMTg5JlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCJ9.lalEsJM4Kx_4G0SHnU101G4rDASpOHLEJff85nIqzm8" alt="이미지1 설명" width="400"/>
-    <img src="https://private-user-images.githubusercontent.com/165359228/449110542-cda606dc-69dc-42d0-85a7-507db80c9ea6.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NDg1ODQ0MTcsIm5iZiI6MTc0ODU4NDExNywicGF0aCI6Ii8xNjUzNTkyMjgvNDQ5MTEwNTQyLWNkYTYwNmRjLTY5ZGMtNDJkMC04NWE3LTUwN2RiODBjOWVhNi5wbmc_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjUwNTMwJTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI1MDUzMFQwNTQ4MzdaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT1kNTk4ZDNmMWM2YTEyZDgzOGYyYTUxYjFkZjVlZmRjZmJjYjYwYzYzM2Q0NWNhOTQxNDM2MDgwZjE2ZDNkNzViJlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCJ9.EBPOQp7VnAGT7ljBhk-IXfEm249D_pc47FPPuMHS3Ho" alt="이미지2 설명" width="400"/>
+    <img src="https://gpuopen.com/docs_images/mesh_shaders/mesh_shaders-html-_images-basic_index_buffer.svg" alt="이미지1 설명" width="400"/>
+    <img src="https://gpuopen.com/docs_images/mesh_shaders/mesh_shaders-html-_images-gts.svg" alt="이미지2 설명" width="400"/>
 </div>
 <div align="center">
     <span style="color: #cccccc; font-size: 0.85em;">
