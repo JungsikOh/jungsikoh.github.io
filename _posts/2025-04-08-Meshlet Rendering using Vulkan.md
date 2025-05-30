@@ -119,13 +119,13 @@ Task Shader는 Mesh Shader 단계 전에 실행되며, Mesh Shader가 처리할 
 
 각 쓰레드가 자신이 처리할 Meshlet 인덱스(dtid)를 Payload 배열의 자신의 위치(gtid)에 저장하고, 이를 통해 각 Mesh Shader 쓰레드가 정확히 어떤 Meshlet을 처리해야 하는지 정보를 얻는 것이다.
 
-```GLSL
+```glsl
 EmitMeshTasksEXT(TASK_WORKGROUP_SIZE, 1, 1);
 ```
 
 이 함수는 Task Shader에서 Mesh Shader를 호출하는 명령어로, GPU에게 몇 개의 Mesh Shader 워크그룹을 실행할지 알려준다.
 
-```GLSL
+```glsl
 #define TASK_WORKGROUP_SIZE 32
 #define MESH_WORKGROUP_SIZE 128
 
@@ -166,7 +166,7 @@ struct Meshlet {
 
 Mesh Shader는 앞서 Task Shader 단계에서 전달된 Payload 데이터를 공유 메모리 형태로 받는다. Payload는 Mesh Shader가 처리해야 할 Meshlet의 인덱스 목록을 담고 있으며, 이 정보는 GPU 쓰레드가 각자 어떤 Meshlet을 처리해야 하는지 명확하게 결정한다.
 
-```GLSL
+```glsl
 struct Payload {
 	uint meshletIndices[TASK_WORKGROUP_SIZE];
 };
