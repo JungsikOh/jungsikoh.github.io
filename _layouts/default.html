@@ -160,7 +160,6 @@ function stepSPH() {
       mouseForce.active = false;
     }
   }
-  // 파티클 이동 (Euler integration)
   for (let i = 0; i < NUM_PARTICLES; i++) {
     let p = particles[i];
     p.vx += p.fx;
@@ -171,7 +170,11 @@ function stepSPH() {
     if (p.x < PARTICLE_RADIUS) { p.x = PARTICLE_RADIUS; p.vx *= -0.6; }
     if (p.x > canvas.width - PARTICLE_RADIUS) { p.x = canvas.width - PARTICLE_RADIUS; p.vx *= -0.6; }
     if (p.y < PARTICLE_RADIUS) { p.y = PARTICLE_RADIUS; p.vy *= -0.6; }
-    if (p.y > canvas.height - PARTICLE_RADIUS) { p.y = canvas.height - PARTICLE_RADIUS; p.vy *= -0.6; }
+    // **바닥 경계 수정**
+    if (p.y > canvas.height - PARTICLE_RADIUS) {
+      p.y = canvas.height - PARTICLE_RADIUS;
+      p.vy *= -0.6;
+    }
   }
 }
 
