@@ -8,14 +8,34 @@
 </head>
   <body>
     <main class="u-container">
-      <canvas id="sph-canvas" style="display:block;width:100%;height:320px;max-width:800px;margin:0 auto;border-radius:14px;background:#121e2a;"></canvas>
-      {{ content }}
+        <div id="sph-wrapper"
+            style="position:relative;max-width:800px;margin:0 auto;">
+          <canvas id="sph-canvas"
+                  style="display:block;width:100%;height:320px;
+                        border-radius:14px;background:#121e2a;"></canvas>
+
+          <!-- 파티클 추가 아이콘 -->
+          <button id="add-btn" class="add-btn" aria-label="add particle">＋</button>
+        </div>
+        {{ content }}
     </main>
     {% if jekyll.environment == 'production' %}
     {% include analytics.html %}
     {% endif %}
   </body>
 </html>
+
+<!-- 버튼용 간단한 스타일(원형, 그림자) -->
+<style>
+.add-btn{
+  position:absolute; top:12px; right:12px;
+  width:36px; height:36px; border:none; border-radius:50%;
+  background:#ff6b6b; color:#fff; font-size:22px; line-height:36px;
+  cursor:pointer; box-shadow:0 2px 6px rgba(0,0,0,.25);
+  transition:background .15s;
+}
+.add-btn:hover{ background:#ff4a4a; }
+</style>
 
 <script>
 /* ===== SPH Particle Simulation (CSS-space) ===== */
@@ -59,30 +79,37 @@ function resizeCanvas() {
 window.addEventListener("resize", resizeCanvas, {passive:true});
 resizeCanvas();
 
+const MAX_PARTICLES = 1000;
+
+/* 파티클 하나 생성해서 배열에 push */
+function addParticle(x, y){
+  if (particles.length >= MAX_PARTICLES) return;
+  particles.push({
+    x, y,
+    vx:(Math.random()-.5)*2,
+    vy:(Math.random()-.5)*2,
+    fx:0, fy:0, rho:0, p:0
+  });
+  NUM = particles.length;     // 갱신
+}
+
 /* SPH 커널 */
 const poly6 = (r,h)=>(r>=0&&r<=h)?315/(64*Math.PI*h**9)*(h*h-r*r)**3:0;
 const spiky = (r,h)=>(r>0&&r<=h)?-45/(Math.PI*h**6)*(h-r)**2:0;
 
 /* 마우스 충격파 */
-const mouse = {x:0,y:0,r:120,hold:false};
+const mouse = {x:0,y:0,r:130,hold:false};
 canvas.addEventListener("mousedown", e=>{
-  if(e.button===0){              // 좌클릭 ⇒ 끌어당김 시작
+  if (e.button === 0){         // 좌클릭
     mouse.hold = true;
     updateMouse(e);
-  }else if(e.button===2){        // 우클릭 ⇒ 파티클 추가
-    updateMouse(e);
-    addParticle(mouse.x, mouse.y);
   }
-  e.preventDefault();            // 컨텍스트 메뉴 차단
+  e.preventDefault();          // 컨텍스트 메뉴 차단
 });
+canvas.addEventListener("mouseup",   e=>{ if(e.button===0) mouse.hold=false; });
+canvas.addEventListener("mousemove", updateMouse);
+canvas.oncontextmenu = e => e.preventDefault();   // 우클릭 완전 차단
 
-canvas.addEventListener("mouseup", e=>{
-  if(e.button===0) mouse.hold = false;     // 좌클릭 release
-});
-
-canvas.addEventListener("mousemove", e=>{
-  updateMouse(e);                // 위치만 계속 추적
-});
 
 /* 위치 갱신 헬퍼 */
 function updateMouse(e){
@@ -129,7 +156,7 @@ function step() {
       const d2 = dx*dx + dy*dy;
       if(d2 < mouse.r*mouse.r){
         const d = Math.sqrt(d2) + 0.01;
-        const s = 0.75 * (1 - d / mouse.r);   // 세기 조절 (0.1~0.2)
+        const s = 0.5 * (1 - d / mouse.r);   // 세기 조절 (0.1~0.2)
         p.vx += dx / d * s;
         p.vy += dy / d * s;
       }
@@ -215,5 +242,12 @@ function draw(){
   draw();
   requestAnimationFrame(loop);
 })();
+
+document.getElementById("add-btn").addEventListener("click", ()=>{
+  // 버튼 클릭 시, 캔버스 중앙 근처에 넣거나 원하는 위치로 바꿀 수 있음
+  const x = Math.random()*simW;
+  const y = Math.random()*simH*0.4;   // 위쪽 40% 영역
+  addParticle(x,y);
+});
 
 </script>
