@@ -40,6 +40,12 @@ const K   = 1.0;
 const MU  = 0.0005;
 const G   = 0.18;
 
+/* ── 상단 파라미터 섹션 ───────────────── */
+const DAMP = 0.985;   // ← ① 전역 감쇠 계수 (0.97~0.99 사이 추천)
+
+/* ── 충돌 보정 파트 상단 ───────────────── */
+const REST = 0.5;     // ← ② 탄성 계수 낮춤 (0 완전 흡수, 1 완전탄성)
+
 const MAX_PARTICLES = 1000;
 let particles = [];
 let simW=0, simH=0, dpr=1, NUM=0;
@@ -170,7 +176,9 @@ function step(){
   }
   /* integrate & bounds */
   for(const p of particles){
-    p.vx+=p.fx; p.vy+=p.fy;
+    // p.vx+=p.fx; p.vy+=p.fy;
+    p.vx *= DAMP;        // ← ① 전역 감쇠 적용
+    p.vy *= DAMP;
     p.x +=p.vx; p.y +=p.vy;
     if(p.x<R){p.x=R; p.vx*=-.6;}
     if(p.x>simW-R){p.x=simW-R; p.vx*=-.6;}
