@@ -2,13 +2,13 @@
 <html>
 <head>
   {% include head.html %}
-  <canvas id="sph-canvas" style="width:100%;height:300px;max-width:800px;display:block;margin:24px auto 0 auto;border-radius:14px;background:#121e2a;z-index:1;"></canvas>
 {% if page.use_math %}
 	{% include mathjax_support.html %}
 {% endif %}
 </head>
   <body>
     <main class="u-container">
+      <canvas id="sph-canvas" style="width:100%;height:300px;max-width:800px;display:block;margin:24px auto 0 auto;border-radius:14px;background:#121e2a;z-index:1;"></canvas>
       {{ content }}
     </main>
     {% if jekyll.environment == 'production' %}
@@ -97,7 +97,7 @@ canvas.addEventListener("mousedown", function (e) {
   const dpr = window.devicePixelRatio || 1;
   mouseForce.x = (e.clientX - rect.left) * dpr;
   mouseForce.y = (e.clientY - rect.top) * dpr;
-  mouseForce.r = 70 * dpr; // 영향 반경
+  mouseForce.r = 40 * dpr; // 영향 반경
   mouseForce.active = true;
   mouseForce.t = performance.now();
 });
