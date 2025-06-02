@@ -3,26 +3,36 @@
 <head>
   {% include head.html %}
   {% if page.use_math %}{% include mathjax_support.html %}{% endif %}
+
+  <!-- ① 모바일 더블-탭·핀치 확대 전역 차단 -->
+  <meta name="viewport"
+        content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+
   <style>
+    /* ② ‘＋’ 버튼 스타일 + 모든 선택/콜아웃 차단 */
     .add-btn{
-      position:absolute; top:12px; right:12px;
-      width:36px; height:36px; border:none; border-radius:50%;
-      background:#ff6b6b; color:#fff; font-size:22px; line-height:36px;
-      cursor:pointer; box-shadow:0 2px 6px rgba(0,0,0,.25);
+      position:absolute;top:12px;right:12px;
+      width:36px;height:36px;border:none;border-radius:50%;
+      background:#ff6b6b;color:#fff;font-size:22px;line-height:36px;
+      cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,.25);
       transition:background .15s;
+      touch-action:manipulation;                /* 더블탭 줌 방지 */
+      user-select:none;-webkit-user-select:none;
+      -webkit-touch-callout:none;
       -webkit-tap-highlight-color:transparent;
     }
-    .add-btn:hover{ background:#ff4a4a; }
+    .add-btn:hover{background:#ff4a4a;}
   </style>
 </head>
+
 <body>
 <main class="u-container">
   <div id="sph-wrapper" style="position:relative;max-width:800px;margin:0 auto;">
     <canvas id="sph-canvas"
-        style="display:block;width:100%;height:320px;border-radius:14px;
-               background:#121e2a;touch-action:none;
-               user-select:none;-webkit-user-select:none;
-               -webkit-touch-callout:none;"></canvas>
+            style="display:block;width:100%;height:320px;border-radius:14px;
+                   background:#121e2a;touch-action:none;
+                   user-select:none;-webkit-user-select:none;
+                   -webkit-touch-callout:none;"></canvas>
     <button id="add-btn" class="add-btn" aria-label="add particle">＋</button>
   </div>
   {{ content }}
@@ -30,35 +40,33 @@
 {% if jekyll.environment == 'production' %}{% include analytics.html %}{% endif %}
 
 <script>
-/* ===== Fast SPH (uniform-grid, mouse+touch) ===== */
+/* ===== Fast SPH (uniform grid, mouse + touch) ===== */
 const canvas = document.getElementById('sph-canvas');
 const ctx    = canvas.getContext('2d');
 
-/* ---------- Parameters ---------- */
-const R=5, H=15, H2=H*H, M=1, RHO0=10, K=1.0, MU=.0005, G=.18;
-const DAMP=.985, REST=.5;
-const MAX_PARTICLES=1500;
+/* ---------- Params ---------- */
+const R=5, H=15, H2=H*H, M=1, RHO0=10, K=1, MU=.0005, G=.18;
+const DAMP=.985, REST=.5, MAX_PARTICLES=1000;
 
 /* ---------- State ---------- */
 let particles=[], simW=0, simH=0, dpr=1, NUM=0;
 
 /* ---------- Kernel coeff ---------- */
-const POLY6_C = 315 /(64*Math.PI*Math.pow(H,9));
-const SPIKY_C = -45 /(  Math.PI*Math.pow(H,6));
+const POLY6 = 315/(64*Math.PI*H**9);
+const SPIKY = -45 /(  Math.PI*H**6);
 
-/* ---------- Uniform grid ---------- */
-const CELL=H, INV_CELL=1/CELL;
-let grid=Object.create(null);
+/* ---------- Grid ---------- */
+const CELL=H, INV_CELL=1/CELL; let grid={};
 const key=(ix,iy)=>ix+','+iy;
 
 /* ---------- Resize ---------- */
 function resize(){
   dpr=window.devicePixelRatio||1;
-  const rect=canvas.getBoundingClientRect();
-  simW=rect.width; simH=rect.height;
+  const r=canvas.getBoundingClientRect();
+  simW=r.width; simH=r.height;
   canvas.width=simW*dpr; canvas.height=simH*dpr;
   ctx.setTransform(1,0,0,1,0,0); ctx.scale(dpr,dpr);
-  NUM=Math.min(500,Math.floor(simW*simH/3500));
+  NUM=Math.min(500, (simW*simH/3500)|0);
   particles=Array.from({length:NUM},()=>spawn(Math.random()*simW,Math.random()*simH));
 }
 window.addEventListener('resize',resize,{passive:true}); resize();
@@ -70,7 +78,7 @@ function spawn(x,y){
 }
 function addParticle(x,y){
   if(particles.length>=MAX_PARTICLES) return;
-  const n=Math.min(30,MAX_PARTICLES-particles.length);
+  const n=Math.min(50,MAX_PARTICLES-particles.length);
   for(let i=0;i<n;i++){
     const jx=(Math.random()-.5)*24,jy=(Math.random()-.5)*24;
     particles.push(spawn(x+jx,y+jy));
@@ -78,51 +86,55 @@ function addParticle(x,y){
   NUM=particles.length;
 }
 
-/* ---------- Pointer interaction ---------- */
+/* ---------- Pointer (mouse + touch) ---------- */
 const mouse={x:0,y:0,r:130,hold:false};
 canvas.addEventListener('pointerdown',e=>{
-  if(e.pointerType==='mouse' && e.button!==0) return; // 오른쪽 무시
+  if(e.pointerType==='mouse'&&e.button!==0) return;
   canvas.setPointerCapture(e.pointerId);
   mouse.hold=true; updatePos(e);
   e.preventDefault();
 },{passive:false});
-canvas.addEventListener('pointermove',e=>{
-  if(mouse.hold) updatePos(e);
-},{passive:false});
-canvas.addEventListener('pointerup',e=>{
-  mouse.hold=false; canvas.releasePointerCapture(e.pointerId);
-});
-canvas.addEventListener('pointercancel',e=>{mouse.hold=false});
+canvas.addEventListener('pointermove',e=>{if(mouse.hold)updatePos(e);});
+canvas.addEventListener('pointerup',e=>{mouse.hold=false; canvas.releasePointerCapture(e.pointerId);});
+canvas.addEventListener('pointercancel',()=>{mouse.hold=false;});
 function updatePos(e){
-  const rect=canvas.getBoundingClientRect();
-  mouse.x=e.clientX-rect.left; mouse.y=e.clientY-rect.top;
+  const r=canvas.getBoundingClientRect();
+  mouse.x=e.clientX-r.left; mouse.y=e.clientY-r.top;
 }
-document.getElementById('add-btn').addEventListener('click',()=>{
-  addParticle(Math.random()*simW,Math.random()*simH*0.4);
+
+/* ---------- ‘＋’ 버튼 ---------- */
+const addBtn=document.getElementById('add-btn');
+addBtn.addEventListener('click',()=>addParticle(Math.random()*simW,Math.random()*simH*.4));
+
+/* (3) 모바일 길게 눌러도 메뉴 안 뜨도록 */
+['contextmenu','touchstart'].forEach(evt=>{
+  addBtn.addEventListener(evt,e=>e.preventDefault(),{passive:false});
 });
 
-/* ---------- Simulation step ---------- */
+/* 더블탭 확대 차단 (iOS Safari) */
+let lastTap=0;
+addBtn.addEventListener('touchend',e=>{
+  const now=Date.now(); if(now-lastTap<300) e.preventDefault(); lastTap=now;
+},{passive:false});
+
+/* ---------- Simulation ---------- */
 function step(){
   grid=Object.create(null);
   for(let i=0;i<NUM;i++){
     const p=particles[i], cx=(p.x*INV_CELL)|0, cy=(p.y*INV_CELL)|0;
     (grid[key(cx,cy)]??=[]).push(i); p.rho=p.p=0;
   }
-
-  /* density / pressure */
   for(let i=0;i<NUM;i++){
     const p=particles[i], cx=(p.x*INV_CELL)|0, cy=(p.y*INV_CELL)|0;
     for(let oy=-1;oy<=1;oy++)for(let ox=-1;ox<=1;ox++){
       const cell=grid[key(cx+ox,cy+oy)]; if(!cell) continue;
       for(const j of cell){
-        const q=particles[j], dx=p.x-q.x, dy=p.y-q.y, r2=dx*dx+dy*dy;
-        if(r2<H2) p.rho += M*POLY6_C*Math.pow(H2-r2,3);
+        const q=particles[j],dx=p.x-q.x,dy=p.y-q.y,r2=dx*dx+dy*dy;
+        if(r2<H2) p.rho+=M*POLY6*(H2-r2)**3;
       }
     }
     p.p=K*(p.rho-RHO0);
   }
-
-  /* forces */
   for(let i=0;i<NUM;i++){
     const p=particles[i]; let fx=0,fy=0;
     const cx=(p.x*INV_CELL)|0, cy=(p.y*INV_CELL)|0;
@@ -132,30 +144,25 @@ function step(){
         if(i===j) continue;
         const q=particles[j],dx=p.x-q.x,dy=p.y-q.y,r2=dx*dx+dy*dy;
         if(r2>=H2||r2<1e-6) continue;
-        const r=Math.sqrt(r2), invR=1/r, hmr=H-r;
-        const press=-M*(p.p+q.p)/(2*q.rho)*SPIKY_C*hmr*hmr;
-        const visc = MU*M*POLY6_C*Math.pow(H2-r2,3)/q.rho;
+        const r=Math.sqrt(r2),invR=1/r,hmr=H-r;
+        const press=-M*(p.p+q.p)/(2*q.rho)*SPIKY*hmr*hmr;
+        const visc = MU*M*POLY6*(H2-r2)**3/q.rho;
         fx+=press*dx*invR+visc*(q.vx-p.vx);
         fy+=press*dy*invR+visc*(q.vy-p.vy);
       }
     }
     fy+=G; p.fx=fx; p.fy=fy;
   }
-
-  /* attract */
   if(mouse.hold){
     const rSq=mouse.r*mouse.r;
     for(const p of particles){
-      const dx=mouse.x-p.x, dy=mouse.y-p.y, d2=dx*dx+dy*dy;
+      const dx=mouse.x-p.x,dy=mouse.y-p.y,d2=dx*dx+dy*dy;
       if(d2<rSq){
-        const invD=1/(Math.sqrt(d2)+.01);
-        const s=0.5*(1-Math.sqrt(d2)/mouse.r);
+        const invD=1/(Math.sqrt(d2)+.01),s=.5*(1-Math.sqrt(d2)/mouse.r);
         p.vx+=dx*invD*s; p.vy+=dy*invD*s;
       }
     }
   }
-
-  /* integrate, damp, bounds, speed */
   for(const p of particles){
     // p.vx+=p.fx; p.vy+=p.fy;
     p.vx*=DAMP; p.vy*=DAMP;
@@ -166,18 +173,16 @@ function step(){
     if(p.y>simH-R){p.y=simH-R;p.vy*=-REST;}
     p.speed=Math.hypot(p.vx,p.vy);
   }
-
-  /* collisions (same cell) */
   for(const k in grid){
     const cell=grid[k];
     for(let a=0;a<cell.length;a++)for(let b=a+1;b<cell.length;b++){
-      const p=particles[cell[a]], q=particles[cell[b]];
-      const dx=p.x-q.x, dy=p.y-q.y, dist=Math.hypot(dx,dy);
+      const p=particles[cell[a]],q=particles[cell[b]];
+      const dx=p.x-q.x,dy=p.y-q.y,dist=Math.hypot(dx,dy);
       if(dist>0&&dist<2*R){
-        const overlap=(2*R-dist)*.5, nx=dx/dist, ny=dy/dist;
+        const overlap=(2*R-dist)*.5,nx=dx/dist,ny=dy/dist;
         p.x+=nx*overlap; p.y+=ny*overlap;
         q.x-=nx*overlap; q.y-=ny*overlap;
-        const rvx=p.vx-q.vx, rvy=p.vy-q.vy, vn=rvx*nx+rvy*ny;
+        const rvx=p.vx-q.vx,rvy=p.vy-q.vy,vn=rvx*nx+rvy*ny;
         if(vn<0){
           const j=-(1+REST)*vn*.5;
           p.vx+=j*nx; p.vy+=j*ny;
@@ -201,8 +206,7 @@ function draw(){
   if(mouse.hold){
     ctx.beginPath();
     ctx.arc(mouse.x,mouse.y,mouse.r/2,0,Math.PI*2);
-    ctx.strokeStyle='rgba(255,255,255,.25)';
-    ctx.lineWidth=2; ctx.stroke();
+    ctx.strokeStyle='rgba(255,255,255,.25)'; ctx.lineWidth=2; ctx.stroke();
   }
 }
 
