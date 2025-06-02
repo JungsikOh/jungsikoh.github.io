@@ -20,9 +20,17 @@
       user-select:none;-webkit-user-select:none;
       -webkit-touch-callout:none;
       -webkit-tap-highlight-color:transparent;
+      display:flex;align-items:center;justify-content:center;
     }
     .add-btn:hover{background:#ff4a4a;}
+
+    .add-btn::after{
+      content:'';
+      position:absolute;inset:0;        /* 버튼 전체 */
+      border-radius:50%;
+    }
   </style>
+  
 </head>
 
 <body>
