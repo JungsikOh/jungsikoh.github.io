@@ -39,12 +39,8 @@ const RHO0= 10;
 const K   = 1.0;
 const MU  = 0.0005;
 const G   = 0.18;
-
-/* ── 상단 파라미터 섹션 ───────────────── */
-const DAMP = 0.985;   // ← ① 전역 감쇠 계수 (0.97~0.99 사이 추천)
-
-/* ── 충돌 보정 파트 상단 ───────────────── */
-const REST = 0.5;     // ← ② 탄성 계수 낮춤 (0 완전 흡수, 1 완전탄성)
+const DAMP = 0.985;   // 전역 감쇠
+const REST = 0.5;     // 충돌 반발 감쇠
 
 const MAX_PARTICLES = 1000;
 let particles = [];
@@ -81,7 +77,7 @@ function spawn(x,y){
   return {x,y,
     vx:(Math.random()-.5)*2,
     vy:(Math.random()-.5)*2,
-    fx:0, fy:0, rho:0, p:0
+    fx:0, fy:0, rho:0, p:0, speed:0
   };
 }
 function addParticle(x,y){
@@ -115,7 +111,6 @@ document.getElementById('add-btn').addEventListener('click',()=>{
 /* ---------- SPH step (grid optimised) ---------- */
 function step(){
   grid=Object.create(null);
-  /* grid insert & reset rho/p */
   for(let i=0;i<NUM;i++){
     const p=particles[i];
     const cx=(p.x*INV_CELL)|0, cy=(p.y*INV_CELL)|0;
@@ -174,19 +169,21 @@ function step(){
       }
     }
   }
-  /* integrate & bounds */
+  /* integrate & bounds + damping + speed calc */
   for(const p of particles){
-    // p.vx+=p.fx; p.vy+=p.fy;
-    p.vx *= DAMP;        // ← ① 전역 감쇠 적용
+    // p.vx += p.fx;
+    // p.vy += p.fy;
+    p.vx *= DAMP;
     p.vy *= DAMP;
-    p.x +=p.vx; p.y +=p.vy;
-    if(p.x<R){p.x=R; p.vx*=-.6;}
-    if(p.x>simW-R){p.x=simW-R; p.vx*=-.6;}
-    if(p.y<R){p.y=R; p.vy*=-.6;}
-    if(p.y>simH-R){p.y=simH-R; p.vy*=-.6;}
+    p.x  += p.vx;
+    p.y  += p.vy;
+    if(p.x<R){p.x=R; p.vx*=-REST;}
+    if(p.x>simW-R){p.x=simW-R; p.vx*=-REST;}
+    if(p.y<R){p.y=R; p.vy*=-REST;}
+    if(p.y>simH-R){p.y=simH-R; p.vy*=-REST;}
+    p.speed = Math.hypot(p.vx,p.vy);   // ←  속도 크기 저장
   }
-  /* simple collision resolve – same cell only */
-  const REST=0.8;
+  /* collisions (same cell) */
   for(const key in grid){
     const cell=grid[key];
     for(let a=0;a<cell.length;a++){
@@ -209,15 +206,24 @@ function step(){
   }
 }
 
-/* ---------- Render ---------- */
+/* ---------- Render with velocity-based color ---------- */
 function draw(){
   ctx.clearRect(0,0,simW,simH);
-  ctx.fillStyle='rgb(100,155,255)';
+
+  /* 최대 속도 구해 색 스케일링 */
+  let maxV = 0;
+  for(const p of particles) if(p.speed>maxV) maxV=p.speed;
+  maxV = Math.max(maxV, 1);      // 0 나눔 방지
+
   for(const p of particles){
+    const comp = Math.min(p.speed / maxV, 1);   // 0‥1
+    const hue  = 220 - 220*comp;                // 파랑→빨강
+    ctx.fillStyle = `hsl(${hue},80%,60%)`;
     ctx.beginPath();
     ctx.arc(p.x,p.y,R,0,Math.PI*2);
     ctx.fill();
   }
+
   if(mouse.hold){
     ctx.beginPath();
     ctx.arc(mouse.x,mouse.y,mouse.r/2,0,Math.PI*2);
