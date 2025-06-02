@@ -84,12 +84,21 @@ const MAX_PARTICLES = 1000;
 /* 파티클 하나 생성해서 배열에 push */
 function addParticle(x, y){
   if (particles.length >= MAX_PARTICLES) return;
-  particles.push({
-    x, y,
-    vx:(Math.random()-.5)*2,
-    vy:(Math.random()-.5)*2,
-    fx:0, fy:0, rho:0, p:0
-  });
+  
+  const nAdd = Math.min(30, MAX_PARTICLES - particles.length);
+
+  for (let i = 0; i < nAdd; i++){
+    /* 살짝 퍼지게 위치·속도에 작은 랜덤 편차 */
+    const jx = (Math.random()-0.5) * 24;   // ±12 px
+    const jy = (Math.random()-0.5) * 24;
+    particles.push({
+      x: x + jx,
+      y: y + jy,
+      vx:(Math.random()-.5)*2,
+      vy:(Math.random()-.5)*2,
+      fx:0, fy:0, rho:0, p:0
+    });
+  }
   NUM = particles.length;     // 갱신
 }
 
@@ -209,29 +218,26 @@ function resolveCollisions(){
 /* 렌더 */
 function draw(){
   ctx.clearRect(0,0,simW,simH);
-  /* 바닥선 */
-  ctx.beginPath();
-  ctx.moveTo(0,simH-R);
-  ctx.lineTo(simW,simH-R);
-  ctx.strokeStyle="rgba(200,200,200,.18)";
-  ctx.lineWidth=2;
-  ctx.stroke();
 
-  for(let p of particles){
-    const f=Math.hypot(p.fx,p.fy), n=Math.min(f/38,1);
-    const hue=220-220*n;
+  /* ── 새 컬러 맵: 압력(p) 기준 ── */
+  for(const p of particles){
+    /* (ρ-ρ0)/ρ0 를 0~1 로 잘라내기 → 밀집도 */
+    const comp = Math.max(0, Math.min((p.rho - ρ0) / ρ0, 1));
+    /* comp 0 → 파랑(220°), 1 → 빨강(0°) */
+    const hue = 220 - 220*comp;
+
     ctx.beginPath();
     ctx.arc(p.x,p.y,R,0,Math.PI*2);
-    ctx.fillStyle=`hsl(${hue},80%,60%)`;
+    ctx.fillStyle = `hsl(${hue}, 80%, 60%)`;
     ctx.fill();
   }
-  /* 이펙트 링 */
-  if(mouse.act){
-    const alpha=1-(performance.now()-mouse.t)/300;
+
+  /* (기존) 이펙트 링 */
+  if(mouse.hold){
     ctx.beginPath();
     ctx.arc(mouse.x,mouse.y,mouse.r,0,Math.PI*2);
-    ctx.strokeStyle=`rgba(255,80,60,${.25*alpha})`;
-    ctx.lineWidth=4; ctx.stroke();
+    ctx.strokeStyle="rgba(255,255,255,.25)";
+    ctx.lineWidth=2; ctx.stroke();
   }
 }
 
