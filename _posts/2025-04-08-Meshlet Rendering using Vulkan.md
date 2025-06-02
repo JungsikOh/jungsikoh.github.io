@@ -205,7 +205,7 @@ if(gtid < m.vertexCount) {
 ```
 
 ## 3. 최종 렌더링 이미지
-![Image](https://github.com/user-attachments/assets/116a812f-fbdd-4bcb-b0d8-3d71ec9f97a9)
+![Image](https://jungsikoh.github.io/assets/images/20250408/meshlet_render.png)
 <div align="center">
     <span style="color: #cccccc; font-size: 0.85em;">
         그림3. Meshlet Rendering(직접 구현)
