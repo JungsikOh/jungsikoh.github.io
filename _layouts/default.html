@@ -66,7 +66,7 @@ function resizeCanvas(){
   ctx.setTransform(1,0,0,1,0,0);
   ctx.scale(dpr,dpr);
 
-  NUM = Math.min(300, Math.floor((simW*simH)/3500));
+  NUM = Math.min(500, Math.floor((simW*simH)/3500));
   particles = Array.from({length:NUM},()=>spawn(Math.random()*simW,Math.random()*simH));
 }
 window.addEventListener('resize',resizeCanvas,{passive:true});
@@ -82,7 +82,7 @@ function spawn(x,y){
 }
 function addParticle(x,y){
   if(particles.length>=MAX_PARTICLES) return;
-  const n=Math.min(300, MAX_PARTICLES-particles.length);
+  const n=Math.min(30, MAX_PARTICLES-particles.length);
   for(let i=0;i<n;i++){
     const jx=(Math.random()-.5)*24, jy=(Math.random()-.5)*24;
     particles.push(spawn(x+jx,y+jy));
