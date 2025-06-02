@@ -64,13 +64,15 @@ const poly6 = (r,h)=>(r>=0&&r<=h)?315/(64*Math.PI*h**9)*(h*h-r*r)**3:0;
 const spiky = (r,h)=>(r>0&&r<=h)?-45/(Math.PI*h**6)*(h-r)**2:0;
 
 /* 마우스 충격파 */
-const mouse = {x:0,y:0,r:40,act:false,t:0};
-canvas.addEventListener("mousedown",e=>{
+const mouse = {x:0,y:0,r:40,act:false,attract:false,t:0};
+canvas.addEventListener("mousedown", e=>{
   const rect = canvas.getBoundingClientRect();
   mouse.x = e.clientX - rect.left;
   mouse.y = e.clientY - rect.top;
-  mouse.r = 40;               // CSS 단위 반경
-  mouse.act = true; mouse.t = performance.now();
+  mouse.r = 40;             // 반경
+  mouse.act = true;
+  mouse.attract = (e.button === 0);  // 0 → 왼쪽클릭 → 끌어당김
+  mouse.t = performance.now();
 });
 
 /* 물리 스텝 */
@@ -104,16 +106,22 @@ function step() {
   }
   /* 마우스 충격 */
   if(mouse.act){
-    const now=performance.now();
-    if(now-mouse.t<300){
-      for(let p of particles){
-        const dx=p.x-mouse.x, dy=p.y-mouse.y, d2=dx*dx+dy*dy;
-        if(d2<mouse.r*mouse.r){
-          const d=Math.sqrt(d2)+.01, s=.13*(1-d/mouse.r);
-          p.vx+=dx/d*s; p.vy+=dy/d*s;
+    const now = performance.now();
+    if(now - mouse.t < 300){
+      for(const p of particles){
+        const dx = p.x - mouse.x;
+        const dy = p.y - mouse.y;
+        const d2 = dx*dx + dy*dy;
+        if(d2 < mouse.r*mouse.r){
+          const d = Math.sqrt(d2) + 0.01;
+          const s = 0.13 * (1 - d / mouse.r);
+          /* attract ? 중심으로 : 밖으로 */
+          const dir = mouse.attract ? -1 : +1;
+          p.vx += dir * dx / d * s;
+          p.vy += dir * dy / d * s;
         }
       }
-    }else mouse.act=false;
+    } else mouse.act = false;
   }
   /* 적분 & 경계 */
   for(let p of particles){
