@@ -111,11 +111,11 @@ addBtn.addEventListener('click',()=>addParticle(Math.random()*simW,Math.random()
   addBtn.addEventListener(evt,e=>e.preventDefault(),{passive:false});
 });
 
-/* 더블탭 확대 차단 (iOS Safari) */
-let lastTap=0;
-addBtn.addEventListener('touchend',e=>{
-  const now=Date.now(); if(now-lastTap<300) e.preventDefault(); lastTap=now;
-},{passive:false});
+// /* 더블탭 확대 차단 (iOS Safari) */
+// let lastTap=0;
+// addBtn.addEventListener('touchend',e=>{
+//   const now=Date.now(); if(now-lastTap<300) e.preventDefault(); lastTap=now;
+// },{passive:false});
 
 /* ---------- Simulation ---------- */
 function step(){
