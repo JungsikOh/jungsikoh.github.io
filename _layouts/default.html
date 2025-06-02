@@ -28,7 +28,7 @@ const H   = 15;
 const M   = 1;
 const ρ0  = 10;
 const K   = 1.0;
-const μ   = .02;
+const μ   = .0005;
 const g   = .18;
 
 let simW = 0, simH = 0, dpr = 1;
@@ -64,16 +64,33 @@ const poly6 = (r,h)=>(r>=0&&r<=h)?315/(64*Math.PI*h**9)*(h*h-r*r)**3:0;
 const spiky = (r,h)=>(r>0&&r<=h)?-45/(Math.PI*h**6)*(h-r)**2:0;
 
 /* 마우스 충격파 */
-const mouse = {x:0,y:0,r:40,act:false,attract:false,t:0};
+const mouse = {x:0,y:0,r:60,hold:false};
 canvas.addEventListener("mousedown", e=>{
+  if(e.button===0){              // 좌클릭 ⇒ 끌어당김 시작
+    mouse.hold = true;
+    updateMouse(e);
+  }else if(e.button===2){        // 우클릭 ⇒ 파티클 추가
+    updateMouse(e);
+    addParticle(mouse.x, mouse.y);
+  }
+  e.preventDefault();            // 컨텍스트 메뉴 차단
+});
+
+canvas.addEventListener("mouseup", e=>{
+  if(e.button===0) mouse.hold = false;     // 좌클릭 release
+});
+
+canvas.addEventListener("mousemove", e=>{
+  updateMouse(e);                // 위치만 계속 추적
+});
+
+/* 위치 갱신 헬퍼 */
+function updateMouse(e){
   const rect = canvas.getBoundingClientRect();
   mouse.x = e.clientX - rect.left;
   mouse.y = e.clientY - rect.top;
-  mouse.r = 40;             // 반경
-  mouse.act = true;
-  mouse.attract = (e.button === 0);  // 0 → 왼쪽클릭 → 끌어당김
-  mouse.t = performance.now();
-});
+}
+
 
 /* 물리 스텝 */
 function step() {
@@ -104,25 +121,21 @@ function step() {
     fy += g;
     pi.fx=fx; pi.fy=fy;
   }
-  /* 마우스 충격 */
-  if(mouse.act){
-    const now = performance.now();
-    if(now - mouse.t < 300){
-      for(const p of particles){
-        const dx = p.x - mouse.x;
-        const dy = p.y - mouse.y;
-        const d2 = dx*dx + dy*dy;
-        if(d2 < mouse.r*mouse.r){
-          const d = Math.sqrt(d2) + 0.01;
-          const s = 0.13 * (1 - d / mouse.r);
-          /* attract ? 중심으로 : 밖으로 */
-          const dir = mouse.attract ? -1 : +1;
-          p.vx += dir * dx / d * s;
-          p.vy += dir * dy / d * s;
-        }
+  /* 마우스 끌어당김 (hold 중일 때만) */
+  if(mouse.hold){
+    for(const p of particles){
+      const dx = mouse.x - p.x;
+      const dy = mouse.y - p.y;
+      const d2 = dx*dx + dy*dy;
+      if(d2 < mouse.r*mouse.r){
+        const d = Math.sqrt(d2) + 0.01;
+        const s = 0.15 * (1 - d / mouse.r);   // 세기 조절 (0.1~0.2)
+        p.vx += dx / d * s;
+        p.vy += dy / d * s;
       }
-    } else mouse.act = false;
+    }
   }
+
   /* 적분 & 경계 */
   for(let p of particles){
     p.vx+=p.fx; p.vy+=p.fy;
