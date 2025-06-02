@@ -18,189 +18,146 @@
 </html>
 
 <script>
+/* ===== SPH Particle Simulation (CSS-space) ===== */
 const canvas = document.getElementById("sph-canvas");
-const ctx = canvas.getContext("2d");
+const ctx     = canvas.getContext("2d");
 
-const PARTICLE_RADIUS = 5;
-const H = 18;
-const MASS = 1;
-const REST_DENS = 10;
-const GAS_CONST = 0.5;
-const VISC = 0.1;
-const GRAV = 0.18;
+/* --- 시뮬레이션/그래픽 공용 파라미터 (CSS 단위) --- */
+const R   = 5;        // 파티클 반지름
+const H   = 18;
+const M   = 1;
+const ρ0  = 10;
+const K   = .5;
+const μ   = .1;
+const g   = .18;
 
-function getNumParticles() {
-  return Math.min(180, Math.floor((canvas.width * canvas.height) / 3500));
-}
-let NUM_PARTICLES = 120;
-
-function createParticles() {
-  const arr = [];
-  for (let i = 0; i < NUM_PARTICLES; i++) {
-    arr.push({
-      x: Math.random() * canvas.width,
-      y: Math.random() * canvas.height,
-      vx: (Math.random() - 0.5) * 2,
-      vy: (Math.random() - 0.5) * 2,
-      fx: 0, fy: 0, rho: 0, p: 0,
-    });
-  }
-  return arr;
-}
-
+let simW = 0, simH = 0, dpr = 1;
+let NUM  = 120;
 let particles = [];
 
+/* DPI-aware 캔버스 리사이즈 & 좌표계 동기화 */
 function resizeCanvas() {
-  // (핵심!) 보이는 영역과 캔버스 좌표계를 1:1로 맞춘다
-  const dpr = window.devicePixelRatio || 1;
+  dpr   = window.devicePixelRatio || 1;
   const rect = canvas.getBoundingClientRect();
-  canvas.width = rect.width * dpr;
-  canvas.height = rect.height * dpr;
-  ctx.setTransform(1, 0, 0, 1, 0, 0);
-  ctx.scale(dpr, dpr);
+  simW  = rect.width;
+  simH  = rect.height;
 
-  NUM_PARTICLES = getNumParticles();
-  particles = createParticles();
+  canvas.width  = simW * dpr;   // 내부 버퍼
+  canvas.height = simH * dpr;
+  ctx.setTransform(1,0,0,1,0,0);
+  ctx.scale(dpr, dpr);          // 이후 모든 좌표는 CSS px
+
+  NUM = Math.min(180, Math.floor((simW*simH)/3500));
+  particles = Array.from({length:NUM}, () => ({
+      x: Math.random()*simW,
+      y: Math.random()*simH,
+      vx: (Math.random()-.5)*2,
+      vy: (Math.random()-.5)*2,
+      fx:0, fy:0, rho:0, p:0
+  }));
 }
-window.addEventListener("resize", resizeCanvas, { passive: true });
+window.addEventListener("resize", resizeCanvas, {passive:true});
 resizeCanvas();
 
-function poly6(r, h) {
-  if (r >= 0 && r <= h) {
-    const k = 315 / (64 * Math.PI * Math.pow(h, 9));
-    return k * Math.pow((h * h - r * r), 3);
-  }
-  return 0;
-}
-function spiky(r, h) {
-  if (r > 0 && r <= h) {
-    const k = -45 / (Math.PI * Math.pow(h, 6));
-    return k * Math.pow(h - r, 2);
-  }
-  return 0;
-}
+/* SPH 커널 */
+const poly6 = (r,h)=>(r>=0&&r<=h)?315/(64*Math.PI*h**9)*(h*h-r*r)**3:0;
+const spiky = (r,h)=>(r>0&&r<=h)?-45/(Math.PI*h**6)*(h-r)**2:0;
 
-let mouseForce = { x: 0, y: 0, r: 0, active: false, t: 0 };
-canvas.addEventListener("mousedown", function (e) {
+/* 마우스 충격파 */
+const mouse = {x:0,y:0,r:40,act:false,t:0};
+canvas.addEventListener("mousedown",e=>{
   const rect = canvas.getBoundingClientRect();
-  const dpr = window.devicePixelRatio || 1;
-  mouseForce.x = (e.clientX - rect.left) * dpr;
-  mouseForce.y = (e.clientY - rect.top) * dpr;
-  mouseForce.r = 40 * dpr;
-  mouseForce.active = true;
-  mouseForce.t = performance.now();
+  mouse.x = e.clientX - rect.left;
+  mouse.y = e.clientY - rect.top;
+  mouse.r = 40;               // CSS 단위 반경
+  mouse.act = true; mouse.t = performance.now();
 });
 
-function stepSPH() {
-  for (let i = 0; i < NUM_PARTICLES; i++) {
-    let pi = particles[i];
-    let rho = 0;
-    for (let j = 0; j < NUM_PARTICLES; j++) {
+/* 물리 스텝 */
+function step() {
+  /* 밀도·압력 */
+  for (let i=0;i<NUM;i++){
+    let pi = particles[i]; let rho=0;
+    for (let j=0;j<NUM;j++){
       const pj = particles[j];
-      const dx = pi.x - pj.x, dy = pi.y - pj.y;
-      const r2 = dx * dx + dy * dy;
-      if (r2 < H * H) rho += MASS * poly6(Math.sqrt(r2), H);
+      const dx=pi.x-pj.x, dy=pi.y-pj.y, r2=dx*dx+dy*dy;
+      if (r2 < H*H) rho += M*poly6(Math.sqrt(r2),H);
     }
-    pi.rho = rho;
-    pi.p = GAS_CONST * (rho - REST_DENS);
+    pi.rho=rho; pi.p=K*(rho-ρ0);
   }
-  for (let i = 0; i < NUM_PARTICLES; i++) {
-    let pi = particles[i], fx = 0, fy = 0;
-    for (let j = 0; j < NUM_PARTICLES; j++) {
-      if (i === j) continue;
-      const pj = particles[j];
-      const dx = pi.x - pj.x, dy = pi.y - pj.y;
-      const r2 = dx * dx + dy * dy;
-      if (r2 < 1e-6 || r2 >= H * H) continue;
-      const r = Math.sqrt(r2);
-
-      const fPress = -MASS * (pi.p + pj.p) / (2 * pj.rho) * spiky(r, H);
-      fx += fPress * dx / r;
-      fy += fPress * dy / r;
-      const fVisc = VISC * MASS * (pj.vx - pi.vx) / pj.rho * poly6(r, H);
-      fx += fVisc;
-      fy += VISC * MASS * (pj.vy - pi.vy) / pj.rho * poly6(r, H);
+  /* 힘 */
+  for (let i=0;i<NUM;i++){
+    let pi=particles[i], fx=0, fy=0;
+    for (let j=0;j<NUM;j++){
+      if(i===j) continue;
+      const pj=particles[j];
+      const dx=pi.x-pj.x, dy=pi.y-pj.y, r2=dx*dx+dy*dy;
+      if(r2<1e-6||r2>=H*H) continue;
+      const r=Math.sqrt(r2);
+      fx += -M*(pi.p+pj.p)/(2*pj.rho)*spiky(r,H)*dx/r
+          +  μ*M*(pj.vx-pi.vx)/pj.rho*poly6(r,H);
+      fy += -M*(pi.p+pj.p)/(2*pj.rho)*spiky(r,H)*dy/r
+          +  μ*M*(pj.vy-pi.vy)/pj.rho*poly6(r,H);
     }
-    fy += GRAV;
-    pi.fx = fx; pi.fy = fy;
+    fy += g;
+    pi.fx=fx; pi.fy=fy;
   }
-  if (mouseForce.active) {
-    const now = performance.now();
-    if (now - mouseForce.t < 300) {
-      for (let i = 0; i < NUM_PARTICLES; i++) {
-        let p = particles[i];
-        const dx = p.x - mouseForce.x;
-        const dy = p.y - mouseForce.y;
-        const dist2 = dx * dx + dy * dy;
-        if (dist2 < mouseForce.r * mouseForce.r) {
-          const dist = Math.sqrt(dist2) + 0.01;
-          const strength = 0.13 * (1 - dist / mouseForce.r);
-          p.vx += dx / dist * strength;
-          p.vy += dy / dist * strength;
+  /* 마우스 충격 */
+  if(mouse.act){
+    const now=performance.now();
+    if(now-mouse.t<300){
+      for(let p of particles){
+        const dx=p.x-mouse.x, dy=p.y-mouse.y, d2=dx*dx+dy*dy;
+        if(d2<mouse.r*mouse.r){
+          const d=Math.sqrt(d2)+.01, s=.13*(1-d/mouse.r);
+          p.vx+=dx/d*s; p.vy+=dy/d*s;
         }
       }
-    } else {
-      mouseForce.active = false;
-    }
+    }else mouse.act=false;
   }
-  for (let i = 0; i < NUM_PARTICLES; i++) {
-    let p = particles[i];
-    p.vx += p.fx;
-    p.vy += p.fy;
-    p.x += p.vx;
-    p.y += p.vy;
-    // 경계 처리(최종! 바닥, 천장, 좌우 정확히 캔버스 영역으로)
-    if (p.x < PARTICLE_RADIUS) { p.x = PARTICLE_RADIUS; p.vx *= -0.6; }
-    if (p.x > canvas.width - PARTICLE_RADIUS) { p.x = canvas.width - PARTICLE_RADIUS; p.vx *= -0.6; }
-    if (p.y < PARTICLE_RADIUS) { p.y = PARTICLE_RADIUS; p.vy *= -0.6; }
-    if (p.y > canvas.height - PARTICLE_RADIUS) {
-      p.y = canvas.height - PARTICLE_RADIUS;
-      p.vy *= -0.6;
-    }
+  /* 적분 & 경계 */
+  for(let p of particles){
+    p.vx+=p.fx; p.vy+=p.fy;
+    p.x +=p.vx; p.y +=p.vy;
+    if(p.x<R){p.x=R;p.vx*=-.6;}
+    if(p.x>simW-R){p.x=simW-R;p.vx*=-.6;}
+    if(p.y<R){p.y=R;p.vy*=-.6;}
+    if(p.y>simH-R){p.y=simH-R;p.vy*=-.6;}
   }
 }
 
-function drawParticles() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  // 바닥선 그리기
-  ctx.save();
+/* 렌더 */
+function draw(){
+  ctx.clearRect(0,0,simW,simH);
+  /* 바닥선 */
   ctx.beginPath();
-  ctx.moveTo(0, canvas.height - PARTICLE_RADIUS);
-  ctx.lineTo(canvas.width, canvas.height - PARTICLE_RADIUS);
-  ctx.strokeStyle = "rgba(200,200,200,0.18)";
-  ctx.lineWidth = 2;
+  ctx.moveTo(0,simH-R);
+  ctx.lineTo(simW,simH-R);
+  ctx.strokeStyle="rgba(200,200,200,.18)";
+  ctx.lineWidth=2;
   ctx.stroke();
-  ctx.restore();
-  // 파티클
-  for (let i = 0; i < NUM_PARTICLES; i++) {
-    const p = particles[i];
-    const fmag = Math.sqrt(p.fx * p.fx + p.fy * p.fy);
-    const norm = Math.min(fmag / 38, 1.0);
-    const hue = 220 - 220 * norm;
+
+  for(let p of particles){
+    const f=Math.hypot(p.fx,p.fy), n=Math.min(f/38,1);
+    const hue=220-220*n;
     ctx.beginPath();
-    ctx.arc(p.x, p.y, PARTICLE_RADIUS, 0, 2 * Math.PI);
-    ctx.fillStyle = `hsl(${hue}, 80%, 60%)`;
+    ctx.arc(p.x,p.y,R,0,Math.PI*2);
+    ctx.fillStyle=`hsl(${hue},80%,60%)`;
     ctx.fill();
   }
-  if (mouseForce.active) {
-    const now = performance.now();
-    if (now - mouseForce.t < 300) {
-      const alpha = 1 - (now - mouseForce.t) / 300;
-      ctx.beginPath();
-      ctx.arc(mouseForce.x, mouseForce.y, mouseForce.r, 0, 2 * Math.PI);
-      ctx.strokeStyle = `rgba(255,80,60,${0.25 * alpha})`;
-      ctx.lineWidth = 5;
-      ctx.stroke();
-      ctx.lineWidth = 1;
-    }
+  /* 이펙트 링 */
+  if(mouse.act){
+    const alpha=1-(performance.now()-mouse.t)/300;
+    ctx.beginPath();
+    ctx.arc(mouse.x,mouse.y,mouse.r,0,Math.PI*2);
+    ctx.strokeStyle=`rgba(255,80,60,${.25*alpha})`;
+    ctx.lineWidth=4; ctx.stroke();
   }
 }
 
-function animate() {
-  stepSPH();
-  drawParticles();
-  requestAnimationFrame(animate);
-}
-animate();
+/* 루프 */
+(function loop(){
+  step(); draw(); requestAnimationFrame(loop);
+})();
 
 </script>
