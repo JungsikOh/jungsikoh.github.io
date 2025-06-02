@@ -24,11 +24,11 @@ const ctx     = canvas.getContext("2d");
 
 /* --- 시뮬레이션/그래픽 공용 파라미터 (CSS 단위) --- */
 const R   = 5;        // 파티클 반지름
-const H   = 18;
+const H   = 15;
 const M   = 1;
 const ρ0  = 10;
-const K   = .5;
-const μ   = .1;
+const K   = 1.0;
+const μ   = .02;
 const g   = .18;
 
 let simW = 0, simH = 0, dpr = 1;
@@ -126,6 +126,38 @@ function step() {
   }
 }
 
+/* --- ❶ 헤더 상수 추가 --- */
+const RESTITUTION = 0.8;   // 1.0=완전탄성, 0=완전비탄성
+
+/* --- ❷ step() 끝부분 ‘적분 & 경계’ 뒤에 충돌 해결 추가 --- */
+function resolveCollisions(){
+  for(let i=0;i<NUM;i++){
+    for(let j=i+1;j<NUM;j++){
+      const pi=particles[i], pj=particles[j];
+      const dx=pi.x-pj.x, dy=pi.y-pj.y;
+      const dist=Math.hypot(dx,dy);
+      const minDist = 2*R;
+      if(dist>0 && dist < minDist){           // 겹침!
+        /* (a) 위치 보정 – 반씩 밀어내기 */
+        const overlap = (minDist-dist)*0.5;
+        const nx = dx/dist, ny = dy/dist;
+        pi.x += nx*overlap;  pi.y += ny*overlap;
+        pj.x -= nx*overlap;  pj.y -= ny*overlap;
+
+        /* (b) 속도 분해 → 탄성 충돌 */
+        const rvx=pi.vx-pj.vx, rvy=pi.vy-pj.vy;
+        const vn = rvx*nx + rvy*ny;           // 상대속도의 법선 성분
+        if(vn < 0){                           // 수렴 중일 때만 반발
+          const jImp = -(1+RESTITUTION)*vn*0.5; // 질량=1 가정
+          const impx = jImp*nx, impy = jImp*ny;
+          pi.vx += impx;  pi.vy += impy;
+          pj.vx -= impx;  pj.vy -= impy;
+        }
+      }
+    }
+  }
+}
+
 /* 렌더 */
 function draw(){
   ctx.clearRect(0,0,simW,simH);
@@ -157,7 +189,10 @@ function draw(){
 
 /* 루프 */
 (function loop(){
-  step(); draw(); requestAnimationFrame(loop);
+  step(); 
+  resolveCollisions(); 
+  draw();
+  requestAnimationFrame(loop);
 })();
 
 </script>
