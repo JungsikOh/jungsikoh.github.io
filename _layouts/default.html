@@ -166,7 +166,7 @@ function step(){
     for(const p of particles){
       const dx=mouse.x-p.x,dy=mouse.y-p.y,d2=dx*dx+dy*dy;
       if(d2<rSq){
-        const invD=1/(Math.sqrt(d2)+.01),s=.5*(1-Math.sqrt(d2)/mouse.r);
+        const invD=1/(Math.sqrt(d2)+.01),s=.4*(1-Math.sqrt(d2)/mouse.r);
         p.vx+=dx*invD*s; p.vy+=dy*invD*s;
       }
     }
