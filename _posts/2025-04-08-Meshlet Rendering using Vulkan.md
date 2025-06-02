@@ -205,7 +205,7 @@ if(gtid < m.vertexCount) {
 ```
 
 ## 3. 최종 렌더링 이미지
-![image](https://private-user-images.githubusercontent.com/165359228/449116339-62da5810-3ba4-4c23-87ca-d8b5bfc8aa80.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NDg1ODU3MjIsIm5iZiI6MTc0ODU4NTQyMiwicGF0aCI6Ii8xNjUzNTkyMjgvNDQ5MTE2MzM5LTYyZGE1ODEwLTNiYTQtNGMyMy04N2NhLWQ4YjViZmM4YWE4MC5wbmc_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjUwNTMwJTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI1MDUzMFQwNjEwMjJaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT1mZjJhNDE1OWMyMzgxNjRkOWE0YjJhNTYxYmNiZTcyMmIxMDA5ZDU0ODRhMTBjZTg4ZjUxMDNjNjAyNmNjNGU2JlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCJ9.ANGI0rrGAGo7L6DvxEcBkVn8PTXJDfUYe-XYXeNPSIE)
+![Image](https://github.com/user-attachments/assets/116a812f-fbdd-4bcb-b0d8-3d71ec9f97a9)
 <div align="center">
     <span style="color: #cccccc; font-size: 0.85em;">
         그림3. Meshlet Rendering(직접 구현)
