@@ -2,273 +2,226 @@
 <html>
 <head>
   {% include head.html %}
-{% if page.use_math %}
-	{% include mathjax_support.html %}
-{% endif %}
+  {% if page.use_math %}{% include mathjax_support.html %}{% endif %}
+  <style>
+    .add-btn{
+      position:absolute; top:12px; right:12px;
+      width:36px; height:36px; border:none; border-radius:50%;
+      background:#ff6b6b; color:#fff; font-size:22px; line-height:36px;
+      cursor:pointer; box-shadow:0 2px 6px rgba(0,0,0,.25);
+      transition:background .15s;
+    }
+    .add-btn:hover{ background:#ff4a4a; }
+  </style>
 </head>
-  <body>
-    <main class="u-container">
-        <div id="sph-wrapper"
-            style="position:relative;max-width:800px;margin:0 auto;">
-          <canvas id="sph-canvas"
-                  style="display:block;width:100%;height:320px;
-                        border-radius:14px;background:#121e2a;"></canvas>
-
-          <!-- 파티클 추가 아이콘 -->
-          <button id="add-btn" class="add-btn" aria-label="add particle">＋</button>
-        </div>
-        {{ content }}
-    </main>
-    {% if jekyll.environment == 'production' %}
-    {% include analytics.html %}
-    {% endif %}
-  </body>
-</html>
-
-<!-- 버튼용 간단한 스타일(원형, 그림자) -->
-<style>
-.add-btn{
-  position:absolute; top:12px; right:12px;
-  width:36px; height:36px; border:none; border-radius:50%;
-  background:#ff6b6b; color:#fff; font-size:22px; line-height:36px;
-  cursor:pointer; box-shadow:0 2px 6px rgba(0,0,0,.25);
-  transition:background .15s;
-}
-.add-btn:hover{ background:#ff4a4a; }
-</style>
+<body>
+<main class="u-container">
+  <div id="sph-wrapper" style="position:relative;max-width:800px;margin:0 auto;">
+    <canvas id="sph-canvas"
+            style="display:block;width:100%;height:320px;border-radius:14px;background:#121e2a;"></canvas>
+    <button id="add-btn" class="add-btn" aria-label="add particle">＋</button>
+  </div>
+  {{ content }}
+</main>
+{% if jekyll.environment == 'production' %}{% include analytics.html %}{% endif %}
 
 <script>
-/* ===== SPH Particle Simulation (CSS-space) ===== */
-const canvas = document.getElementById("sph-canvas");
-const ctx     = canvas.getContext("2d");
+/* ===== Fast SPH (uniform-grid) ===== */
+const canvas = document.getElementById('sph-canvas');
+const ctx    = canvas.getContext('2d');
 
-/* --- 시뮬레이션/그래픽 공용 파라미터 (CSS 단위) --- */
-const R   = 5;        // 파티클 반지름
+/* ---------- Parameters ---------- */
+const R   = 5;
 const H   = 15;
+const H2  = H*H;
 const M   = 1;
-const ρ0  = 10;
+const RHO0= 10;
 const K   = 1.0;
-const μ   = .0005;
-const g   = .18;
-
-let simW = 0, simH = 0, dpr = 1;
-let NUM  = 120;
-let particles = [];
-
-/* DPI-aware 캔버스 리사이즈 & 좌표계 동기화 */
-function resizeCanvas() {
-  dpr   = window.devicePixelRatio || 1;
-  const rect = canvas.getBoundingClientRect();
-  simW  = rect.width;
-  simH  = rect.height;
-
-  canvas.width  = simW * dpr;   // 내부 버퍼
-  canvas.height = simH * dpr;
-  ctx.setTransform(1,0,0,1,0,0);
-  ctx.scale(dpr, dpr);          // 이후 모든 좌표는 CSS px
-
-  NUM = Math.min(180, Math.floor((simW*simH)/3500));
-  particles = Array.from({length:NUM}, () => ({
-      x: Math.random()*simW,
-      y: Math.random()*simH,
-      vx: (Math.random()-.5)*2,
-      vy: (Math.random()-.5)*2,
-      fx:0, fy:0, rho:0, p:0
-  }));
-}
-window.addEventListener("resize", resizeCanvas, {passive:true});
-resizeCanvas();
+const MU  = 0.0005;
+const G   = 0.18;
 
 const MAX_PARTICLES = 1000;
+let particles = [];
+let simW=0, simH=0, dpr=1, NUM=0;
 
-/* 파티클 하나 생성해서 배열에 push */
-function addParticle(x, y){
-  if (particles.length >= MAX_PARTICLES) return;
-  
-  const nAdd = Math.min(30, MAX_PARTICLES - particles.length);
+/* kernel coeff pre-compute */
+const POLY6_C = 315 /(64*Math.PI*Math.pow(H,9));
+const SPIKY_C = -45 /(  Math.PI*Math.pow(H,6));
 
-  for (let i = 0; i < nAdd; i++){
-    /* 살짝 퍼지게 위치·속도에 작은 랜덤 편차 */
-    const jx = (Math.random()-0.5) * 24;   // ±12 px
-    const jy = (Math.random()-0.5) * 24;
-    particles.push({
-      x: x + jx,
-      y: y + jy,
-      vx:(Math.random()-.5)*2,
-      vy:(Math.random()-.5)*2,
-      fx:0, fy:0, rho:0, p:0
-    });
-  }
-  NUM = particles.length;     // 갱신
-}
+/* uniform grid */
+const CELL = H;
+const INV_CELL = 1/CELL;
+let grid = Object.create(null);
+const cellKey = (ix,iy) => ix+','+iy;
 
-/* SPH 커널 */
-const poly6 = (r,h)=>(r>=0&&r<=h)?315/(64*Math.PI*h**9)*(h*h-r*r)**3:0;
-const spiky = (r,h)=>(r>0&&r<=h)?-45/(Math.PI*h**6)*(h-r)**2:0;
-
-/* 마우스 충격파 */
-const mouse = {x:0,y:0,r:130,hold:false};
-canvas.addEventListener("mousedown", e=>{
-  if (e.button === 0){         // 좌클릭
-    mouse.hold = true;
-    updateMouse(e);
-  }
-  e.preventDefault();          // 컨텍스트 메뉴 차단
-});
-canvas.addEventListener("mouseup",   e=>{ if(e.button===0) mouse.hold=false; });
-canvas.addEventListener("mousemove", updateMouse);
-canvas.oncontextmenu = e => e.preventDefault();   // 우클릭 완전 차단
-
-
-/* 위치 갱신 헬퍼 */
-function updateMouse(e){
+/* ---------- Init & Resize ---------- */
+function resizeCanvas(){
+  dpr = window.devicePixelRatio||1;
   const rect = canvas.getBoundingClientRect();
-  mouse.x = e.clientX - rect.left;
-  mouse.y = e.clientY - rect.top;
+  simW = rect.width; simH = rect.height;
+  canvas.width  = simW*dpr;
+  canvas.height = simH*dpr;
+  ctx.setTransform(1,0,0,1,0,0);
+  ctx.scale(dpr,dpr);
+
+  NUM = Math.min(300, Math.floor((simW*simH)/3500));
+  particles = Array.from({length:NUM},()=>spawn(Math.random()*simW,Math.random()*simH));
+}
+window.addEventListener('resize',resizeCanvas,{passive:true});
+resizeCanvas();
+
+/* ---------- Spawn helpers ---------- */
+function spawn(x,y){
+  return {x,y,
+    vx:(Math.random()-.5)*2,
+    vy:(Math.random()-.5)*2,
+    fx:0, fy:0, rho:0, p:0
+  };
+}
+function addParticle(x,y){
+  if(particles.length>=MAX_PARTICLES) return;
+  const n=Math.min(30,MAX_PARTICLES-particles.length);
+  for(let i=0;i<n;i++){
+    const jx=(Math.random()-.5)*24, jy=(Math.random()-.5)*24;
+    particles.push(spawn(x+jx,y+jy));
+  }
+  NUM = particles.length;
 }
 
+/* ---------- Mouse interaction ---------- */
+const mouse = {x:0,y:0,r:130,hold:false};
+canvas.addEventListener('mousedown',e=>{
+  if(e.button===0){mouse.hold=true;updateMouse(e);}
+  e.preventDefault();
+});
+canvas.addEventListener('mouseup',e=>{if(e.button===0)mouse.hold=false});
+canvas.addEventListener('mousemove',updateMouse);
+canvas.oncontextmenu=e=>e.preventDefault();
+function updateMouse(e){
+  const rect=canvas.getBoundingClientRect();
+  mouse.x=e.clientX-rect.left;
+  mouse.y=e.clientY-rect.top;
+}
+document.getElementById('add-btn').addEventListener('click',()=>{
+  addParticle(Math.random()*simW,Math.random()*simH*0.4);
+});
 
-/* 물리 스텝 */
-function step() {
-  /* 밀도·압력 */
-  for (let i=0;i<NUM;i++){
-    let pi = particles[i]; let rho=0;
-    for (let j=0;j<NUM;j++){
-      const pj = particles[j];
-      const dx=pi.x-pj.x, dy=pi.y-pj.y, r2=dx*dx+dy*dy;
-      if (r2 < H*H) rho += M*poly6(Math.sqrt(r2),H);
-    }
-    pi.rho=rho; pi.p=K*(rho-ρ0);
+/* ---------- SPH step (grid optimised) ---------- */
+function step(){
+  grid=Object.create(null);
+  /* grid insert & reset rho/p */
+  for(let i=0;i<NUM;i++){
+    const p=particles[i];
+    const cx=(p.x*INV_CELL)|0, cy=(p.y*INV_CELL)|0;
+    (grid[cellKey(cx,cy)]??=[]).push(i);
+    p.rho=p.p=0;
   }
-  /* 힘 */
-  for (let i=0;i<NUM;i++){
-    let pi=particles[i], fx=0, fy=0;
-    for (let j=0;j<NUM;j++){
-      if(i===j) continue;
-      const pj=particles[j];
-      const dx=pi.x-pj.x, dy=pi.y-pj.y, r2=dx*dx+dy*dy;
-      if(r2<1e-6||r2>=H*H) continue;
-      const r=Math.sqrt(r2);
-      fx += -M*(pi.p+pj.p)/(2*pj.rho)*spiky(r,H)*dx/r
-          +  μ*M*(pj.vx-pi.vx)/pj.rho*poly6(r,H);
-      fy += -M*(pi.p+pj.p)/(2*pj.rho)*spiky(r,H)*dy/r
-          +  μ*M*(pj.vy-pi.vy)/pj.rho*poly6(r,H);
+  /* density / pressure */
+  for(let i=0;i<NUM;i++){
+    const pi=particles[i];
+    const cx=(pi.x*INV_CELL)|0, cy=(pi.y*INV_CELL)|0;
+    for(let oy=-1;oy<=1;oy++){
+      for(let ox=-1;ox<=1;ox++){
+        const cell=grid[cellKey(cx+ox,cy+oy)]; if(!cell) continue;
+        for(const j of cell){
+          const pj=particles[j];
+          const dx=pi.x-pj.x, dy=pi.y-pj.y, r2=dx*dx+dy*dy;
+          if(r2<H2) pi.rho += M*POLY6_C*Math.pow(H2-r2,3);
+        }
+      }
     }
-    fy += g;
+    pi.p = K*(pi.rho - RHO0);
+  }
+  /* forces */
+  for(let i=0;i<NUM;i++){
+    const pi=particles[i];
+    let fx=0, fy=0;
+    const cx=(pi.x*INV_CELL)|0, cy=(pi.y*INV_CELL)|0;
+    for(let oy=-1;oy<=1;oy++){
+      for(let ox=-1;ox<=1;ox++){
+        const cell=grid[cellKey(cx+ox,cy+oy)]; if(!cell) continue;
+        for(const j of cell){
+          if(i===j) continue;
+          const pj=particles[j];
+          const dx=pi.x-pj.x, dy=pi.y-pj.y, r2=dx*dx+dy*dy;
+          if(r2>=H2||r2<1e-6) continue;
+          const r=Math.sqrt(r2), invR=1/r, hmr=H-r;
+          const fPress = -M*(pi.p+pj.p)/(2*pj.rho)*SPIKY_C*hmr*hmr;
+          const visc   = MU*M*POLY6_C*Math.pow(H2-r2,3)/pj.rho;
+          fx += fPress*dx*invR + visc*(pj.vx-pi.vx);
+          fy += fPress*dy*invR + visc*(pj.vy-pi.vy);
+        }
+      }
+    }
+    fy += G;
     pi.fx=fx; pi.fy=fy;
   }
-  /* 마우스 끌어당김 (hold 중일 때만) */
+  /* mouse attract */
   if(mouse.hold){
+    const rSq=mouse.r*mouse.r;
     for(const p of particles){
-      const dx = mouse.x - p.x;
-      const dy = mouse.y - p.y;
-      const d2 = dx*dx + dy*dy;
-      if(d2 < mouse.r*mouse.r){
-        const d = Math.sqrt(d2) + 0.01;
-        const s = 0.5 * (1 - d / mouse.r);   // 세기 조절 (0.1~0.2)
-        p.vx += dx / d * s;
-        p.vy += dy / d * s;
+      const dx=mouse.x-p.x, dy=mouse.y-p.y, d2=dx*dx+dy*dy;
+      if(d2<rSq){
+        const invD=1/(Math.sqrt(d2)+.01);
+        const s=0.5*(1-Math.sqrt(d2)/mouse.r);
+        p.vx+=dx*invD*s; p.vy+=dy*invD*s;
       }
     }
   }
-
-  /* 적분 & 경계 */
-  for(let p of particles){
+  /* integrate & bounds */
+  for(const p of particles){
     p.vx+=p.fx; p.vy+=p.fy;
     p.x +=p.vx; p.y +=p.vy;
-    if(p.x<R){p.x=R;p.vx*=-.6;}
-    if(p.x>simW-R){p.x=simW-R;p.vx*=-.6;}
-    if(p.y<R){p.y=R;p.vy*=-.6;}
-    if(p.y>simH-R){p.y=simH-R;p.vy*=-.6;}
+    if(p.x<R){p.x=R; p.vx*=-.6;}
+    if(p.x>simW-R){p.x=simW-R; p.vx*=-.6;}
+    if(p.y<R){p.y=R; p.vy*=-.6;}
+    if(p.y>simH-R){p.y=simH-R; p.vy*=-.6;}
   }
-
-    /* ── step() 마지막 적분·경계 끝난 직후 ── */
-  maxP = 0;
-  for (const p of particles) {
-    if (p.p > maxP) maxP = p.p;
-  }
-  /* 작은 값이면 최소치 확보 (색 대비 유지) */
-  maxP = Math.max(maxP, K*ρ0*0.3);
-}
-
-/* --- ❶ 헤더 상수 추가 --- */
-const RESTITUTION = 0.8;   // 1.0=완전탄성, 0=완전비탄성
-
-/* --- ❷ step() 끝부분 ‘적분 & 경계’ 뒤에 충돌 해결 추가 --- */
-function resolveCollisions(){
-  for(let i=0;i<NUM;i++){
-    for(let j=i+1;j<NUM;j++){
-      const pi=particles[i], pj=particles[j];
-      const dx=pi.x-pj.x, dy=pi.y-pj.y;
-      const dist=Math.hypot(dx,dy);
-      const minDist = 2*R;
-      if(dist>0 && dist < minDist){           // 겹침!
-        /* (a) 위치 보정 – 반씩 밀어내기 */
-        const overlap = (minDist-dist)*0.5;
-        const nx = dx/dist, ny = dy/dist;
-        pi.x += nx*overlap;  pi.y += ny*overlap;
-        pj.x -= nx*overlap;  pj.y -= ny*overlap;
-
-        /* (b) 속도 분해 → 탄성 충돌 */
-        const rvx=pi.vx-pj.vx, rvy=pi.vy-pj.vy;
-        const vn = rvx*nx + rvy*ny;           // 상대속도의 법선 성분
-        if(vn < 0){                           // 수렴 중일 때만 반발
-          const jImp = -(1+RESTITUTION)*vn*0.5; // 질량=1 가정
-          const impx = jImp*nx, impy = jImp*ny;
-          pi.vx += impx;  pi.vy += impy;
-          pj.vx -= impx;  pj.vy -= impy;
+  /* simple collision resolve – same cell only */
+  const REST=0.8;
+  for(const key in grid){
+    const cell=grid[key];
+    for(let a=0;a<cell.length;a++){
+      for(let b=a+1;b<cell.length;b++){
+        const pi=particles[cell[a]], pj=particles[cell[b]];
+        const dx=pi.x-pj.x, dy=pi.y-pj.y, dist=Math.hypot(dx,dy);
+        if(dist>0 && dist<2*R){
+          const overlap=(2*R-dist)*0.5, nx=dx/dist, ny=dy/dist;
+          pi.x+=nx*overlap; pi.y+=ny*overlap;
+          pj.x-=nx*overlap; pj.y-=ny*overlap;
+          const rvx=pi.vx-pj.vx, rvy=pi.vy-pj.vy, vn=rvx*nx+rvy*ny;
+          if(vn<0){
+            const j=-(1+REST)*vn*0.5;
+            pi.vx+=j*nx; pi.vy+=j*ny;
+            pj.vx-=j*nx; pj.vy-=j*ny;
+          }
         }
       }
     }
   }
 }
 
-/* 프레임마다 최대 압력을 미리 구해서 0‥1 로 정규화 */
-let maxP = 1;
-
-/* 압력 p → hue(220⟶0)  */
-function hueFromP(p){
-  if (p <= 0) return 220;         // 음압 = 파랑 유지
-  const comp = Math.min(p / maxP, 1); // 0‥1
-  return 220 - 220*comp;          // 220(파랑) → 0(빨강)
-}
-
-/* 렌더 */
+/* ---------- Render ---------- */
 function draw(){
   ctx.clearRect(0,0,simW,simH);
-
-  for (const p of particles){
-    const hue = hueFromP(p.p);     // ← 압력 사용
+  ctx.fillStyle='rgb(100,155,255)';
+  for(const p of particles){
     ctx.beginPath();
     ctx.arc(p.x,p.y,R,0,Math.PI*2);
-    ctx.fillStyle = `hsl(${hue},80%,60%)`;
     ctx.fill();
   }
-
-  /* (기존) 이펙트 링 */
   if(mouse.hold){
     ctx.beginPath();
-    ctx.arc(mouse.x,mouse.y,mouse.r / 2,0,Math.PI*2);
-    ctx.strokeStyle="rgba(255,255,255,.25)";
+    ctx.arc(mouse.x,mouse.y,mouse.r/2,0,Math.PI*2);
+    ctx.strokeStyle='rgba(255,255,255,.25)';
     ctx.lineWidth=2; ctx.stroke();
   }
-
-  
 }
 
-/* 루프 */
+/* ---------- Loop ---------- */
 (function loop(){
-  step(); 
-  resolveCollisions(); 
-  draw();
-  requestAnimationFrame(loop);
+  step(); draw(); requestAnimationFrame(loop);
 })();
-
-document.getElementById("add-btn").addEventListener("click", ()=>{
-  // 버튼 클릭 시, 캔버스 중앙 근처에 넣거나 원하는 위치로 바꿀 수 있음
-  const x = Math.random()*simW;
-  const y = Math.random()*simH*0.4;   // 위쪽 40% 영역
-  addParticle(x,y);
-});
-
 </script>
+</body>
+</html>
