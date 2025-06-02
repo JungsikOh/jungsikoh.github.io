@@ -64,7 +64,7 @@ const poly6 = (r,h)=>(r>=0&&r<=h)?315/(64*Math.PI*h**9)*(h*h-r*r)**3:0;
 const spiky = (r,h)=>(r>0&&r<=h)?-45/(Math.PI*h**6)*(h-r)**2:0;
 
 /* 마우스 충격파 */
-const mouse = {x:0,y:0,r:60,hold:false};
+const mouse = {x:0,y:0,r:120,hold:false};
 canvas.addEventListener("mousedown", e=>{
   if(e.button===0){              // 좌클릭 ⇒ 끌어당김 시작
     mouse.hold = true;
@@ -129,7 +129,7 @@ function step() {
       const d2 = dx*dx + dy*dy;
       if(d2 < mouse.r*mouse.r){
         const d = Math.sqrt(d2) + 0.01;
-        const s = 0.15 * (1 - d / mouse.r);   // 세기 조절 (0.1~0.2)
+        const s = 0.75 * (1 - d / mouse.r);   // 세기 조절 (0.1~0.2)
         p.vx += dx / d * s;
         p.vy += dy / d * s;
       }
