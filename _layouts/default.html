@@ -181,6 +181,14 @@ function step() {
     if(p.y<R){p.y=R;p.vy*=-.6;}
     if(p.y>simH-R){p.y=simH-R;p.vy*=-.6;}
   }
+
+    /* ── step() 마지막 적분·경계 끝난 직후 ── */
+  maxP = 0;
+  for (const p of particles) {
+    if (p.p > maxP) maxP = p.p;
+  }
+  /* 작은 값이면 최소치 확보 (색 대비 유지) */
+  maxP = Math.max(maxP, K*ρ0*0.3);
 }
 
 /* --- ❶ 헤더 상수 추가 --- */
@@ -215,30 +223,37 @@ function resolveCollisions(){
   }
 }
 
+/* 프레임마다 최대 압력을 미리 구해서 0‥1 로 정규화 */
+let maxP = 1;
+
+/* 압력 p → hue(220⟶0)  */
+function hueFromP(p){
+  if (p <= 0) return 220;         // 음압 = 파랑 유지
+  const comp = Math.min(p / maxP, 1); // 0‥1
+  return 220 - 220*comp;          // 220(파랑) → 0(빨강)
+}
+
 /* 렌더 */
 function draw(){
   ctx.clearRect(0,0,simW,simH);
 
-  /* ── 새 컬러 맵: 압력(p) 기준 ── */
-  for(const p of particles){
-    /* (ρ-ρ0)/ρ0 를 0~1 로 잘라내기 → 밀집도 */
-    const comp = Math.max(0, Math.min((p.rho - ρ0) / ρ0, 1));
-    /* comp 0 → 파랑(220°), 1 → 빨강(0°) */
-    const hue = 220 - 220*comp;
-
+  for (const p of particles){
+    const hue = hueFromP(p.p);     // ← 압력 사용
     ctx.beginPath();
     ctx.arc(p.x,p.y,R,0,Math.PI*2);
-    ctx.fillStyle = `hsl(${hue}, 80%, 60%)`;
+    ctx.fillStyle = `hsl(${hue},80%,60%)`;
     ctx.fill();
   }
 
   /* (기존) 이펙트 링 */
   if(mouse.hold){
     ctx.beginPath();
-    ctx.arc(mouse.x,mouse.y,mouse.r,0,Math.PI*2);
+    ctx.arc(mouse.x,mouse.y,mouse.r / 2,0,Math.PI*2);
     ctx.strokeStyle="rgba(255,255,255,.25)";
     ctx.lineWidth=2; ctx.stroke();
   }
+
+  
 }
 
 /* 루프 */
