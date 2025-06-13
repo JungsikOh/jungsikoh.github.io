@@ -126,13 +126,13 @@ CDF(Cumulative Distribution Function)은 CG분야에서 Monte Carlo 방법을 �
 ### 1.4. Low of the unconscious statistician(무의식적인 통계학자의 법칙)
 $X$라는 값이 존재하고, $F(X)$라는 함수가 존재한다고 가정하자. 여기서 $E(F(X))$을 구하고자 한다. 가장 먼저 떠오르는 방법은 아래 수식 처럼 $F(X)$를 값을 통해서 확률을 도출해내는 것이다.
 
-![image](https://jungsikoh.github.io/assets/images/assets/images/20250613/formula1.png)
+![image](https://jungsikoh.github.io/assets/images/20250613/formula1.png)
 
 수학적으로 정리해서 쓴다면 (5)와 같을 것이다. 근데, 만약 우리가 $F(X)$의 확률분포를 모른다면 어떻게 해야할까?
 
 $$E[F(X)] = E[Y] = \sum Y_iP_Y(Y_i) \tag{5}$$
 
-![image](https://jungsikoh.github.io/assets/images/assets/images/20250613/formula2.png)
+![image](https://jungsikoh.github.io/assets/images/20250613/formula2.png)
 
 $$E[F(X)] = E[Y] = \sum F(X_i)P_X(X_i) \tag{6}$$
 
@@ -236,6 +236,6 @@ $$\frac{DE}{AB}=\frac{DF}{AC}=\frac{t}{1}=\frac{DF}{dx} \tag{13}$$
 
 $$x = min + n_{lower}*dx + DF =min +(n_{lower}(off) + t) * dx \tag{14}$$
 
-![image](https://jungsikoh.github.io/assets/images/assets/images/20250613/formula3.png)
+![image](https://jungsikoh.github.io/assets/images/20250613/formula3.png)
 
 위 식과 같이 해당 계산을 통해 구한 x에 대해서 원래 실수 구간 [min, max]로 스케일을 돌려주는 과정이다. 이 과정을 통해 풀게되면, 역변환 CDF를 구하는 것 없이 균등 난수를 원하는 PDF 범위의 난수로 변환할 수 있다.
