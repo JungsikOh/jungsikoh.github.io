@@ -56,8 +56,8 @@ const canvas = document.getElementById('sph-canvas');
 const ctx    = canvas.getContext('2d');
 
 /* ---------- Params ---------- */
-const R=5, H=15, H2=H*H, M=1, RHO0=10, K=1, MU=.0005, G=.18;
-const DAMP=.985, REST=.5, MAX_PARTICLES=1000;
+const R=5, H=15, H2=H*H, M=1, RHO0=10, K=0.6, MU=.0007, G=.18;
+const DAMP=.97, REST=.3, MAX_PARTICLES=1000;
 
 /* ---------- State ---------- */
 let particles=[], simW=0, simH=0, dpr=1, NUM=0;
