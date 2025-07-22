@@ -90,6 +90,20 @@ sph: false
     }
     .pub-meta h4 { margin: 0 0 .5rem 0; font-size: 1.1rem; }
     .pub-meta p  { margin: .2rem 0; }
+
+    .profile-left{
+      display:flex;             /* 세로 스택 */
+      flex-direction:column;
+      align-items:center;       /* 가운데 정렬 */
+      gap:0.8rem;               /* 이미지와 아이콘 간격 */
+    }
+    
+    .social-icons{
+      display:flex;
+      justify-content:center;   /* 아이콘 가로 가운데 */
+      gap:1.2rem;               /* 아이콘 사이 간격 */
+    }
+
   </style>
 </head>
 
@@ -97,7 +111,21 @@ sph: false
   <div class="wrap">
     <!-- ③ 프로필 영역 -->
     <section class="profile-row">
-      <img src="assets/images/profile.jpg" alt="profile photo" class="profile-pic" />
+      <div class="profile-left">
+        <img src="assets/images/profile.jpg" alt="profile photo" class="profile-pic" />
+
+        <div class="social-icons">
+          <a href="https://www.youtube.com/@TheRealOJung" target="_blank">
+            <i class="fa-brands fa-youtube fa-2x"></i>
+          </a>
+          <a href="https://github.com/JungsikOh" target="_blank">
+            <i class="fa-brands fa-github fa-2x"></i>
+          </a>
+          <a href="https://jungsikoh.github.io/about.html" target="_blank">
+            <i class="fa-solid fa-circle-user fa-2x"></i>
+          </a>
+        </div>
+      </div>
 
       <div class="profile-text">
         <!-- <h2>About me</h2>
