@@ -66,6 +66,9 @@ html,body{margin:0;height:100%}
   </a>
   <a href="https://github.com/JungsikOh" target="_blank" style="margin-right:10px;">
       <i class="fa-brands fa-github fa-2x"></i>
-    </a>
+  </a>
+  <a href="https://jungsikoh.github.io/about.html" target="_blank" style="margin-right:10px;">
+      <i class="fa-solid fa-circle-user"></i>
+  </a>
   </p>
 </div>
