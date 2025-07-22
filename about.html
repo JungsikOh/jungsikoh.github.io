@@ -48,7 +48,6 @@ sph: false
       margin-bottom: 3rem;
     }
     .profile-pic {
-      margin-top: 50px;
       width: 270px;
       flex: 0 0 250px;
       border-radius: 3%;       /* // 변경: 둥근 원형 */
@@ -57,7 +56,7 @@ sph: false
       object-fit: cover;        /* 원 안에 꽉 차도록 */
     }
     .profile-text h2,
-    .profile-text h3 { margin-top: 0; }
+    .profile-text h3 { margin-top: 1rem; }
 
     @media (max-width: 640px) {
       .profile-row { flex-direction: column; }
@@ -69,8 +68,8 @@ sph: false
     }
 
     /* publications 리스트 */
-    .pub-list { list-style: none; padding: 0; }
-    .pub-item { margin-bottom: 2.5rem; display: flex; gap: 1rem; }
+    .pub-list { display: flex; list-style: none; padding: 0; }
+    .pub-item { margin-bottom: 2.5rem; flex:1; display: flex; gap: 1rem; align-items:center;}
     .pub-thumb {
       width: 120px;
       flex: 0 0 200px;
@@ -106,15 +105,14 @@ sph: false
     </section>
 
     <!-- ④ Publications -->
-    <h2>Publications</h2>
+    <h2><strong>Publications</strong></h2>
     <ul class="pub-list">
-
       <li class="pub-item">
         <img src="assets/publications/kcgs2025_profile.png" alt="paper thumbnail" class="pub-thumb" />
         <div class="pub-meta">
-          <h4>
+          <h3>
             Draw Call Minimization via Batch Rendering In Real-time Rendering Using Vulkan
-          </h4>
+          </h3>
           <p><strong>Jungsik Oh</strong>, Jeongyong Park, Hyeonkyu Lee</p>
           <p><small>Conference(Poster): <em>Korea Computer Graphics Society (KCGS) 2025</em></small></p>
         </div>
