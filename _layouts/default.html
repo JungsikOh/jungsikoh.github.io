@@ -44,12 +44,12 @@
     <button id="add-btn" class="add-btn" aria-label="add particle">＋</button>
   </div>
   {% endif %}
-  
+
   {{ content }}
 </main>
 {% if jekyll.environment == 'production' %}{% include analytics.html %}{% endif %}
 
-
+{% if page.sph != false %}
 <script>
 /* ===== Fast SPH (uniform grid, mouse + touch) ===== */
 const canvas = document.getElementById('sph-canvas');
@@ -226,3 +226,4 @@ function draw(){
 </script>
 </body>
 </html>
+{% endif %}
