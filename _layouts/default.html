@@ -175,7 +175,7 @@ function step(){
     }
   }
   for(const p of particles){
-    // p.vx+=p.fx; p.vy+=p.fy;
+    p.vx+=p.fx; p.vy+=p.fy;
     p.vx*=DAMP; p.vy*=DAMP;
     p.x+=p.vx;  p.y+=p.vy;
     if(p.x<R){p.x=R;p.vx*=-REST;}
