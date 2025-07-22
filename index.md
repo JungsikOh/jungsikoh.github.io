@@ -2,7 +2,6 @@
 layout: content
 title: Jungsik Oh
 sph: false
-permalink: /about.html
 ---
 
 <!-- 프로필 섹션 -->
