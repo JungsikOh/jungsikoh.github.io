@@ -1,7 +1,7 @@
 ---
 layout: content
 title: About
-
+sph: false
 ---
 
 <!-- 프로필 섹션 -->
