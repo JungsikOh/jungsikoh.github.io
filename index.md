@@ -1,7 +1,8 @@
 ---
 layout: content
-title: About
+title: Jungsik Oh
 sph: false
+perlink: /about.html
 ---
 
 <!-- 프로필 섹션 -->

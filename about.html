@@ -1,0 +1,128 @@
+---
+layout: content
+title: Jungsik Oh
+sph: false
+---
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jungsik Oh</title>
+
+  <style>
+    :root {
+      --main-width: 1100px;
+      --gutter: 2rem;
+      --accent: #0d6efd;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font: 17px/1.6 "Noto Sans", "Helvetica Neue", Arial, sans-serif;
+    }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .wrap {
+      max-width: var(--main-width);
+      margin: 0 auto;
+      padding: 2rem 1rem;
+    }
+
+    .title-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 1.5rem;
+    }
+    .title-bar h1 { margin: 0; font-size: 2.4rem; }
+    .title-bar p  { margin: 0; font-size: 1rem; }
+
+    /* ─────────────────────────────────────────── */
+    /* 프로필: 좌·우 두 열                         */
+    .profile-row {
+      display: flex;
+      align-items: flex-start;      /* // 변경: 이미지·텍스트 수직 중앙 정렬 */
+      gap: var(--gutter);
+      margin-bottom: 3rem;
+    }
+    .profile-pic {
+      margin-top: 50px;
+      width: 270px;
+      flex: 0 0 250px;
+      border-radius: 3%;       /* // 변경: 둥근 원형 */
+      border: px solid #fff;   /* // 변경: 흰색(또는 배경색) 얇은 테두리 */
+      box-shadow: 0 6px 14px rgba(0,0,0,.15); /* // 변경: 부드러운 그림자 */
+      object-fit: cover;        /* 원 안에 꽉 차도록 */
+    }
+    .profile-text h2,
+    .profile-text h3 { margin-top: 0; }
+
+    @media (max-width: 640px) {
+      .profile-row { flex-direction: column; }
+      .profile-pic {
+        width: 60%;            /* 모바일에서 조금 작게 */
+        max-width: 320px;
+        margin: 0 auto 1.5rem; /* 가운데 정렬 & 여백 */
+      }
+    }
+
+    /* publications 리스트 */
+    .pub-list { list-style: none; padding: 0; }
+    .pub-item { margin-bottom: 2.5rem; display: flex; gap: 1rem; }
+    .pub-thumb {
+      width: 120px;
+      flex: 0 0 200px;
+      border: 1px solid #ddd;
+    }
+    .pub-meta h4 { margin: 0 0 .5rem 0; font-size: 1.1rem; }
+    .pub-meta p  { margin: .2rem 0; }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <!-- ③ 프로필 영역 -->
+    <section class="profile-row">
+      <img src="assets/images/profile.jpg" alt="profile photo" class="profile-pic" />
+
+      <div class="profile-text">
+        <h2>About me</h2>
+        <p>Hello, I'm Jungsik Oh.</p>
+
+        <h3>Research Interest</h3>
+        <ul>
+          <li>Computer Graphics and Graphics Engine</li>
+          <li>Artificial Intelligence</li>
+          <li>Image Processing</li>
+        </ul>
+
+        <h3>Contacts</h3>
+        <p>
+          nemostar51 AT gmail.com<br/>
+        </p>
+      </div>
+    </section>
+
+    <!-- ④ Publications -->
+    <h2>Publications</h2>
+    <ul class="pub-list">
+
+      <li class="pub-item">
+        <img src="assets/publications/kcgs2025_profile.png" alt="paper thumbnail" class="pub-thumb" />
+        <div class="pub-meta">
+          <h4>
+            Draw Call Minimization via Batch Rendering In Real-time Rendering Using Vulkan
+          </h4>
+          <p><strong>Jungsik Oh</strong>, Jeongyong Park, Hyeonkyu Lee</p>
+          <p><small>Conference(Poster): <em>Korea Computer Graphics Society (KCGS) 2025</em></small></p>
+        </div>
+      </li>
+
+      <!-- 필요할 만큼 <li> … </li> 추가 -->
+    </ul>
+
+  </div>
+</body>
+</html>
