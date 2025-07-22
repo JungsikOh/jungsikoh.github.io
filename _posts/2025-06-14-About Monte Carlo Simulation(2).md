@@ -20,5 +20,7 @@ MC 방법들이라고 불리는 이유는, 같은 원리를 다양한 문제에 
 
 naive한 Hit-or-Miss MC기법은 균등 난수를 사용해 Hit/Miss 카운트만으로 면적을 근사하는 기법이다. 샘플 수를 늘릴수록 정화도는 개선되나, 수렴속도(=표준편차가 감소하는 크기)는 $O(1/\sqrt{N})$으로 느리다.
 
+# Monte Carlo Simulation
+![image](https://www.scratchapixel.com/images/monte-carlo-methods/MCSimulation6.png?)
 
-
+먼저, 광선이 물체 내부로 들어가면 물체를 구성하는 원자(atom)들과 충돌하게 될 것이다. 그렇게 되면, 광선이 원자랑 충돌 후 어느 방향으로 갈지에 대한 정보 $V$가 존재하게 되는데, 이 $V$와 부딪힌 원자의 위치 정보 $P_z$를 통해서, 우리는 표면 $s$까지 얼마나 남았는지를 알 수 있게 된다.
