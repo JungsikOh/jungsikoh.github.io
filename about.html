@@ -68,8 +68,19 @@ sph: false
     }
 
     /* publications 리스트 */
-    .pub-list { display: flex; list-style: none; padding: 0; }
-    .pub-item { margin-bottom: 2.5rem; flex:1; display: flex; gap: 1rem; align-items:center;}
+    .pub-list{
+      list-style:none;
+      padding:0;
+      display:flex;
+      flex-direction:column;   /* ← 세로로 쌓기 */
+      gap:2rem;                /* 항목 간 간격(선택) */
+      margin-top: 1rem;    /* Publications 섹션과 그 다음 섹션 사이 여백 */
+    }
+    .pub-item{
+      display:flex;            /* 썸네일 · 메타를 가로로 */
+      align-items:center;
+      gap:1rem;
+    }
     .pub-thumb {
       width: 120px;
       flex: 0 0 200px;
@@ -110,9 +121,9 @@ sph: false
       <li class="pub-item">
         <img src="assets/publications/kcgs2025_profile.png" alt="paper thumbnail" class="pub-thumb" />
         <div class="pub-meta">
-          <h3>
+          <p>
             Draw Call Minimization via Batch Rendering In Real-time Rendering Using Vulkan
-          </h3>
+          </p>
           <p><strong>Jungsik Oh</strong>, Jeongyong Park, Hyeonkyu Lee</p>
           <p><small>Conference(Poster): <em>Korea Computer Graphics Society (KCGS) 2025</em></small></p>
         </div>
