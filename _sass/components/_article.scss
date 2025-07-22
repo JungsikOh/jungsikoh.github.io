@@ -3,10 +3,14 @@
    ========================================================================== */
 
 .c-article {
+    margin-top: 0.5rem !important;
+    padding-top: 0 !important;
     margin-bottom: 10rem; // 100px
 }
 
 .c-article__header {
+    margin-top: 0.5rem !important;
+    padding-top: 0 !important;
     margin-bottom: 2rem; // 50px
     @media screen and (min-width: $bp__sm) {
         display: -webkit-box;
