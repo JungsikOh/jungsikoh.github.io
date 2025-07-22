@@ -2,7 +2,6 @@
 layout: page
 title: Blog
 permalink: /blog/
-sph: false
 ---
 
 <style>

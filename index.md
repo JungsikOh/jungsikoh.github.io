@@ -1,6 +1,7 @@
 ---
 layout: content
 title: About
+
 ---
 
 <!-- 프로필 섹션 -->
