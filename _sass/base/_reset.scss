@@ -70,12 +70,22 @@ audio:not([controls]) {
 
 [hidden], template { display: none; }
 
+// img {
+//     max-width: 100%;
+//     font-style: italic;
+//     vertical-align: middle;
+//     border: 0;
+// }
+
 img {
-    max-width: 100%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
     font-style: italic;
-    vertical-align: middle;
-    border: 0;
+    max-width: 100%;
+    height: auto;
 }
+
 
 svg:not(:root) { overflow: hidden; }
 
