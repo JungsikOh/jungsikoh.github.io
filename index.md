@@ -5,6 +5,29 @@ sph: false
 redirect_to: /about.html
 ---
 
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <title>Redirecting…</title>
+    <!-- SEO: 정규 URL -->
+    <link rel="canonical" href="{{ '/about.html' | relative_url }}">
+    <!-- No-JS/구형 브라우저 대비 -->
+    <meta http-equiv="refresh" content="0; url={{ '/about.html' | relative_url }}">
+    <script>
+      (function () {
+        var target = '{{ "/about.html" | relative_url }}';
+        if (location.pathname + location.search + location.hash !== target) {
+          location.replace(target);
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <p>Redirecting to <a href="{{ '/about.html' | relative_url }}">about.html</a>…</p>
+  </body>
+</html>
+
 <!-- ────────── ❷ 스타일 ────────── -->
 <style>
 /* 페이지 전체(Fluid 캔버스가 뒤에 깔려야 하므로) */
