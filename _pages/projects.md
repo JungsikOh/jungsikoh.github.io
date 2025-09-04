@@ -21,6 +21,7 @@ sph: false
   margin: 3rem 0; 
 }
 .project__media img { 
+  margin-top: 10px;
   width: 100%; 
   height: auto; 
   display: block; 
@@ -51,28 +52,16 @@ hr.project-sep { border: 0; height: 1px; background: rgba(0,0,0,.08); margin: 2.
 }
 </style>
 
-<div class="projects-wrap">
-
   <!-- Project 1: three thumbnails on the left, text on the right -->
   <section class="project">
     <div class="project__media">
-      <img src="https://jungsikoh.github.io/assets/images/projects/riche.png" alt="Riche Vulkan render 1">
+      <img src="https://jungsikoh.github.io/assets/images/projects/riche.png" alt="Riche Vulkan render">
     </div>
     <div class="project__content">
       <h2 class="project__title">Riche Vulkan</h2>
       <p class="project__desc">
         Graphics renderer Project written in C++ using Vulkan, centered on the implementation of Batch Rendering. This renderer is aimed at improving real-time rendering speed through Batch-based draw calls.
       </p>
-      <p class="project__desc">
-        𒊹View Frustum Culling
-        𒊹Occlusion Query
-        𒊹Blinn-Phong Lighting
-        𒊹Raytracing Shadow
-        𒊹Meshlet Rendering
-        𒊹Tone Mapping
-        𒊹Batch based indirect draw call
-        𒊹tiny stable diffusion using ImGUI
-      <p>
       <p class="project__links">
         <a href="https://youtu.be/x90SoRK9CGA?si=lGi7A22cP7v3_0XM">Video</a>
       </p>
@@ -91,21 +80,9 @@ hr.project-sep { border: 0; height: 1px; background: rgba(0,0,0,.08); margin: 2.
       <p class="project__desc">
         Graphics renderer project written in C++ using DirectX 11, focusing on Tiled Deferred Lighting and various other advanced lighting techniques. It emphasizes lighting effects including Unreal Physically Based Rendering (PBR)
       </p>
-      <p class="project__desc">
-        𒊹View Frustum Culling 
-        𒊹Shadow Mapping & Cascade Shadow Mapping 
-        𒊹PBR Lighting & Halo Light Effect 
-        𒊹Deferred Lighting & Tiled Deferred Lighting 
-        𒊹Tube Light & Sphere Light
-        𒊹Gods Ray
-        𒊹Screen Space Reflection(SSR)
-        𒊹Screen Space Ambient Occlusion(SSAO)
-      </p>
       <p class="project__links">
         <a href="https://youtu.be/_Tj_7X7Es-4?si=wYUzIZCI2AITw2ly">Video</a>
       </p>
     </div>
   </section>
-
-</div>
 
