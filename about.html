@@ -90,6 +90,29 @@ sph: false
     .pub-meta h4 { margin: 0 0 .5rem 0; font-size: 1.1rem; }
     .pub-meta p  { margin: .2rem 0; }
 
+    /* ── Publications: left thumbnail + right meta ── */
+    .pub-item{
+      display: grid;
+      grid-template-columns: 140px 1fr; /* 썸네일 고정폭, 오른쪽은 가변 */
+      gap: 1rem;
+      align-items: start;
+    }
+
+    .pub-thumb{
+      width: 100%;
+      aspect-ratio: 16 / 10;      /* 일정한 비율 유지 (필요시 4/3, 1/1 등으로 변경) */
+      object-fit: cover;          /* 잘라서 꽉 차게 */
+      border-radius: 10px;
+      box-shadow: 0 6px 14px rgba(0,0,0,.12);
+      background: #f4f4f4;        /* 이미지 없을 때 은은한 배경 */
+    }
+
+    /* 모바일: 위(이미지) → 아래(텍스트)로 세로 스택 */
+    @media (max-width: 640px){
+      .pub-item{ grid-template-columns: 1fr; }
+      .pub-thumb{ width: 100%; max-width: 520px; margin: 0 auto; }
+    }
+
     .profile-left{
       flex: 0 0 270px;
       display:flex;             /* 세로 스택 */
@@ -163,6 +186,14 @@ sph: false
   <h3 class="pub-year">2025</h3>
   <ul class="pub-list">
     <li class="pub-item">
+      <img
+        class="pub-thumb"
+        src="assets/images/abot/kcgs2025_poster.png"
+        alt="KCGS 2025 poster thumbnail"
+        loading="lazy"
+      />
+
+      <!-- 오른쪽 메타 -->
       <div class="pub-meta">
         <p style="font-size:1.7rem; line-height:1.4; color:#333">
           Draw Call Minimization via Batch Rendering In Real-time Rendering Using Vulkan
@@ -175,7 +206,6 @@ sph: false
         <p><small>Conference(Poster): <em>Korea Computer Graphics Society (KCGS) 2025</em></small></p>
       </div>
     </li>
-
   </ul>
 
   </div>
