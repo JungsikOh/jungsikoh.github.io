@@ -1,0 +1,182 @@
+{
+  "main": {
+    "id": "8bc8cb19d81fabbd",
+    "type": "split",
+    "children": [
+      {
+        "id": "c1d55e344513a3bd",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "b59d3773b8d85720",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "_posts/2025-06-12-About Monte Carlo Simulation(1).md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "2025-06-12-About Monte Carlo Simulation(1)"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "accccd8b2cca4767",
+    "type": "split",
+    "children": [
+      {
+        "id": "2ef1439595454ae2",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "f14fce703bea5f55",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
+            }
+          },
+          {
+            "id": "7bda62227a5ea75a",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Search"
+            }
+          },
+          {
+            "id": "df15b0311d9cd2eb",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "78a188e39963ce1a",
+    "type": "split",
+    "children": [
+      {
+        "id": "dba1b2630d7745f9",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "e5c06dc5ce89ace3",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "_posts/2025-06-12-About Monte Carlo Simulation(1).md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks for 2025-06-12-About Monte Carlo Simulation(1)"
+            }
+          },
+          {
+            "id": "d23fdb1f9207ed06",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "_posts/2025-06-12-About Monte Carlo Simulation(1).md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links from 2025-06-12-About Monte Carlo Simulation(1)"
+            }
+          },
+          {
+            "id": "8645d9677ffe9602",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
+            }
+          },
+          {
+            "id": "56d82f1b8a02727d",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "_posts/2025-06-12-About Monte Carlo Simulation(1).md",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Outline of 2025-06-12-About Monte Carlo Simulation(1)"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false,
+      "bases:Create new base": false
+    }
+  },
+  "active": "b59d3773b8d85720",
+  "lastOpenFiles": [
+    "assets/images/projects/riley.png",
+    "assets/images/projects/riche.png",
+    "assets/images/projects",
+    "assets/images/새 폴더",
+    "_posts/2025-06-14-About Monte Carlo Simulation(2).md",
+    "_posts/2025-06-12-About Monte Carlo Simulation(1).md",
+    "_posts/2025-04-08-Meshlet Rendering using Vulkan.md"
+  ]
+}
