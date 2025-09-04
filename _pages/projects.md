@@ -55,8 +55,8 @@ hr.project-sep { border: 0; height: 1px; background: rgba(0,0,0,.08); margin: 2.
 
   <!-- Project 1: three thumbnails on the left, text on the right -->
   <section class="project">
-    <div class="project__media project__media--thumbs">
-      <img src="{{ '/assets/img/projects/riche.png' | relative_url }}" alt="Riche Vulkan render 1">
+    <div class="project__media">
+      <img src="https://jungsikoh.github.io/assets/images/projects/riche.png" alt="Riche Vulkan render 1">
     </div>
     <div class="project__content">
       <h2 class="project__title">Riche Vulkan</h2>
@@ -84,7 +84,7 @@ hr.project-sep { border: 0; height: 1px; background: rgba(0,0,0,.08); margin: 2.
   <!-- Project 2: one big image on the left, text on the right -->
   <section class="project">
     <div class="project__media">
-      <img src="{{ '/assets/img/projects/riley.png' | relative_url }}" alt="Riley Engine scene">
+      <img src="https://jungsikoh.github.io/assets/images/projects/riley.png" alt="Riley Engine scene">
     </div>
     <div class="project__content">
       <h2 class="project__title">Riley Engine</h2>
