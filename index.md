@@ -1,7 +1,8 @@
 ---
 layout: content
-title:
+title: 
 sph: false
+redirect_to: /about.html
 ---
 
 <!-- ────────── ❷ 스타일 ────────── -->
