@@ -34,7 +34,7 @@ sph: false
 }
 .project__title { 
   margin: 0 0 .5rem 0; 
-  font-size: clamp(1.12rem, 0.84rem + 0.84vw, 1.54rem); 
+  font-size: clamp(1.12rem, 0.84rem + 0.84vw, 1.54rem) !important;
 }
 .project__desc { margin: 0 0 .5rem 0; line-height: 1.6; }
 
