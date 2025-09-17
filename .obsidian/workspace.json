@@ -20,6 +20,18 @@
               "icon": "lucide-file",
               "title": "2025-09-13-Naive Path Tracing, From Formula to Code"
             }
+          },
+          {
+            "id": "ac0b043a8b9c1d00",
+            "type": "leaf",
+            "state": {
+              "type": "image",
+              "state": {
+                "file": "assets/images/20250913/image 1.png"
+              },
+              "icon": "lucide-image",
+              "title": "image 1"
+            }
           }
         ]
       }
@@ -171,10 +183,11 @@
   },
   "active": "b59d3773b8d85720",
   "lastOpenFiles": [
+    "assets/images/20250913/image 1.png",
+    "_posts/2025-09-13-Naive Path Tracing, From Formula to Code.md",
     "_posts/2025-06-10-About Ray Tracing(1).md",
     "_posts/2025-06-13-About Monte Carlo Simulation (2).md",
     "_posts/Naive Path Tracing From Formula to Code 269ec4596e47804aa422ff03fa7ba99d.md",
-    "_posts/2025-09-13-Naive Path Tracing, From Formula to Code.md",
     "assets/images/20250913/image.png",
     "assets/images/20250613/formula3.png",
     "assets/images/20250913/out_indirect.png",

@@ -14,15 +14,15 @@ use_math: true
 - **Rendering: Next Event Estimation: https://www.cg.tuwien.ac.at/sites/default/files/course/4411/attachments/08_next%20event%20estimation.pdf**
 - **CSE 168 - Computer Graphics II-Rendering(UCSD)**
 
-![image.png](assets/images/20250913/image.png)
+![image.png](https://jungsikoh.github.io/assets/images/20250913/image.png)
 
 우린 Naive한 Monte Carlo 시뮬레이션의 식은 크게 두 가지로 이루어져있다는 것을 알 수 있다. 바로, direct와 indirect라는 것이다.
 
 ## Direct Lighting
 
-![image.png](assets/images/20250913/image%201.png)
+![image.png](https://jungsikoh.github.io/assets/images/20250913/image%201.png)
 
-![image.png](assets/images/20250913/image%202.png)
+![image.png](https://jungsikoh.github.io/assets/images/20250913/image%202.png)
 
 Direct Lighting은 NEE 기법을 이용할 것이다. Next Event Estimation이란 Direct Lighting 항에 대해서 낮은 분산으로 계산하기 위한 방법이다. 일종의 Direct Lighting 검사기+계산기인 것이다.
 
@@ -85,19 +85,19 @@ $G$를 구하기 위한 재료들을 모두 모았다. $V(x, x')$함수의 경�
 
 Direct Lighting을 구하는 방법은 알았으니, Indirect Lighting은 어떻게 구하는 것인지 살펴보자. 먼저, Indirect Lighting은 기본적으로 재귀를 통해서 값을 계산해 나간다. 하지만, 코드적으로 무한에 가깝게 재귀를 들어가는 것은 비용적으로 너무 비싼 계산이다. 그렇기 때문에 반복문을 통해서 **‘몇 번 튕길지’**를 하이퍼 파라미터로써 설정하여 제한한다.
 
-![image.png](assets/images/20250913/image%203.png)
+![image.png](https://jungsikoh.github.io/assets/images/20250913/image%203.png)
 
-![image.png](assets/images/20250913/image%204.png)
+![image.png](https://jungsikoh.github.io/assets/images/20250913/image%204.png)
 
 노랑색과 같은 광선은 NEE을 통해서 계산하고 그 다음 튕긴 광선은 indirect 계산을 수행해야한다. 다만 이 PPT의 이미지에서 주의할 점은 **광선의 시작**은 무조건 **‘유저가 보는 화면’**이라는 것이다. 그러니까, 위 PPT의 기본적인 전제는 ‘화면에서 발사한 광선이 PPT에서 가리키는 포인트에 맞은 후의 상황’이라는 것이다.
 
-![image.png](assets/images/20250913/image%205.png)
+![image.png](https://jungsikoh.github.io/assets/images/20250913/image%205.png)
 
 위 이미지와 같이, `Indirect` 란, 화면에서 발사한 광선이 이리 튕기고 저리 튕겨서 최종적으로 광원에 도달하게 되는 경우가 Indirect Lighting이라고 할 수 있는 것이다. 그 이외의 광선은 화면에 영향을 줄 수 없으니 계산하지 않게 된다.
 
 ### Bounce of Ray
 
-![image.png](assets/images/20250913/image%206.png)
+![image.png](https://jungsikoh.github.io/assets/images/20250913/image%206.png)
 
 ```cpp
         // ----- Indirect bounce (cosine-weighted hemisphere) -----
@@ -129,7 +129,7 @@ Direct Lighting을 구하는 방법은 알았으니, Indirect Lighting은 어떻
 
 먼저 알아야할 것은 BRDF 샘플링의 방법이 따르는 PDF가 다르다는 점이다. 이에 따라 결국 반구 범위에서 어떤 방향이 더 많이 샘플링이 되는지가 달라진다. 이건 Direct나 Indirect 모두 공통사항이다.
 
-![image.png](assets/images/20250913/image%207.png)
+![image.png](https://jungsikoh.github.io/assets/images/20250913/image%207.png)
 
 다음으로, BRDF 함수가 달라지면 위 수식에서 $\beta$라는 최종 에너지량을 계산하는 함수에서 $f_r$도 달라지고 $p$도 달라지게 된다.
 
@@ -151,11 +151,11 @@ Direct Lighting을 구하는 방법은 알았으니, Indirect Lighting은 어떻
         }
 ```
 
-![out_direct.png](out_direct.png)
+![out_direct.png](https://jungsikoh.github.io/assets/images/20250913/out_direct.png)
 
-![out_indirect.png](out_indirect.png)
+![out_indirect.png](https://jungsikoh.github.io/assets/images/20250913/out_indirect.png)
 
-![out_final.png](out_final.png)
+![out_final.png](https://jungsikoh.github.io/assets/images/20250913/out_final.png)
 
 위부터 순서대로 Direct→Indirect→(Direct + Indirect)의 결과 이미지이다.
 
