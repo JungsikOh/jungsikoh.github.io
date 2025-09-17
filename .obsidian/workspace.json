@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "_posts/2025-06-10-About Ray Tracing(1).md",
+                "file": "_posts/2025-09-13-Naive Path Tracing, From Formula to Code.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "2025-06-10-About Ray Tracing(1)"
+              "title": "2025-09-13-Naive Path Tracing, From Formula to Code"
             }
           }
         ]
@@ -171,24 +171,30 @@
   },
   "active": "b59d3773b8d85720",
   "lastOpenFiles": [
-    "assets/images/20250610/image.png",
-    "assets/images/20250610/image 1.png",
     "_posts/2025-06-10-About Ray Tracing(1).md",
     "_posts/2025-06-13-About Monte Carlo Simulation (2).md",
+    "_posts/Naive Path Tracing From Formula to Code 269ec4596e47804aa422ff03fa7ba99d.md",
+    "_posts/2025-09-13-Naive Path Tracing, From Formula to Code.md",
+    "assets/images/20250913/image.png",
+    "assets/images/20250613/formula3.png",
+    "assets/images/20250913/out_indirect.png",
+    "assets/images/20250913/out_indirect.png",
+    "assets/images/20250913/out_final.png",
+    "assets/images/20250913/out_direct.png",
+    "assets/images/20250913/image 7.png",
+    "assets/images/20250913/image 6.png",
+    "assets/images/20250913/image 5.png",
+    "assets/images/20250913/image 4.png",
+    "_posts/ExportBlock-02c7198b-c88f-4558-ad2d-01400cae7002-Part-1 (2)",
+    "assets/images/20250913/Naive Path Tracing From Formula to Code 269ec4596e47804aa422ff03fa7ba99d.md",
+    "_posts/ExportBlock-02c7198b-c88f-4558-ad2d-01400cae7002-Part-1",
+    "assets/images/20250913",
+    "2025-06-12.md",
     "_posts/2025-04-08-Meshlet Rendering using Vulkan.md",
     "_posts/2025-02-23-Batch Rendering using Indirect Draw Call with Vulkan.md",
     "_posts/2024-08-10-Cascade-Shadow-Mapping(CSM).md",
     "assets/images/20250610",
-    "assets/images/20250610/image 12.png",
     "_posts/ExportBlock-84c4ff09-36a0-4919-8559-8340824cf0f5-Part-1/Ray Tracing 25aec4596e4780ba8211dba3dc1dd49b.md",
-    "assets/images/20250610/image 8.png",
-    "assets/images/20250610/image 9.png",
-    "assets/images/20250610/image 6.png",
-    "assets/images/20250610/image 7.png",
-    "assets/images/20250610/image 5.png",
-    "assets/images/20250610/image 3.png",
-    "assets/images/20250610/image 4.png",
-    "assets/images/20250610/image 2.png",
     "_posts/ExportBlock-84c4ff09-36a0-4919-8559-8340824cf0f5-Part-1",
     "_posts/2024-10-07-Halo Effect.md",
     "_posts/2024-08-28-Tiled Deferred Lighting.md",

@@ -1,8 +1,8 @@
 ---
 layout: post
-title: "Monte Carlo Simulation"
-description: "Understanding Monte Carlo Methods"
-date: 2025-06-14
+title: About Ray Tracing
+description: Understanding Monte Carlo Methods
+date: 2025-06-10
 tags: Graphics MonteCarlo Rendering Simulation
 comments: true
 use_math: true
@@ -19,7 +19,7 @@ use_math: true
 
 # 1. Ray tracing
 
-![image.png](https://jungsikoh.github.io/assets/images/20250610/image1.png)
+![image.png](https://jungsikoh.github.io/assets/images/20250610/image%201.png)
 
 - Generating an image by tracing the path of light through pixels.
 - Higher degree of visual relism
@@ -47,7 +47,7 @@ $$
 
 위의 식을 $t$에 관한 2차식이라고 가정할 때, `판별식(discriminant)` 을 이용할 수 있다. $d= \sqrt{b^2-4ac}$ 라는 간단한 식을 통해 **해가 몇 개 존재하는지 파악**할 수 있다. 
 
-![image.png](https://jungsikoh.github.io/assets/images/20250610/image2.png)
+![image.png](https://jungsikoh.github.io/assets/images/20250610/image%202.png)
 
 판별식은 근의 공식에서 도출된 만큼, $t0$과 $t1$이 근의 공식의 해인 것이다.
 
@@ -59,7 +59,7 @@ $$
 
 ## 1-2. Intersection with triangle
 
-![image.png](https://jungsikoh.github.io/assets/images/20250610/image3.png)
+![image.png](https://jungsikoh.github.io/assets/images/20250610/image%203.png)
 
 $$
 Normal:\ \vec{n}=\frac{(C-A)\times(B-A)}{|(C-A)\times(B-A)|} \tag{4}
@@ -91,9 +91,9 @@ $$
 
 Radiance란 무엇인가? 한국어로 직역하면 ‘방사 휘도’라고 한다. 그림으로 한번 이해해보자. 아래 그림처럼, 한 점에서부터(작은 면적) 나오는 빛의 양을 radiance라고 한다.
 
-![image.png](https://jungsikoh.github.io/assets/images/20250610/image4.png)
+![image.png](https://jungsikoh.github.io/assets/images/20250610/image%204.png)
 
-![image.png](https://jungsikoh.github.io/assets/images/20250610/image5.png)
+![image.png](https://jungsikoh.github.io/assets/images/20250610/image%205.png)
 
 radiance를 정의하기 위해 필요한 파라미터는 총 5개이다. 장애물에 막히지 않는 한 radiance의 값은 일정(constant)하다. 이 특징은 렌더링 공식에서 매우 중요한 역할을 수행한다. 
 
@@ -110,11 +110,9 @@ radiance를 정의하기 위해 필요한 파라미터는 총 5개이다. 장애
 radiance가 작은 면적으로부터 나오는 빛의 양을 이야기한 것이었다면, irradiance는 **‘한 점(작은 면적)에 들어오는 빛의 합’**을 이야기 한다. refraction(굴절)에 의해서 값이 증가하거나 줄어들 수 있다는 특징이 있다.
 
 예를 들어, 볼록 렌즈를 통해 빛을 모으게 된다면 Irradiance는 증가할 것이다. 하지만 radiance는 변하지 않는다. 왜냐하면 각 빛의 양은 모두 일정하기 때문이다.
-
+![image.png](https://jungsikoh.github.io/assets/images/20250610/image%206.png)
 - *‘표면이 어떻게 빛을 반사하는가’에 대한 가장 기본적인 물리 법칙
 (Lambert’s Cosine Law)*
-    
-    ![image.png](image%206.png)
     
     바로, `램버트 코사인 법칙` 이다. 결국 빛의 양(밝기)이란, 표면의 normal과 빛이 들어오는 방향 사이의 각도$\theta$의 $cos(\theta)$값에 비례한다는 것이다. 
     
@@ -126,7 +124,7 @@ radiance가 작은 면적으로부터 나오는 빛의 양을 이야기한 것�
 
 ### Material Emission and BSDF
 
-![image.png](https://jungsikoh.github.io/assets/images/20250610/image7.png)
+![image.png](https://jungsikoh.github.io/assets/images/20250610/image%207.png)
 
 → **(오타)** BRDF: ratio of incoming irradiance to outgoing **irradiance** (x)
 
@@ -162,9 +160,9 @@ $$
 
 ## 1-4. How it is calculated?
 
-![image.png](https://jungsikoh.github.io/assets/images/20250610/image8.png)
+![image.png](https://jungsikoh.github.io/assets/images/20250610/image%208.png)
 
-![image.png](https://jungsikoh.github.io/assets/images/20250610/image9.png)
+![image.png](https://jungsikoh.github.io/assets/images/20250610/image%209.png)
 
 위에서 언급한 내용들을 수식으로 정리한 것이다. ‘적분→기댓값 $E$’으로 바꾸어서, 표본 평균을 추정하자는 설명이다.
 
@@ -172,7 +170,7 @@ $U$는 `uniform distribution` 을 의미한다. 일반적인 분포인 $p$라면
 
 ### (중요) 왜 PDF $p$를 통해서 샘플링하는 것인가?
 
-![image.png](https://jungsikoh.github.io/assets/images/20250610/image10.png)
+![image.png](https://jungsikoh.github.io/assets/images/20250610/image%2010.png)
 
 세번째 식도 마찬가지로, PDF $p$로부터 $X$를 뽑아 기댓값을 구한다. 
 
@@ -182,7 +180,7 @@ $U$는 `uniform distribution` 을 의미한다. 일반적인 분포인 $p$라면
 
 ### Bias and Variance
 
-![image.png](https://jungsikoh.github.io/assets/images/20250610/image11.png)
+![image.png](https://jungsikoh.github.io/assets/images/20250610/image%2011.png)
 
 ## 1-5. how we reduce Variance?
 
@@ -199,18 +197,18 @@ $U$는 `uniform distribution` 을 의미한다. 일반적인 분포인 $p$라면
         
 - 2. Stratified Sampling
     
-    ![image.png](https://jungsikoh.github.io/assets/images/20250610/image12.png)
+    ![image.png](https://jungsikoh.github.io/assets/images/20250610/image%2012.png)
     
     영역 $\Omega$을 겹치지 않는 H개의 **층(strata)**로 나누고 각 층마다 독립적으로 샘플을 뽑아 평균을 합칩니다. 층 내부 변동은 작아지므로 전체 분산이 감소한다.
     
 - 3. Measure Change
     
-    ![image.png](https://jungsikoh.github.io/assets/images/20250610/image13.png)
+    ![image.png](https://jungsikoh.github.io/assets/images/20250610/image%2013.png)
     
-    ![image.png](https://jungsikoh.github.io/assets/images/20250610/image14.png)
+    ![image.png](https://jungsikoh.github.io/assets/images/20250610/image%2014.png)
     
-    ![image.png](https://jungsikoh.github.io/assets/images/20250610/image15.png)
+    ![image.png](https://jungsikoh.github.io/assets/images/20250610/image%2015.png)
     
-    ![image.png](https://jungsikoh.github.io/assets/images/20250610/image16.png)
+    ![image.png](https://jungsikoh.github.io/assets/images/20250610/image%2016.png)
     
-    ![image.png](https://jungsikoh.github.io/assets/images/20250610/image17.png)
+    ![image.png](https://jungsikoh.github.io/assets/images/20250610/image%2017.png)

@@ -1,8 +1,8 @@
 ---
 layout: post
-title: "Monte Carlo 방법의 수학적 기초"
-description: "Understanding Monte Carlo Methods"
-date: 2025-06-12
+title: Monte Carlo 방법의 수학적 기초
+description: Understanding Monte Carlo Methods
+date: 2025-06-13
 tags: Graphics MonteCarlo Rendering
 comments: true
 use_math: true
