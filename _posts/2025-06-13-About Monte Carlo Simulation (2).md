@@ -8,9 +8,41 @@ comments: true
 use_math: true
 ---
 
-## 참고
-- 해당 글은 Scratchpixel의 Monte Carlo Simulation 글 중심으로 작성되었다는 것을 밝힙니다.
+(수정) 2025-09-18일날 업데이트 되었습니다.
 
+## 참고 자료
+- Scratchpixel의 Monte Carlo Simulation
+- PBRT v4 
+
+# 0. Monte Carlo Basics
+먼저, 몬테카를로 기법이란, 풀지 못하는 적분을 치환해서 합의 형태로 바꾼다고 볼 수 있다. 그러면 어떻게 치환하는 것인지에 대해서 한번 알아보자. 우리가 풀려고 하는 문제는 기댓값 $E(f(x))$를 구해야한다.
+
+$$ E(f(x))=\int_D f(x)p(x)dx \tag{1} $$
+
+기댓값이란, **각 값이 나올 확률에 따라 가중합을 취한 평균**이다. 그렇다면, 왜 $f(x)\times p(x)$이냐면, $f(x)$라는 함수값에 $p(x)$라는 나올 확률을 곱해서 그 값이 나올 확률을 통해 조정한 것이다. 즉, 적분의 딱 한 구간 놓고 생각한다면, 특정 한 구간이 기여하는 값의 크기는 **값 * 확률**이고 이걸 모두 합한다면 (1)과 같은 적분식이 나오는 것이다.
+
+![image](https://jungsikoh.github.io/assets/images/20250613/update1.png)
+기댓값을 정의하는 적분에 대해서 알았으니, 빠르게 $f(x)$ 영역의 적분 값을 추정하는 몬테카를로 식과 연결시켜보자. 위 식을 살펴보면, 샘플 n개에 대해서 기댓값의 평균을 계산하는 식이다. 
+
+이때 $b-a$라는 항이 등장하는데, 이는 $p(x)$의 적분 값이다. 여기서 $p(x)$는 균등 확률 분포를 의미하고, $\int^b_a c\ dx=c(b-a)$이다. 이때 c라는 값은 $p(x)$의 균등 확률이고 이를 모두 합친 값은 1이 된다. 그러므로 $p(x)$의 적분 값은 적분 범위인 $(b-a)$가 된다.
+
+![image](https://jungsikoh.github.io/assets/images/20250613/update0.png)
+그러므로, 식을 더 **일반화**를 시킨다면 위와 같은 전개과정이 된다고 불 수 있다.
+
+## Variance
+$$V[F] = E[(F_N-I)^2] \tag{2}$$
+
+분산이란, 내가 구한 N개 샘플 평균인 $F_N$에서 실제 평균인 적분 $I$를 제곱한 것이다.
+
+$$\sigma[F_N]=\frac{\sigma[f]}{\sqrt{N}} \tag{3}$$
+
+**오차의 척도인 표준편차(standard deviation)** 는 (2)식과 같다. 즉, 샘플 N개 쓸 때마다 분산은 $1/N$의 속도로 줄어드는 것이다. 그리고 오차는 $1/\sqrt{N}$의 속도로 줄어드는 것이다. 이걸 시간복잡도로 표현하면 $O(n^{-1/2})$이다.
+
+분산이 적지만, 계산이 오래걸리는 것과 분산이 크지만 계산이 빨리 끝나는 추정기에 대해서 어느 것이 효율적인지 계산하는 지표가 있다. 
+
+$$\epsilon[F]=\frac{1}{V[F]T[F]} \tag{3}$$
+
+여기서 $V$는 분산, $T$는 값을 한 번 계산하는 데 드는 시간이다. 
 ## 1. Monte Carlo, Biased and Unbiased Ray Tracing
 Monte Carlo Ray tracing에는 두가지 수식어가 존재한다. biased와 unbiased이다.
 
