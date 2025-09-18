@@ -31,18 +31,18 @@ use_math: true
 ## 1-1. Intersection with sphere
 
 $$
-Ray:\ \bold{p}(t) = \bold{e} +t\bold{d} \tag{1}
+Ray:\ \vec{p}(t) = \vec{e} +t\vec{d} \tag{1}
 $$
 
 $$
 Sphere:\ (x-x_c)^2+(y-y_c)^2+(z-z_c)^2-R^2=0 \tag{2} \\
-(\bold{p}-\bold{c})\cdot(\bold{p}-\bold{c})-R^2 = 0
+(\vec{p}-\vec{c})\cdot(\vec{p}-\vec{c})-R^2 = 0
 $$
 
-광선과 구의 방정식은 (1)번과 (2)번식처럼 정의할 수 있다. $\bold{p}$에다가 Ray의 식을 넣어서 정리해보자.
+광선과 구의 방정식은 (1)번과 (2)번식처럼 정의할 수 있다. $\vec{p}$에다가 Ray의 식을 넣어서 정리해보자.
 
 $$
-(\bold{d}\cdot\bold{d})t^2+2\bold{d}\cdot(\bold{e}-\bold{c})t+(\bold{e}-\bold{c})\cdot(\bold{e}-\bold{c})-R^2=0\ \ \ \ \ \ \tag{3}
+(\vec{d}\cdot\vec{d})t^2+2\vec{d}\cdot(\vec{e}-\vec{c})t+(\vec{e}-\vec{c})\cdot(\vec{e}-\vec{c})-R^2=0\ \ \ \ \ \ \tag{3}
 $$
 
 위의 식을 $t$에 관한 2차식이라고 가정할 때, `판별식(discriminant)` 을 이용할 수 있다. $d= \sqrt{b^2-4ac}$ 라는 간단한 식을 통해 **해가 몇 개 존재하는지 파악**할 수 있다. 
