@@ -13,24 +13,24 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "_posts/2025-06-13-About Monte Carlo Simulation (2).md",
+                "file": "_posts/2025-11-12-How the rays are sampled from BRDF.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "2025-06-13-About Monte Carlo Simulation (2)"
+              "title": "2025-11-12-How the rays are sampled from BRDF"
             }
           },
           {
-            "id": "ac0b043a8b9c1d00",
+            "id": "83f4f84276b98d78",
             "type": "leaf",
             "state": {
-              "type": "image",
+              "type": "release-notes",
               "state": {
-                "file": "assets/images/20250913/image 1.png"
+                "currentVersion": "1.10.3"
               },
-              "icon": "lucide-image",
-              "title": "image 1"
+              "icon": "lucide-book-up",
+              "title": "Release Notes 1.10.3"
             }
           }
         ]
@@ -183,11 +183,14 @@
   },
   "active": "b59d3773b8d85720",
   "lastOpenFiles": [
+    "assets/images/20251112",
+    "assets/images/20251112/formula1.png",
+    "_posts/2025-09-13-Naive Path Tracing, From Formula to Code.md",
+    "_posts/2025-11-12-How the rays are sampled from BRDF.md",
+    "_posts/2025-06-13-About Monte Carlo Simulation (2).md",
+    "_posts/2025-06-10-About Ray Tracing(1).md",
     "assets/images/20250613/update0.png",
     "assets/images/20250613/update1.png",
-    "_posts/2025-06-13-About Monte Carlo Simulation (2).md",
-    "_posts/2025-09-13-Naive Path Tracing, From Formula to Code.md",
-    "_posts/2025-06-10-About Ray Tracing(1).md",
     "assets/images/20250913/image 1.png",
     "_posts/Naive Path Tracing From Formula to Code 269ec4596e47804aa422ff03fa7ba99d.md",
     "assets/images/20250913/image.png",
@@ -196,7 +199,6 @@
     "assets/images/20250913/out_indirect.png",
     "assets/images/20250913/out_final.png",
     "assets/images/20250913/out_direct.png",
-    "assets/images/20250913/image 7.png",
     "_posts/ExportBlock-02c7198b-c88f-4558-ad2d-01400cae7002-Part-1 (2)",
     "assets/images/20250913/Naive Path Tracing From Formula to Code 269ec4596e47804aa422ff03fa7ba99d.md",
     "_posts/ExportBlock-02c7198b-c88f-4558-ad2d-01400cae7002-Part-1",
