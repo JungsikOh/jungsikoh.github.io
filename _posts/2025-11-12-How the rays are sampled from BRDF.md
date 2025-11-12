@@ -58,6 +58,7 @@ $$\begin{align} d\omega = sin \theta \ d\theta d\phi, \end{align}$$
 
 since $J_T$ is the transformation function that defines the relationship between two coordinate spaces. So, if we knew a density function CDF $Pr(\omega \in \Omega)$ is $\int_\Omega p(\omega) d\omega$, the PDF $p$ with respect to $\theta$ and $\phi$ is 
 
+
 $$
 \begin{align}
 p(\theta, \phi) d\theta d\phi = p(\omega) d\omega \\
@@ -95,7 +96,7 @@ P(\phi|\theta)=\int^\theta_0 \frac{1}{2\pi}d\phi'=\frac{\phi}{2\pi}
 \end{align}
 $$
 
-We said *a sample $Y$ (from the desired distribution $p_y$) **is obtained by transforming** a sample $X$ drawn from a **simple** distribution $p_x$(like uniformly distribution).* That is, $u = P(\theta) = 1-cos\theta$ and $v = P(\phi|\theta) = \frac{\phi}{2\pi}$ can derive $\theta$ and $\phi$, which is 
+We said *a sample $Y$ (from the desired distribution $p_y$) **is obtained by transforming** a sample $X$ drawn from a **simple** distribution $p_x$(like uniformly distribution).* That is, $u = P(\theta) = 1-cos\theta$ and $$v = P(\phi|\theta) = \frac{\phi}{2\pi}$$ can derive `theta` and `phi`, which is 
 
 $$
 \begin{align}
