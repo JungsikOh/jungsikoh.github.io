@@ -1,6 +1,6 @@
 ---
 layout: post
-title: How the rays are sampled from BRDF?
+title: How the direction are sampled from BRDF?
 description: Understanding Monte Carlo Methods
 date: 2025-11-12
 tags: Graphics MonteCarlo Rendering
