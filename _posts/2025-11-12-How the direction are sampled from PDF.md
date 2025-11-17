@@ -7,6 +7,8 @@ tags: Graphics MonteCarlo Rendering
 comments: true
 use_math: true
 ---
+2025/11/17 updated.
+
 # Reference
 pbrt v3, https://www.pbrt.org/
 
@@ -157,4 +159,5 @@ x^2+y^2+z^2 = 1 \rightarrow z= \sqrt{1-x^2-y^2}
 $$
 
 we can see only two coordinates is used to compute $z$. 
- 
+
+Note that $p(\omega)$ is the direction of samples we want to pick up a certain shape. That's why **Uniformly sampling** has $p(\omega) = c$. Because we want to sample uniformly for all direction. Therefore, **cosine-weighted sampling** has $p(\omega) \propto cos\theta$.  
