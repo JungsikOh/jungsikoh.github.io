@@ -122,7 +122,12 @@ All methods basically want to be subdivided more efficiently from the parent bou
 
 The first method is naive approach. We just find the longest axis to split bounding box.  This approach of splitting is based on the underlying assumption that it leads to the most efficient spatial subdivision. Find the longest axis, sort the primitives (use `std::nth-element`) to find the middle one, and use its position as the pivot to split the parent bounding box into left and right.
 
-The second method is SAH(Surface Area Heuristic). It's the same approach to split the bounding box into left and right. SAH find the lowest cost. So, we know how certain bounding box has lower cost that others. 
+The second method is SAH(Surface Area Heuristic). It's the same approach to split the bounding box into left and right. SAH find the lowest cost. So, we know how certain bounding box has lower cost that others.
 
+$$\begin{align}
+c(A, B)=t_{trav} + p_A\sum^{N_A}_{i=1}t_{isect}(a_i)+ p_A\sum^{N_B}_{i=1}t_{isect}(b_i)
+\end{align}$$
+
+$a_i$ and $b_i$ are the indices of primitives in the two children nodes. 
 # 2.1. KD Tree
 

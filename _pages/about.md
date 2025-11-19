@@ -42,31 +42,38 @@ permalink: /blog/
     border-bottom: 1px solid #eee;
   }
   details.year-archive > summary {
-    cursor: pointer;
-    outline: none;
-    list-style: none;
-    padding: 10px 0;
-  }
+      display: flex;              /* Flexbox 사용 */
+      align-items: center;        /* 세로축 중앙 정렬 */
+      justify-content: space-between; /* 양끝 정렬 (왼쪽:연도, 오른쪽:아이콘) */
+      cursor: pointer;
+      outline: none;
+      list-style: none;
+      padding: 10px 0;
+    }
   /* 브라우저 기본 화살표 숨기기 */
   details.year-archive > summary::-webkit-details-marker {
     display: none;
   }
   /* 연도 제목 스타일 */
   .c-archives__year {
-    display: inline-block;
     margin: 0;
-    cursor: pointer;
+    line-height: 1.2;
   }
   /* 우측 + / - 아이콘 */
   details.year-archive > summary::after {
-    content: '+'; 
-    float: right; 
-    font-size: 1.5rem; 
-    font-weight: bold; 
-    color: #ccc;
-  }
+      content: '+'; 
+      font-size: 2.5rem;    /* [변경] 아이콘 크기 확대 (1.5rem -> 2.5rem) */
+      font-weight: 300;     /* 아이콘이 커진 만큼 두께는 살짝 얇게 (선택사항) */
+      color: #ccc;
+      margin-left: 10px;    /* 글자와의 최소 간격 */
+      
+      /* [중요] 위치 미세 조정 */
+      line-height: 1;       /* 아이콘 자체의 줄높이를 줄여 박스 크기 최소화 */
+      margin-top: 4px;      /* [변경] 아이콘을 아래로 살짝 내림 (수치 조절 가능) */
+    }
   details.year-archive[open] > summary::after {
     content: '-';
+    margin-top: -2px;
   }
 </style>
 
