@@ -73,7 +73,7 @@ permalink: /blog/
     }
   details.year-archive[open] > summary::after {
     content: '-';
-    font-size: 2.0rem;
+    font-size: 2.5rem;
   }
 </style>
 
