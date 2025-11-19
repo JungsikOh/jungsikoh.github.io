@@ -1,9 +1,12 @@
 ---
 layout: post
-title: "Tiled Deferred Lighting"
-description: "using Compute Shader"
+title: Tiled Deferred Lighting
+description: using Compute Shader
 date: 2024-08-28
-tags: Graphics, Lighting
+tags:
+  - Graphics
+  - Lighting
+  - D3D11
 comments: true
 use_math: true
 ---

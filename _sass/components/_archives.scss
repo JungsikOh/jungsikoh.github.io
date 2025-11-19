@@ -48,3 +48,57 @@
     }
 }
 
+/* ==========================================================================
+   Year Accordion Styling (Github Blog Style)
+   ========================================================================== */
+
+/* 연도별 그룹 컨테이너 */
+.year-archive {
+    margin-bottom: 2rem;
+    border-bottom: 1px solid #eaeaea;
+}
+
+/* 클릭 가능한 요약 부분 (연도) */
+.year-archive > summary {
+    cursor: pointer;
+    list-style: none; /* 기본 화살표 제거 */
+    outline: none;
+    padding: 1rem 0;
+}
+
+/* 크롬/사파리용 기본 화살표 숨기기 */
+.year-archive > summary::-webkit-details-marker {
+    display: none;
+}
+
+/* 연도 텍스트 스타일 */
+.year-heading {
+    display: inline-block;
+    font-size: 2.5rem; /* 크기 조절 */
+    font-weight: 700;
+    margin: 0;
+    color: #333; /* $c-base__02 와 비슷하게 */
+}
+
+/* 우측에 + / - 아이콘 추가 */
+.year-archive > summary::after {
+    content: '+'; 
+    float: right;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #999;
+    margin-top: 0.5rem;
+}
+
+/* 펼쳐졌을 때 아이콘 변경 (+) -> (-) */
+.year-archive[open] > summary::after {
+    content: '-';
+}
+
+/* 포스트 리스트 간격 */
+.year-archive .post-list {
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+    padding-left: 0; /* 불필요한 들여쓰기 제거 */
+    list-style: none;
+}

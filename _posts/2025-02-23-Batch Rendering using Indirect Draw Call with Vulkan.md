@@ -1,9 +1,13 @@
 ---
 layout: post
-title: "Batch Rendering using Indirect Draw Call with Vulkan"
-description: "Simple Batching Rendering using Vulkan"
+title: Batch Rendering using Indirect Draw Call with Vulkan
+description: Simple Batching Rendering using Vulkan
 date: 2025-02-23
-tags: Graphics Batching Indirect
+tags:
+  - Batch
+  - Rendering
+  - Vulkan
+  - Draw-Call
 comments: true
 use_math: true
 ---

@@ -3,7 +3,9 @@ layout: post
 title: "Naive Path Tracing: From Formula to Code"
 description: Understanding Monte Carlo Methods
 date: 2025-09-13
-tags: Graphics MonteCarlo Rendering
+tags:
+  - Rendering
+  - Monte-Carlo
 comments: true
 use_math: true
 ---

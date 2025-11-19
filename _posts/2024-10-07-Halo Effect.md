@@ -1,9 +1,12 @@
 ---
 layout: post
-title: "Halo Effect"
-description: "using Ray Sphere Inspection"
+title: Halo Effect
+description: using Ray Sphere Inspection
 date: 2024-10-07
-tags: Graphics, Volume Lighting
+tags:
+  - Graphics
+  - D3D11
+  - Volume-Rendering
 comments: true
 use_math: true
 ---

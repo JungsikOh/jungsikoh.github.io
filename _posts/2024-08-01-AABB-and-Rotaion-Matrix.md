@@ -1,9 +1,10 @@
 ---
 layout: post
-title: "Effects of Rotation Matrix on AABB"
-description: "About AABB And Rotation Matrix"
+title: Effects of Rotation Matrix on AABB
+description: About AABB And Rotation Matrix
 date: 2024-08-01
-tags: AABB Matrix Graphics
+tags:
+  - Math
 comments: true
 use_math: true
 ---

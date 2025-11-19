@@ -1,9 +1,12 @@
 ---
 layout: post
-title: "Stable Cascade Shadow Mapping(CSM)"
-description: "Cascade Shadow Mapping and Camera flickering"
+title: Stable Cascade Shadow Mapping(CSM)
+description: Cascade Shadow Mapping and Camera flickering
 date: 2024-08-10
-tags: Graphics Lighting Shadow
+tags:
+  - Graphics
+  - Shadow
+  - D3D11
 comments: true
 use_math: true
 ---

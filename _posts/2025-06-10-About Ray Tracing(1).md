@@ -3,7 +3,9 @@ layout: post
 title: About Ray Tracing
 description: Understanding Monte Carlo Methods
 date: 2025-06-10
-tags: Graphics MonteCarlo Rendering Simulation
+tags:
+  - Rendering
+  - Monte-Carlo
 comments: true
 use_math: true
 ---

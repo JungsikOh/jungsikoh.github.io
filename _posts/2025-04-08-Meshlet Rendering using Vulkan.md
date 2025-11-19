@@ -1,9 +1,12 @@
 ---
 layout: post
-title: "Meshlet Rendering using Vulkan"
-description: "Understanding Mesh Shader"
+title: Meshlet Rendering using Vulkan
+description: Understanding Mesh Shader
 date: 2025-04-08
-tags: Graphics Meshlet MeshShader
+tags:
+  - Meshlet
+  - Vulkan
+  - Rendering
 comments: true
 use_math: true
 ---

@@ -1,9 +1,11 @@
 ---
 layout: post
-title: "Screen Space Reflection (SSR)"
-description: "using 3D Ray Marching in View Space"
+title: Screen Space Reflection (SSR)
+description: using 3D Ray Marching in View Space
 date: 2024-08-22
-tags: Graphics
+tags:
+  - Graphics
+  - D3D11
 comments: true
 use_math: true
 ---

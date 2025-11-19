@@ -3,10 +3,13 @@ layout: post
 title: How the direction are sampled from BRDF?
 description: Understanding Monte Carlo Methods
 date: 2025-11-12
-tags: Graphics MonteCarlo Rendering
+tags:
+  - Rendering
+  - Monte-Carlo
 comments: true
 use_math: true
 ---
+2025/11/12 written.
 2025/11/17 updated.
 
 # Reference
@@ -160,4 +163,4 @@ $$
 
 we can see only two coordinates is used to compute $z$. 
 
-Note that $p(\omega)$ is the direction of samples we want to pick up a certain shape. That's why **Uniformly sampling** has $p(\omega) = c$. Because we want to sample uniformly for all direction. Therefore, **cosine-weighted sampling** has $p(\omega) \propto cos\theta$.  
+Note that $p(\omega)$ is the direction of samples, which we want to pick up a certain shape. That's why **Uniformly sampling** has $p(\omega) = c$. Because we want to sample uniformly for all direction. Therefore, **cosine-weighted sampling** has $p(\omega) \propto cos\theta$.  
