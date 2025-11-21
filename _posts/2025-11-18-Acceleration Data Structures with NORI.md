@@ -158,7 +158,7 @@ $a_i$ and $b_i$ are the indices of primitives in the two children nodes. In `pbr
 We find the lowest cost as splitting the parent bounding box based on certain bucket. What means bucket?, We divide the axis into equally sized buckets(the above picture shows) and calculate the SAH cost for splitting after each bucket. Then, we select the boundary that yields the lowest cost for the left and right child nodes.
 
 # 2.1. KD Tree
-![Image](assets/images/20251119/kdtree0.png)
+![Image](../assets/images/20251119/kdtree0.png)
 
 We said kd-tree is spatial subdivision in summary. So, **Note that kd-tree can have same primitive in different nodes, but can not have same region in 3d space.** Since the primitive lies on both sides of the split boundary, it belongs to both nodes.
 
