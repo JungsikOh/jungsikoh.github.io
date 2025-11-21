@@ -5,6 +5,8 @@
     "octree",
     "AABB",
     "KD",
-    "kd"
+    "kd",
+    "d-tree ",
+    "kd-tree"
   ]
 }
