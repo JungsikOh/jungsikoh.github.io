@@ -16,16 +16,18 @@ use_math: true
 
 # Reference
 pbrt v3, https://www.pbrt.org/
+
 NORI, a educational ray tracer
 
 # 0. Summary
-![[summary0.png]]
-![[summary1.png]]
+![Image](https://jungsikoh.github.io/assets/images/20251119/summary0.png)
+![Image](https://jungsikoh.github.io/assets/images/20251119/summary1.png)
 <div align="center">
     <span style="color: #cccccc; font-size: 0.85em;">
         (Up) spaitial subdivision (Down) primitive subdivision
     </span>
 </div>
+
 In this post, we consider only three structures, such as, oct-tree, kd-tree and BVH. We classify they into spatial subdivision(oct-tree, kd-tree) and primitive subdivision(BVH). The above pictures show another difference. That is, **in spatial subdivisions we have disjoint sets of space regions or voxels or cells** whatever you want to call them. In contrast, **BVHs have disjoint sets of primitives.**
 
 Spatial subdivision approach is some problem that a triangle may overlap multiple spatial regions and thus may be tested for intersection multiple times as the ray passes. But, one property of primitive subdivision is each primitive appears in the hierarchy only once.
@@ -35,7 +37,7 @@ We do not consider `parallel computing` of Acceleration Data Structures. Because
 # 1. Octree
 First, we talk about the theory of Octree. An Octree is the data structure that **implements 3D spatial partitioning to significantly accelerate** operations such as ray intersection.
 
-![[octree0.png]]
+![Image](https://jungsikoh.github.io/assets/images/20251119/octree0.png)
 
 An octree has the parent node that is subdivided into eight children. Each of the children has leaves(e.g. triangles). How octree subdivide a 3d space recursively?, suppose **we have a bounding box(e.g. AABB) of object** and this bounding box is **uniformly! subdivided into eight smaller cubes.**
 
@@ -109,12 +111,12 @@ void Octree::subdivideNode(Node* node,
 
 This process repeats until a certain condition is met, such as, the node reaches the maximum depth or the number of triangles in the cube is below threshold.
 
-![[Octree1.png]]
+![Image](https://jungsikoh.github.io/assets/images/20251119/Octree1.png)
 We can use this approach for checking ray-intersection between triangle and ray. Suppose you shoot a ray. A naive approach is a ray checks all triangles, however, octree based approach is a ray does not check all triangle. This approach **accelerates ray traversal by allowing the ray to only visit the bounding boxes that it intersects.**
 
 As a result, a naive approach has $O(N)$. octree based approach has $O(logN)$, but the worst case scenario has $O(log N + N) = O(N)$.
 
-![[Octree2.png]]
+![Image](https://jungsikoh.github.io/assets/images/20251119/Octree2.png)
 
 | Maximum Depth<br>(Maximum leaves=8) | Second |
 | :---------------------------------: | :----: |
@@ -158,7 +160,7 @@ $a_i$ and $b_i$ are the indices of primitives in the two children nodes. In `pbr
 We find the lowest cost as splitting the parent bounding box based on certain bucket. What means bucket?, We divide the axis into equally sized buckets(the above picture shows) and calculate the SAH cost for splitting after each bucket. Then, we select the boundary that yields the lowest cost for the left and right child nodes.
 
 # 2.1. KD Tree
-![Image](../assets/images/20251119/kdtree0.png)
+![Image](https://jungsikoh.github.io/assets/images/20251119/kdtree0.png)
 
 We said kd-tree is spatial subdivision in summary. So, **Note that kd-tree can have same primitive in different nodes, but can not have same region in 3d space.** Since the primitive lies on both sides of the split boundary, it belongs to both nodes.
 
@@ -350,11 +352,14 @@ The above approach is to select the median of primitives. We can get them to use
     return true;
 ```
 
+
 | Sample Count | Second<br>(Median) | Second<br>(SAH) |
-| :----------: | :----------------: | --------------- |
-|      64      |       11.5s        | 11.0s           |
-|      96      |       16.8s        | 16.3s           |
-|     128      |       25.1s        | 22.3s           |
+| :----------: | :----------------: | :-------------: |
+|      64      |       11.5s        |      11.0s      |
+|      96      |       16.8s        |      16.3s      |
+|     128      |       25.1s        |      22.3s      |
+
+
 This time refers to the time spent from building tree to rendering object(`ajax.obj`).
 # 2.2. Bounding volume hierarchy
 Remember that the difference between KD-Tree and BVH is primitives overlapping in leaves. Because KD-Tree belong to spatial subdivision and BVH belong to primitive subdivision. We must know the difference of them.
