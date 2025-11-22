@@ -2,17 +2,20 @@
 layout: post
 title: Acceleration Data Structures with NORI
 description: Understanding Rendering
-date: 2025-11-12
+date: 2025-11-19
 tags:
-  - Rendering
-  - Acceleration
-  - Space-partitioning
+  - rendering
+  - acceleration-structure
   - KD-Tree
   - Octree
+  - BVH
+  - primitive-subdivision
+  - spaitial-subdivision
 comments: true
 use_math: true
 ---
-2025/11/17 written.
+2025/11/19 written.
+2025/11/22 updated.
 
 # Reference
 pbrt v3, https://www.pbrt.org/
@@ -131,7 +134,7 @@ Before we start studying `KD Tree` and `BVH(Bounding Volume Hierarchy)`, we know
 
 All methods basically want to be subdivided more efficiently from the parent bounding box to left and right children
 
-<img src=https://pbr-book.org/4ed/Primitives_and_Intersection_Acceleration/pha07f05.svg>
+![Image](https://jungsikoh.github.io/assets/images/20251119/background0.png)
 <div align="center">
     <span style="color: #cccccc; font-size: 0.85em;">
         pbrt v4
@@ -140,7 +143,7 @@ All methods basically want to be subdivided more efficiently from the parent bou
 
 The first method is naive approach. We just find the longest axis to split the bounding box.  This approach of splitting is based on the underlying assumption that it leads to the most efficient spatial subdivision. Find the longest axis, sort the primitives (use `std::nth-element`) to find the middle one, and use its position as the pivot to split the parent bounding box into left and right.
 
-<img src=https://pbr-book.org/4ed/Primitives_and_Intersection_Acceleration/pha07f07.svg>
+![Image](https://jungsikoh.github.io/assets/images/20251119/background1.png)
 <div align="center">
     <span style="color: #cccccc; font-size: 0.85em;">
         pbrt v4
@@ -359,9 +362,43 @@ The above approach is to select the median of primitives. We can get them to use
 |      96      |       16.8s        |      16.3s      |
 |     128      |       25.1s        |      22.3s      |
 
-
 This time refers to the time spent from building tree to rendering object(`ajax.obj`).
 # 2.2. Bounding volume hierarchy
 Remember that the difference between KD-Tree and BVH is primitives overlapping in leaves. Because KD-Tree belong to spatial subdivision and BVH belong to primitive subdivision. We must know the difference of them.
 
 Therefore, the overall part of code is similar to KD-Tree. We just modify a part of how BVHs subdivide the primitives.
+
+```cpp
+	// BVH
+	for (uint32_t idx : triangles) {
+	    const Point3f& c = m_triangleCenters[idx];
+	    if (c[axis] < split)
+	        leftTris.push_back(idx);
+	    else
+	        rightTris.push_back(idx);
+	}
+	// KD-Tree
+    for (uint32_t idx : triangles) {
+        const BoundingBox3f& tb = m_triangleBBoxes[idx];
+
+        // the bounding box of this traingle is intersected with left half-space
+        if (tb.min[axis] <= split) {
+            leftTris.push_back(idx);
+        }
+
+        // the bounding box of this traingle is intersected with right half-space
+        if (tb.max[axis] >= split) {
+            rightTris.push_back(idx);
+        }
+    }
+```
+
+We can see the difference between primitive and space from the above code. As BVH subdivide primitives using center of primitive, the primitive doesn't be overlapped in leaves. That is, if we make the BVH, we can use the lower memory and make faster to build tree than KD-Tree . Because there is no overlap.
+
+| Sample Count | Second<br>(Median) | Second<br>(SAH) |
+| :----------: | :----------------: | :-------------: |
+|     128      |        1.9s        |      1.7s       |
+|     256      |        3.8s        |      3.5s       |
+|     512      |        7.4s        |      6.8s       |
+
+We can see it faster than KD-Tree. That's because BVH didn't spend many times in building tree. In experiment, we used small object(V=409676, F=544566). Therefore, Maybe they were evaluated accurately.
