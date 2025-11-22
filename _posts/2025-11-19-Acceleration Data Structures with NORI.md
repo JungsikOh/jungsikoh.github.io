@@ -401,4 +401,4 @@ We can see the difference between primitive and space from the above code. As BV
 |     256      |        3.8s        |      3.5s       |
 |     512      |        7.4s        |      6.8s       |
 
-We can see it faster than KD-Tree. That's because BVH didn't spend many times in building tree. In experiment, we used small object(V=409676, F=544566). Therefore, Maybe they were evaluated accurately.
+We can see it faster than KD-Tree. That's because BVH didn't spend many times in building tree. In experiment, we used small object(V=409676, F=544566). Therefore, Maybe they were not evaluated accurately.
