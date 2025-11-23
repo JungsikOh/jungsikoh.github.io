@@ -31,9 +31,9 @@ NORI, a educational ray tracer
     </span>
 </div>
 
-In this post, we consider only three structures, such as, oct-tree, kd-tree and BVH. We classify they into spatial subdivision(oct-tree, kd-tree) and primitive subdivision(BVH). The above pictures show another difference. That is, **in spatial subdivisions we have disjoint sets of space regions or voxels or cells** whatever you want to call them. In contrast, **BVHs have disjoint sets of primitives.**
+In this post, we consider only three structures, such as, oct-tree, kd-tree and BVH. We classify them into spatial subdivision(oct-tree, kd-tree) and primitive subdivision(BVH). The above pictures show another difference. That is, **in spatial subdivisions we have disjoint sets of space regions or voxels or cells** whatever you want to call them. In contrast, **BVHs have disjoint sets of primitives.**
 
-Spatial subdivision approach is some problem that a triangle may overlap multiple spatial regions and thus may be tested for intersection multiple times as the ray passes. But, one property of primitive subdivision is each primitive appears in the hierarchy only once.
+Spatial subdivision approach is some problem that a triangle may overlap multiple spatial regions ~~and thus may be tested for intersection multiple times as the ray passes~~. But, one property of primitive subdivision is each primitive appears in the hierarchy only once.
 
 We do not consider `parallel computing` of Acceleration Data Structures. Because It's the next step. Thus, All rendering time data is computed by single CPU.
 

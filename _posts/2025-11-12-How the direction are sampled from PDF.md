@@ -10,7 +10,7 @@ comments: true
 use_math: true
 ---
 2025/11/12 written.
-2025/11/17 updated.
+2025/11/24 updated.
 
 # Reference
 pbrt v3, https://www.pbrt.org/
@@ -153,7 +153,18 @@ $$
 
 Other approach exist about cosine-weighted hemisphere sampling. We can use unit disk. That means 2D disk can be projected to 3D hemisphere. 
 
-In advance, we know how to sample from uniformly unit disk. $p(r, \theta) = r \cdot p(x, y), \ dxdy = r dr d\theta$. As repeating we explained procedure, we can obtain $r=\sqrt{u}$ and $\theta = 2\pi v$. Therefore, $x=\sqrt{u} sin(2\pi v)$ and $y=\sqrt{u} \cos(2\pi v)$. According to Malley's Method, 
+In advance, we know how to sample from uniformly unit disk. 
+
+$$
+\begin{align}
+c\int\int_D p(x, y) dxdy = 1 \rightarrow c\int^{2\pi}_0 \int^1_0 rdrd\theta = 1 \\
+p(r, \theta) = r \cdot p(x, y) = \frac{r}{\pi} \\
+p(r) = \int^{2\pi}_0 p(r, \theta) d\theta = 2r \\
+p(\theta | r) = \frac{p(r, \theta)}{p(r)} = \frac{1}{2\pi}
+\end{align}
+$$
+
+$p(r, \theta) = r \cdot p(x, y), \ dxdy = r dr d\theta$. As repeating we explained procedure, we can obtain $r=\sqrt{u}$ and $\theta = 2\pi v$. Therefore, $x=\sqrt{u} sin(2\pi v)$ and $y=\sqrt{u} \cos(2\pi v)$. According to Malley's Method, 
 
 $$
 \begin{align}
@@ -164,3 +175,14 @@ $$
 we can see only two coordinates is used to compute $z$. 
 
 Note that $p(\omega)$ is the direction of samples, which we want to pick up a certain shape. That's why **Uniformly sampling** has $p(\omega) = c$. Because we want to sample uniformly for all direction. Therefore, **cosine-weighted sampling** has $p(\omega) \propto cos\theta$.  
+
+We must know the ray tracer code want to know $p(\omega)$. Because $p(\omega)$ means probability of sampled direction from PDF. The ray tracer will use $p(\omega)$ as a   
+denominator of Monte Carlo Estimation.
+# Apply Sampling Algorithm in practice with NORI
+## 1. Tent function
+
+## 2. Uniform Disk
+
+## 3. UniformSphere
+
+## 4. UniformHemisphere
