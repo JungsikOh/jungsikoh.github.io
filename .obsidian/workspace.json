@@ -49,10 +49,10 @@
             "state": {
               "type": "image",
               "state": {
-                "file": "assets/images/20251112/unformsphere0.png"
+                "file": "assets/images/20251112/uniformsphere0.png"
               },
               "icon": "lucide-image",
-              "title": "unformsphere0"
+              "title": "uniformsphere0"
             }
           },
           {
@@ -230,7 +230,7 @@
       "bases:Create new base": false
     }
   },
-  "active": "0e98496d9e75f944",
+  "active": "f14fce703bea5f55",
   "lastOpenFiles": [
     "_posts/2025-09-13-Naive Path Tracing, From Formula to Code.md",
     "assets/images/20251112/beckmann2.png",
@@ -242,8 +242,8 @@
     "assets/images/20251112/formula1.png",
     "assets/images/20251112/uniformhemisphere1.png",
     "assets/images/20251112/uniformhemisphere0.png",
-    "assets/images/20251112/unformsphere0.png",
-    "assets/images/20251112/unformsphere1.png",
+    "assets/images/20251112/uniformsphere0.png",
+    "assets/images/20251112/uniformsphere1.png",
     "Untitled.canvas",
     "_posts/2025-11-19-Acceleration Data Structures with NORI.md",
     "_posts/2025-04-08-Meshlet Rendering using Vulkan.md",

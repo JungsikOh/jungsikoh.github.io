@@ -10,7 +10,7 @@ comments: true
 use_math: true
 ---
 2025/11/12 written.
-2025/11/24 updated.
+2025/11/26 updated.
 
 # Reference
 pbrt v3, https://www.pbrt.org/
@@ -191,7 +191,8 @@ We must know the ray tracer code want to know $p(\omega)$. Because $p(\omega)$ m
 ![image](https://jungsikoh.github.io/assets/images/20251112/cosinehemisphere0.png)
 ![image](https://jungsikoh.github.io/assets/images/20251112/cosinehemisphere1.png)
 ## 5. Beckmann Function
-![image](https://jungsikoh.github.io/assets/images/20251112/beckmann0.png)<div align="center">
+![image](https://jungsikoh.github.io/assets/images/20251112/beckmann0.png)
+<div align="center">
     <span style="color: #cccccc; font-size: 0.85em;">
         alpha=0.2
     </span>
