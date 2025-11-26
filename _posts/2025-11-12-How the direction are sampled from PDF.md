@@ -157,7 +157,7 @@ In advance, we know how to sample from uniformly unit disk.
 
 $$
 \begin{align}
-c\int\int_D p(x, y) dxdy = 1 \rightarrow c\int^{2\pi}_0 \int^1_0 rdrd\theta = 1 \\
+c\int\int_D p(x, y) dxdy = 1 \rightarrow c\int^{2\pi}_0 \int^1_0 rdrd\theta = 1 \rightarrow p(\omega) = \frac{1}{\pi} \\
 p(r, \theta) = r \cdot p(x, y) = \frac{r}{\pi} \\
 p(r) = \int^{2\pi}_0 p(r, \theta) d\theta = 2r \\
 p(\theta | r) = \frac{p(r, \theta)}{p(r)} = \frac{1}{2\pi}
@@ -176,13 +176,31 @@ we can see only two coordinates is used to compute $z$.
 
 Note that $p(\omega)$ is the direction of samples, which we want to pick up a certain shape. That's why **Uniformly sampling** has $p(\omega) = c$. Because we want to sample uniformly for all direction. Therefore, **cosine-weighted sampling** has $p(\omega) \propto cos\theta$.  
 
-We must know the ray tracer code want to know $p(\omega)$. Because $p(\omega)$ means probability of sampled direction from PDF. The ray tracer will use $p(\omega)$ as a   
-denominator of Monte Carlo Estimation.
+We must know the ray tracer code want to know $p(\omega)$. Because $p(\omega)$ means probability of sampled direction from PDF. The ray tracer will use $p(\omega)$ as a denominator of Monte Carlo Estimation.
 # Apply Sampling Algorithm in practice with NORI
-## 1. Tent function
+## 1. UniformDisk
+![image](https://jungsikoh.github.io/assets/images/20251112/uniformdisk0.png)
+![image](https://jungsikoh.github.io/assets/images/20251112/uniformdisk1.png)
+## 2. UniformSphere
+![image](https://jungsikoh.github.io/assets/images/20251112/uniformsphere0.png)
+![image](https://jungsikoh.github.io/assets/images/20251112/uniformsphere1.png)
+## 3. UniformHemisphere
+![image](https://jungsikoh.github.io/assets/images/20251112/uniformhemisphere0.png)
+![image](https://jungsikoh.github.io/assets/images/20251112/uniformhemisphere1.png)
+## 4. Cosine-weighted Hemisphere
+![image](https://jungsikoh.github.io/assets/images/20251112/cosinehemisphere0.png)
+![image](https://jungsikoh.github.io/assets/images/20251112/cosinehemisphere1.png)
+## 5. Beckmann Function
+![image](https://jungsikoh.github.io/assets/images/20251112/beckmann0.png)<div align="center">
+    <span style="color: #cccccc; font-size: 0.85em;">
+        alpha=0.2
+    </span>
+</div>
 
-## 2. Uniform Disk
-
-## 3. UniformSphere
-
-## 4. UniformHemisphere
+![image](https://jungsikoh.github.io/assets/images/20251112/beckmann1.png)
+<div align="center">
+    <span style="color: #cccccc; font-size: 0.85em;">
+        alpha=0.7
+    </span>
+</div>
+![image](https://jungsikoh.github.io/assets/images/20251112/beckmann2.png)

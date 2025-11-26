@@ -11,6 +11,66 @@
             "id": "b59d3773b8d85720",
             "type": "leaf",
             "state": {
+              "type": "image",
+              "state": {
+                "file": "assets/images/20251112/beckmann2.png"
+              },
+              "icon": "lucide-image",
+              "title": "beckmann2"
+            }
+          },
+          {
+            "id": "e2ab550b64c1d735",
+            "type": "leaf",
+            "state": {
+              "type": "image",
+              "state": {
+                "file": "assets/images/20251112/beckmann0.png"
+              },
+              "icon": "lucide-image",
+              "title": "beckmann0"
+            }
+          },
+          {
+            "id": "7747b0a99d682546",
+            "type": "leaf",
+            "state": {
+              "type": "image",
+              "state": {
+                "file": "assets/images/20251112/beckmann2.png"
+              },
+              "icon": "lucide-image",
+              "title": "beckmann2"
+            }
+          },
+          {
+            "id": "e55d1b7ca2f70f0b",
+            "type": "leaf",
+            "state": {
+              "type": "image",
+              "state": {
+                "file": "assets/images/20251112/unformsphere0.png"
+              },
+              "icon": "lucide-image",
+              "title": "unformsphere0"
+            }
+          },
+          {
+            "id": "80bf5610b44567cd",
+            "type": "leaf",
+            "state": {
+              "type": "image",
+              "state": {
+                "file": "assets/images/20251112/cosinehemisphere1.png"
+              },
+              "icon": "lucide-image",
+              "title": "cosinehemisphere1"
+            }
+          },
+          {
+            "id": "0e98496d9e75f944",
+            "type": "leaf",
+            "state": {
               "type": "markdown",
               "state": {
                 "file": "_posts/2025-11-12-How the direction are sampled from PDF.md",
@@ -21,7 +81,8 @@
               "title": "2025-11-12-How the direction are sampled from PDF"
             }
           }
-        ]
+        ],
+        "currentTab": 5
       }
     ],
     "direction": "vertical"
@@ -169,27 +230,31 @@
       "bases:Create new base": false
     }
   },
-  "active": "b59d3773b8d85720",
+  "active": "0e98496d9e75f944",
   "lastOpenFiles": [
-    "_posts/2025-11-19-Acceleration Data Structures with NORI.md",
-    "_posts/2025-11-24-Apply Sampling Algorithm in practice with NORI.md",
+    "_posts/2025-09-13-Naive Path Tracing, From Formula to Code.md",
+    "assets/images/20251112/beckmann2.png",
     "_posts/2025-11-12-How the direction are sampled from PDF.md",
-    "assets/images/20251119/background1.png",
-    "assets/images/20251119/background0.png",
-    "index.md",
-    "README.md",
+    "assets/images/20251112/beckmann0.png",
+    "assets/images/20251112/beckmann1.png",
+    "assets/images/20251112/cosinehemisphere0.png",
+    "assets/images/20251112/cosinehemisphere1.png",
+    "assets/images/20251112/formula1.png",
+    "assets/images/20251112/uniformhemisphere1.png",
+    "assets/images/20251112/uniformhemisphere0.png",
+    "assets/images/20251112/unformsphere0.png",
+    "assets/images/20251112/unformsphere1.png",
     "Untitled.canvas",
+    "_posts/2025-11-19-Acceleration Data Structures with NORI.md",
     "_posts/2025-04-08-Meshlet Rendering using Vulkan.md",
+    "README.md",
+    "index.md",
+    "_posts/2025-11-24-Apply Sampling Algorithm in practice with NORI.md",
     "_posts/2025-02-23-Batch Rendering using Indirect Draw Call with Vulkan.md",
-    "assets/images/20251119/kdtree0.png",
-    "assets/images/20251119/summary1.png",
-    "assets/images/20251119/Octree2.png",
     "assets/images/20251119",
     "_posts/2025-06-10-About Ray Tracing(1).md",
     "_posts/2025-06-13-About Monte Carlo Simulation (2).md",
-    "_posts/2025-09-13-Naive Path Tracing, From Formula to Code.md",
     "_posts/2024-10-07-Halo Effect.md",
-    "assets/images/20251119/octree0.png",
     "2025-06-12.md",
     "404.md",
     "_posts/2024-08-01-AABB-and-Rotaion-Matrix.md",
@@ -197,11 +262,7 @@
     "_posts/2024-08-22-Screen Space Reflection(SSR).md",
     "_posts/2024-08-10-Cascade-Shadow-Mapping(CSM).md",
     "_posts/2024-08-28-Tiled Deferred Lighting.md",
-    "octree2.png",
-    "assets/images/20251119/Octree1.png",
-    "assets/images/20251119/summary0.png",
     "assets/images/20251112",
-    "assets/images/20251112/formula1.png",
     "_posts/Naive Path Tracing From Formula to Code 269ec4596e47804aa422ff03fa7ba99d.md",
     "_posts/ExportBlock-02c7198b-c88f-4558-ad2d-01400cae7002-Part-1 (2)",
     "assets/images/20250913/Naive Path Tracing From Formula to Code 269ec4596e47804aa422ff03fa7ba99d.md",
