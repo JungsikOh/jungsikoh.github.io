@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Acceleration Data Structures with NORI
-description: Understanding Rendering
+description: Understanding Rendering(2)
 date: 2025-11-19
 tags:
   - rendering

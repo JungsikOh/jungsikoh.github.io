@@ -8,66 +8,6 @@
         "type": "tabs",
         "children": [
           {
-            "id": "b59d3773b8d85720",
-            "type": "leaf",
-            "state": {
-              "type": "image",
-              "state": {
-                "file": "assets/images/20251112/beckmann2.png"
-              },
-              "icon": "lucide-image",
-              "title": "beckmann2"
-            }
-          },
-          {
-            "id": "e2ab550b64c1d735",
-            "type": "leaf",
-            "state": {
-              "type": "image",
-              "state": {
-                "file": "assets/images/20251112/beckmann0.png"
-              },
-              "icon": "lucide-image",
-              "title": "beckmann0"
-            }
-          },
-          {
-            "id": "7747b0a99d682546",
-            "type": "leaf",
-            "state": {
-              "type": "image",
-              "state": {
-                "file": "assets/images/20251112/beckmann2.png"
-              },
-              "icon": "lucide-image",
-              "title": "beckmann2"
-            }
-          },
-          {
-            "id": "e55d1b7ca2f70f0b",
-            "type": "leaf",
-            "state": {
-              "type": "image",
-              "state": {
-                "file": "assets/images/20251112/uniformsphere0.png"
-              },
-              "icon": "lucide-image",
-              "title": "uniformsphere0"
-            }
-          },
-          {
-            "id": "80bf5610b44567cd",
-            "type": "leaf",
-            "state": {
-              "type": "image",
-              "state": {
-                "file": "assets/images/20251112/cosinehemisphere1.png"
-              },
-              "icon": "lucide-image",
-              "title": "cosinehemisphere1"
-            }
-          },
-          {
             "id": "0e98496d9e75f944",
             "type": "leaf",
             "state": {
@@ -80,9 +20,23 @@
               "icon": "lucide-file",
               "title": "2025-11-12-How the direction are sampled from PDF"
             }
+          },
+          {
+            "id": "1ea13752511a9207",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "_posts/2025-11-24-Understand Whitted Ray tracing..md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "2025-11-24-Understand Whitted Ray tracing."
+            }
           }
         ],
-        "currentTab": 5
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -230,22 +184,24 @@
       "bases:Create new base": false
     }
   },
-  "active": "f14fce703bea5f55",
+  "active": "1ea13752511a9207",
   "lastOpenFiles": [
+    "cbox-whitted.png",
+    "Pasted image 20251128204829.png",
+    "Pasted image 20251128200915.png",
+    "Pasted image 20251128200852.png",
+    "Pasted image 20251128151232.png",
+    "_posts/2025-11-12-How the direction are sampled from PDF.md",
+    "_posts/2025-11-19-Acceleration Data Structures with NORI.md",
+    "_posts/2025-11-24-Understand Whitted Ray tracing..md",
     "_posts/2025-09-13-Naive Path Tracing, From Formula to Code.md",
     "assets/images/20251112/beckmann2.png",
-    "_posts/2025-11-12-How the direction are sampled from PDF.md",
     "assets/images/20251112/beckmann0.png",
     "assets/images/20251112/beckmann1.png",
     "assets/images/20251112/cosinehemisphere0.png",
     "assets/images/20251112/cosinehemisphere1.png",
     "assets/images/20251112/formula1.png",
-    "assets/images/20251112/uniformhemisphere1.png",
-    "assets/images/20251112/uniformhemisphere0.png",
-    "assets/images/20251112/uniformsphere0.png",
-    "assets/images/20251112/uniformsphere1.png",
     "Untitled.canvas",
-    "_posts/2025-11-19-Acceleration Data Structures with NORI.md",
     "_posts/2025-04-08-Meshlet Rendering using Vulkan.md",
     "README.md",
     "index.md",

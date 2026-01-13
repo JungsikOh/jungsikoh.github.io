@@ -1,7 +1,7 @@
 ---
 layout: post
 title: How the direction are sampled from BRDF?
-description: Understanding Monte Carlo Methods
+description: Understanding Monte Carlo Methods(1)
 date: 2025-11-12
 tags:
   - Rendering
