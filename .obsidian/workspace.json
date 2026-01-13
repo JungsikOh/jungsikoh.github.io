@@ -186,21 +186,21 @@
   },
   "active": "1ea13752511a9207",
   "lastOpenFiles": [
-    "cbox-whitted.png",
-    "Pasted image 20251128204829.png",
-    "Pasted image 20251128200915.png",
-    "Pasted image 20251128200852.png",
-    "Pasted image 20251128151232.png",
-    "_posts/2025-11-12-How the direction are sampled from PDF.md",
-    "_posts/2025-11-19-Acceleration Data Structures with NORI.md",
+    "assets/images/20251124/3.png",
+    "assets/images/20251124/1.png",
+    "assets/images/20251124/2.png",
+    "assets/images/20251124/4.png",
     "_posts/2025-11-24-Understand Whitted Ray tracing..md",
+    "assets/images/20251124",
+    "_posts/2025-11-19-Acceleration Data Structures with NORI.md",
+    "assets/images/20251124/cbox-whitted.png",
+    "_posts/2025-11-12-How the direction are sampled from PDF.md",
     "_posts/2025-09-13-Naive Path Tracing, From Formula to Code.md",
     "assets/images/20251112/beckmann2.png",
     "assets/images/20251112/beckmann0.png",
     "assets/images/20251112/beckmann1.png",
     "assets/images/20251112/cosinehemisphere0.png",
     "assets/images/20251112/cosinehemisphere1.png",
-    "assets/images/20251112/formula1.png",
     "Untitled.canvas",
     "_posts/2025-04-08-Meshlet Rendering using Vulkan.md",
     "README.md",
@@ -228,7 +228,6 @@
     "_posts/ExportBlock-84c4ff09-36a0-4919-8559-8340824cf0f5-Part-1/Ray Tracing 25aec4596e4780ba8211dba3dc1dd49b.md",
     "_posts/ExportBlock-84c4ff09-36a0-4919-8559-8340824cf0f5-Part-1",
     "assets/images/about",
-    "assets/images/새 폴더",
-    "assets/images/projects"
+    "assets/images/새 폴더"
   ]
 }

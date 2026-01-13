@@ -20,7 +20,8 @@ use_math: true
 # Whitted Ray tracing
 This method is designed to simulate refraction and reflection. Suppose some object has perfectly reflection, such as mirror. So, We can know reflection vector $r$ is computed by
 
-![[Pasted image 20251128151232.png]]
+![Image](https://jungsikoh.github.io/assets/images/20251124/1.png)
+
 
 $$\begin{align}
 \vec{r} = 2\vec{n}(\vec{n} \cdot \vec{l}) - \vec{l}.
@@ -35,7 +36,7 @@ $$\begin{align}
 
 Not only dielectric materials(like diamonds, glass, water, ...) have perfectly reflection but also has refraction. How we compute dielectric materials that have transparent. The refraction is based on `snell's Law` and more different than reflection. 
 
-![[Pasted image 20251128200915.png]]
+![Image](https://jungsikoh.github.io/assets/images/20251124/2.png)
 
 Snell's law means $n_i sin\theta_i=n_o sin\theta_o$. $n_i$ and $n_o$ are constant ratio of refraction about object(air, glass). That is, $\frac{n_i}{n_o} = \mathfrak{n}(\mathsf{refraction\ ratio})$. 
 
@@ -45,7 +46,7 @@ n_i^2 (1-cos^2\theta_i)=n_o^2 (1-cos^2\theta_o) \\
 cos^2\theta_o = 1 - \frac{n^2_i(1-cos^2\theta_i)}{n_o^2} = 1 - \frac{n^2_i(1-(\textbf{d} \cdot \textbf{n})^2)}{n_o^2}
 \end{align}$$
 
-![[Pasted image 20251128204829.png]]
+![Image](https://jungsikoh.github.io/assets/images/20251124/4.png)
 
 We may define $\textbf{t} = \sin\theta_o \textbf{b}+cos\theta_o(\textbf{-n})$. We wonder that how we define $\textbf{t}$? You can think `vector sum`.
 
@@ -87,4 +88,4 @@ z' = \frac{n_i}{n_o}z - \frac{n_i}{n_o}cos\theta_i - cos\theta_o = \frac{n_i}{n_
 \end{align}$$
 
 
-![[cbox-whitted.png]]
+![Image](https://jungsikoh.github.io/assets/images/20251124/cbox-whitted.png)
